@@ -286,7 +286,7 @@
                                 <div class="modal-dialog modal-lg center-block">
                                     <!-- Modal content-->
                                     <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                        <div class="modal-header bg-light-blue">
                                             <button type="button"  id="btn_cerrar_modal" name="btn_cerrar_modal" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">Instruccion Formal</h4>
                                         </div>
@@ -449,7 +449,7 @@
                                 <div class="modal-dialog modal-lg center-block">
                                     <!-- Modal content-->
                                     <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                        <div class="modal-header bg-light-blue">
                                             <button type="button"  id="btn_cerrar_md_cp" name="btn_cerrar_md_cp" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">Capacitaciones</h4>
                                         </div>
@@ -585,7 +585,7 @@
                                 <div class="modal-dialog modal-lg center-block">
                                     <!-- Modal content-->
                                     <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                        <div class="modal-header bg-light-blue">
                                             <button type="button"  id="btn_cerrar_md_exp_pro" name="btn_cerrar_md_exp_pro" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">Experiencia Profesional</h4>
                                         </div>
@@ -829,7 +829,7 @@
                                 <div class="modal-dialog modal-lg">
                                     <!-- Modal content-->
                                     <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                        <div class="modal-header bg-light-blue">
                                             <button type="button"  id="btn_cerrar_md_publicacion" name="btn_cerrar_md_publicacion" class="close">&times;</button>
                                             <h4 class="modal-title">Publicacion</h4>
                                         </div>
@@ -1146,7 +1146,7 @@
                                  <div class="modal-dialog">
                                       <!-- Modal content-->
                                     <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                        <div class="modal-header bg-light-blue">
                                             <button type="button"  id="btn_cerrar_md_banco" name="btn_cerrar_md_banco" class="close" data-dismiss="modal">&times;</button>
                                             <h4 class="modal-title">Cuenta Bancaria</h4> 
                                         </div>
