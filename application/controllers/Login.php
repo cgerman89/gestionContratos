@@ -19,11 +19,13 @@ class Login extends CI_Controller{
     public function Entrar(){
         if ($this->input->is_ajax_request()){
             $info=Seguridad::setDatosEquipo();
-            if((!empty($this->input->post('txt_usuario')) == true) && (!empty($this->input->post('txt_clave'))==true)){
-                $usuario = (stristr($this->input->post('txt_usuario'), '@') === FALSE ? trim(strtolower(str_replace("'", "", $this->input->post('txt_usuario')))) . '@utm.edu.ec' : trim(strtolower(str_replace("'", "", $this->input->post('txt_usuario')))));
+            $user=$this->input->post('txt_usuario');
+            $clave=$this->input->post('txt_clave');
+            if((!empty($user) == true) && (!empty($clave)==true)){
+                $usuario = (stristr($user, '@') === FALSE ? trim(strtolower(str_replace("'", "", $user))) . '@utm.edu.ec' : trim(strtolower(str_replace("'", "", $user))));
                 $datos = array(
                     'p_usuario' => $usuario,
-                    'p_clave' => $this->input->post('txt_clave')
+                    'p_clave' => $clave
                 );
                 $res = $this->Login_model->Login_User($datos);
                 if ($res['p_opcion'] === '1'){

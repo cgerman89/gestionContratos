@@ -71,7 +71,7 @@ class Aspirante extends CI_Controller {
     }
     public function ListarPreInscritos(){
         if ($this->input->is_ajax_request()){
-            $campos=array('idrol'=>$this->input->post('idrol'),'iddpto'=>$this->session->userdata('id_dpto'));
+            $campos=array('idrol'=>47,'iddpto'=>$this->session->userdata('id_dpto'));
             $res=$this->Aspirante_Modelo->RegistrosInscritos($campos);
             echo json_encode($res);
         }else{
