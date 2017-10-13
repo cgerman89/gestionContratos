@@ -170,7 +170,7 @@ $(document).ready(function () {
                complete:function () {
                    setTimeout(function () {
                        swal.closeModal();
-                   },2500);
+                   },3000);
                }
        });
     }

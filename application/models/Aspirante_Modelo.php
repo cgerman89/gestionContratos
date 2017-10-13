@@ -56,7 +56,7 @@ class Aspirante_Modelo extends CI_Model {
 
     public function RegistrosInscritos($datos){
         $res=$this->db->query('SELECT p_idpersona,p_cedula,p_apellido1,p_apellido2,p_nombres,p_usuario,p_departamento FROM esq_contrato.fnc_listaraspirantes(?,?);',$datos);
-        //echo $this->db_user->last_query();
+        //echo $this->db->last_query();
         if($res->num_rows() > 0){
             $data['data']=$res->result_array();
             return $data;

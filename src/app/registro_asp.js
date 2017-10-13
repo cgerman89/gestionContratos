@@ -1,10 +1,4 @@
-$(document).ajaxStart(function () {
-    swal({text:'espere...',allowOutsideClick:false,allowEnterKey:false});
-    swal.showLoading();
-});
-$(document).ajaxComplete(function () {
-    swal.closeModal();
-});
+
 var num_asp=0;
 var idpersonal=0;
 $(document).ready(function () {
@@ -63,12 +57,13 @@ $(document).ready(function () {
         if($('#form_aspirante').smkValidate()){
             if(idpersonal > 0){
                 AgregarAspirante(function (data) {
-                    alertify.alert('Registro Aspirante',data.p_mensaje);
+                    toastr.success(data.p_mensaje);
                 });
             }else if(idpersonal === 0){
                 if($.smkEqualPass('#clave_asp','#clave_verifica_asp')){
                     CrearAspirante(function (data) {
-                         console.log(data);
+                        console.log(data);
+                        toastr.success(data.p_mensaje);
                     });
                 }
             }
@@ -86,9 +81,16 @@ function CrearAspirante(callback) {
             type:'POST',
             dataTypes:'json',
             data:$('#form_aspirante').serialize(),
+            beforeSend:function () {
+                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                swal.showLoading();
+            },
             success: function (data){
                 var res=JSON.parse(data);
                 callback(res);
+            },
+            complete:function () {
+                swal.closeModal();
             },
             error: function (data) {
                 console.error('error en la peticion crear aspirante ');
@@ -102,9 +104,16 @@ function AgregarAspirante(callback) {
         type:'POST',
         dataTypes:'json',
         data:{idpersonal:idpersonal},
+        beforeSend:function () {
+            swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+            swal.showLoading();
+        },
         success: function (data){
             var res=JSON.parse(data);
             callback(res);
+        },
+        complete:function () {
+            swal.closeModal();
         },
         error: function (data) {
             console.error('error en la peticion agregrar aspirante ');
@@ -126,11 +135,18 @@ function BuscarPersona(cedula,callback) {
         type:'POST',
         dataTypes:'json',
         data:{cedula:cedula},
+        beforeSend:function () {
+            swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+            swal.showLoading();
+        },
         success:function (response) {
             var res=JSON.parse(response);
             callback(res);
         },
-        error: function (data) {
+        complete:function () {
+            swal.closeModal();
+        },
+        error: function () {
             console.log('error en peticion buscar persona');
         }
     });
@@ -162,6 +178,7 @@ function BloqueDesbloqueo(estado) {
 function Tabla_PreInscripcion() {
     var tabla_inscripcion=$('#tabla_inscricion').DataTable({
         "destroy":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "autoWidth":true,
         "orderClasses": true,
         "scrollCollapse": true,
@@ -171,7 +188,14 @@ function Tabla_PreInscripcion() {
         },
         "ajax":{
             "method":"POST",
-            "url":"Aspirante/ListarPreInscritos"
+            "url":"Aspirante/ListarPreInscritos",
+            beforeSend:function () {
+                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                swal.showLoading();
+            },
+            complete:function () {
+                swal.closeModal();
+            }
         },
         "columns":[
             {"data":"p_cedula"},
@@ -180,8 +204,8 @@ function Tabla_PreInscripcion() {
             {"data":"p_nombres"},
             {"data":"p_usuario"},
             {"data":"p_departamento"},
-            {"defaultContent":"<input type='checkbox' class='seleccion'>"},
-            {"defaultContent":"<button type='button' class='eliminar_pre_ins btn btn-danger'><i class='fa fa-trash'></i></button>"}
+            {"defaultContent":"<input type='checkbox' class='seleccion'>",'orderable': false, 'searchable': false},
+            {"defaultContent":"<div class='btn-group'><button type='button' class='btn btn-info'>Action</button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#'>Action</a></li><li class='divider'></li><li><a href='#'>Separated link</a></li></ul></div>"}
 
         ]
     });
@@ -193,17 +217,23 @@ function DelRegisTbl_inscripcion(tbody, table) {
         alertify.confirm('Eliminar Registro',"Confirme para eliminar registro.",
             function(){
                 $.ajax({
-                    url:'',
+                    url:'Aspirante/EliminarRol',
                     type:'Post',
                     dataTypes:'Json',
-                    data:{'id_capacitacion':data.p_id_capacitacion},
+                    data:{'idpersonal':data.p_idpersona,'idrol':47},
+                    beforeSend:function () {
+                        swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                        swal.showLoading();
+                    },
                     success:function(response){
                         var res=JSON.parse(response);
                         $('#tabla_inscricion').DataTable().ajax.reload();
-                        alertify.alert('Eliminar Registro',res.respuesta);
-
+                        toastr.info(res);
                     },
-                    error:function(response) {
+                    complete:function () {
+                        swal.closeModal();
+                    },
+                    error:function() {
                         console.log('error en peticion borrar registro pre inscripcion');
                     }
                 });
