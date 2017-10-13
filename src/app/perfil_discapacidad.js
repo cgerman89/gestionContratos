@@ -3,8 +3,8 @@ $(document).ready(function() {
 		console.log('pagina discapacidad cargada');
 		$('#btn_save_discapacidad').click(function(e){
 	         e.preventDefault();
-	         if($('#form_discapacidad').smkValidate() === true) {
-	         	 SaveDiscapacidad(function (res){
+	         if($('#form_discapacidad').smkValidate()) {
+	         	 SaveDiscapacidad(function (res) {
                      toastr.success(res.perfil_discapacidad);
                  });
 	        }

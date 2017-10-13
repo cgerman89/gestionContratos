@@ -258,26 +258,28 @@
                         </div>
                         <div class="box-body">
                             <div class="col-sm-12">
-                                <table id="tabla_formal" class="table small table-striped table-hover table-bordered">
-                                    <thead>
-                                    <tr>
-                                       <th>Nivel De Instrucción</th>
-                                       <th>Universidad</th>
-                                       <th>Área De Conocimiento</th>
-                                       <th>Sub-Área Conocimiento</th>
-                                       <th>Sub-Área Especifica</th>
-                                       <th>Titulo</th>
-                                       <th>N° Registro Senescyt</th>
-                                       <th>Fecha Inicio Estudios</th>
-                                       <th>Fecha Obtuvo Titulo</th>
-                                       <th>Fecha Graduación</th>
-                                       <th>N° Periodos</th>
-                                       <th>Periodos</th>
-                                       <th>Beca</th>
-                                       <th>Acción</th>
-                                    </tr>
-                                    </thead>
-                                </table>
+                                <div class="panel-body">
+                                    <table id="tabla_formal" class="table small table-hover table-bordered">
+                                        <thead class="bg-light-blue">
+                                        <tr>
+                                            <th>Nivel De Instrucción</th>
+                                            <th>Universidad</th>
+                                            <th>Área De Conocimiento</th>
+                                            <th>Sub-Área Conocimiento</th>
+                                            <th>Sub-Área Especifica</th>
+                                            <th>Titulo</th>
+                                            <th>N° Registro Senescyt</th>
+                                            <th>Fecha Inicio Estudios</th>
+                                            <th>Fecha Obtuvo Titulo</th>
+                                            <th>Fecha Graduación</th>
+                                            <th>N° Periodos</th>
+                                            <th>Periodos</th>
+                                            <th>Beca</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                             <!-- Modal instruccion formal -->
                             <div id="myModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false” >
@@ -423,22 +425,24 @@
                          </div>
                         <div class="box-body">
                             <div class="col-sm-12">
-                                <table id="tabla_capacitacion" class="table small table-striped table-hover table-bordered">
-                                    <thead>
-                                    <tr>
-                                       <th>País</th>
-                                       <th>Evento</th>
-                                       <th>Tipo Evento</th>
-                                       <th>Auspiciante</th>
-                                       <th>Duración Horas</th>
-                                       <th>Certificado Por</th>
-                                       <th>Tipo Certificado</th>
-                                       <th>Fecha Inicio</th>
-                                       <th>Fecha Fin</th>
-                                       <th>Acción</th>
-                                    </tr>
-                                    </thead>
-                                </table>
+                                <div class="panel-body">
+                                    <table id="tabla_capacitacion" class="table small table-hover table-bordered">
+                                        <thead class="bg-light-blue">
+                                        <tr>
+                                            <th>País</th>
+                                            <th>Evento</th>
+                                            <th>Tipo Evento</th>
+                                            <th>Auspiciante</th>
+                                            <th>Duración Horas</th>
+                                            <th>Certificado Por</th>
+                                            <th>Tipo Certificado</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Fin</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                              <!-- Modal capacitaciones -->
                             <div id="modal_capacitacion" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false” >
@@ -553,8 +557,8 @@
                     <div class="box-body">
                      <div class="col-sm-12">
                          <div class="panel-body">
-                              <table id="tabla_exp_profesional" class="table small table-striped table-hover table-bordered">
-                                  <thead>
+                              <table id="tabla_exp_profesional" class="table small table-hover table-bordered">
+                                  <thead class="bg-light-blue">
                                     <tr>
                                         <th>País</th>
                                         <th>Institución</th>
@@ -750,8 +754,8 @@
                          <div class="box-body">
                             <div class="col-sm-12">
                                  <div class="panel-body">
-                                     <table id="table_libro" hidden class="table small table-striped table-hover table-bordered">
-                                         <thead>
+                                     <table id="table_libro" hidden class="table small table-hover table-bordered">
+                                         <thead class="bg-light-blue">
                                             <tr>
                                                 <th>Tipo Publicacion</th>
                                                 <th>Instrumento</th>
@@ -765,8 +769,8 @@
                                             </tr>
                                          </thead>
                                      </table>
-                                     <table id="table_Cap_libro"  hidden class="table small table-striped table-hover table-bordered">
-                                         <thead>
+                                     <table id="table_Cap_libro"  hidden class="table small table-hover table-bordered">
+                                         <thead class="bg-light-blue">
                                              <tr>
                                                  <th>Tipo Publicacion</th>
                                                  <th>Instrumento</th>
@@ -783,8 +787,8 @@
                                              </tr>
                                          </thead>
                                      </table>
-                                     <table id="table_Art_Revista" hidden class="table small table-striped table-hover table-bordered">
-                                         <thead class="bg-primary">
+                                     <table id="table_Art_Revista" hidden class="table small table-hover table-bordered">
+                                         <thead class="bg-light-blue">
                                              <tr>
                                                  <th>Tipo Publicacion</th>
                                                  <th>Instrumento</th>
@@ -802,8 +806,8 @@
                                              </tr>
                                          </thead>
                                      </table>
-                                     <table id="table_Art_Memoria" hidden class="table small table-striped table-hover table-bordered">
-                                         <thead>
+                                     <table id="table_Art_Memoria" hidden class="table small table-hover table-bordered">
+                                         <thead class="bg-light-blue">
                                              <tr>
                                                  <th>Tipo Publicacion</th>
                                                  <th>Instrumento</th>
@@ -1125,8 +1129,8 @@
                         <div class="box-body">
                             <div class="col-sm-10">
                                  <div class="panel-body">
-                                     <table id="tabla_banco" class="table small table-striped table-hover table-bordered">
-                                         <thead>
+                                     <table id="tabla_banco" class="table small table-hover table-bordered">
+                                         <thead class="bg-light-blue">
                                              <tr>
                                                 <th>Institución Financiera</th>
                                                 <th>Tipo De Cuenta</th>

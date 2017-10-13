@@ -14,12 +14,23 @@ class Aspirante extends CI_Controller {
 
     public function index(){
         if($this->session->userdata('login')=== TRUE){
-            $this->load->view('template/head');
-            $this->load->view('template/nav');
-            $this->load->view('Aspirante');
-            $this->load->view('template/footer');
+            if($this->session->userdata('id_tipo_usuario') === '19') {
+                $this->load->view('template/head');
+                $this->load->view('template/nav');
+                $this->load->view('Aspirante');
+                $this->load->view('template/footer');
+            }else{
+                redirect('/Home');
+            }
         }else{
             redirect('/');
+        }
+    }
+    public function UsuarioDatos(){
+        if ($this->input->is_ajax_request()){
+            echo json_encode($this->session->userdata());
+        } else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
@@ -36,7 +47,7 @@ class Aspirante extends CI_Controller {
             if($res['p_opcion']==='1'){
                 $datos=array('id_usuario'=>$res['p_idpersonal'],'clave'=>$this->input->post('clave_asp'));
                 $clave=$this->Aspirante_Modelo->CrearClave($datos);
-                $datos_rol=array('id_usuario'=>$res['p_idpersonal'],'rol'=>47);
+                $datos_rol=array('id_usuario'=>$res['p_idpersonal'],'rol'=>47,'iddpto'=>$this->session->userdata('id_dpto'));
                 $rol=$this->Aspirante_Modelo->SaveRol($datos_rol);
                 echo json_encode($res);
             }
@@ -49,7 +60,8 @@ class Aspirante extends CI_Controller {
         if($this->input->is_ajax_request()){
             $campos=array(
                 'idpersonal'=>$this->input->post(),
-                'id_rol'=>47
+                'id_rol'=>47,
+                'iddpto'=>$this->session->userdata('id_dpto')
             );
             $res=$this->Aspirante_Modelo->SaveRol($campos);
             echo json_encode($res);
@@ -58,8 +70,9 @@ class Aspirante extends CI_Controller {
         }
     }
     public function ListarPreInscritos(){
-        if ($this->input->is_ajax_request()) {
-            $res=$this->Aspirante_Modelo->RegistrosInscritos();
+        if ($this->input->is_ajax_request()){
+            $campos=array('idrol'=>$this->input->post('idrol'),'iddpto'=>$this->session->userdata('id_dpto'));
+            $res=$this->Aspirante_Modelo->RegistrosInscritos($campos);
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');

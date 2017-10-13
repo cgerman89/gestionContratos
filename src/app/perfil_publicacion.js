@@ -63,7 +63,7 @@ $(document).ready(function () {
            if($('#tipo_publicacion_pb').val()!==''){
                $('#modal_publicacion').modal('show');
            }else{
-             toastr.error('Seleccione Tipo Publicacion');
+             alertify.error('Seleccione Tipo Publicacion');
              $('#tipo_publicacion_pb').focus();
            }
        });
@@ -217,7 +217,7 @@ $(document).ready(function () {
        });
        $('#btn_save_art_memoria').click(function (e) {
            e.preventDefault();
-           if(($form_cabecera.smkValidate() === true)&&($('#form_art_memoria_pb').smkValidate() === true)){
+           if(($form_cabecera.smkValidate())&&($('#form_art_memoria_pb').smkValidate())){
                    var data_frmArtMemoria = new FormData();
                        data_frmArtMemoria.append('area_espe',$('#area_espe_CB').val());
                        data_frmArtMemoria.append('instrumento',$('#instrumento_CB').val());

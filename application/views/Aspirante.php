@@ -6,7 +6,7 @@
                     <a href="#reg_aspirante" data-toggle="tab" class="fa fa-user-plus fa-2x" aria-hidden="true" title="per-inscripcion persona"></a>
                 </li>
                 <li  role="presentation">
-                    <a href="#usuario_rol" data-toggle="tab" class="fa fa-unlock-alt fa-2x" aria-hidden="true" title="Usuario Permiso"></a>
+                    <a href="#usuario_rol" data-toggle="tab" class="fa fa-list-alt fa-2x" aria-hidden="true" title="Solicitud contrato"></a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -20,13 +20,16 @@
                         <div class="box-body">
                             <div class="col-sm-12">
                                 <div class="panel-body">
-                                    <table id="tabla_inscricion" class="table small table-striped table-hover table-bordered">
-                                        <thead>
+                                    <table id="tabla_inscricion" class="table small table-hover table-bordered">
+                                        <thead class="bg-light-blue">
                                         <tr>
                                             <th>Cedula</th>
                                             <th>Apellido Paterno</th>
                                             <th>Apellido Materno</th>
                                             <th>Nombres</th>
+                                            <th>Usuario</th>
+                                            <th>Departamento</th>
+                                            <th><i class="fa fa-check"></i></th>
                                             <th>Accion</th>
                                         </tr>
                                         </thead>
@@ -104,15 +107,89 @@
                                     </div>
                                 </div>
                             </div>
+                            <div id="modal_solicitud_contrato_asp" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false” >
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                            <button type="button"  id="btn_cerrar_md_solicitud_asp" name="btn_cerrar_md_solicitud_asp" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Solicitud Contrato</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="panel">
+                                                <div class="panel-body">
+                                                    <form id="form_solicitud_contrato_asp" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove">
+                                                        <div class="col-md-5">
+                                                            <label for="n_documento_sl_ctr" class="control-label">N° Documento</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="n_documento_sl_ctr" name="n_documento_sl_ctr" class="form-control" placeholder="n° documento" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <label for="nombres_sl_ctr" class="control-label">Aspirante</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="nombres_sl_ctr" name="nombres_sl_ctr" placeholder="nombres" class="form-control" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <label for="usuario_sl_ctr" class="control-label">Usuario</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="usuario_sl_ctr" name="usuario_sl_ctr" class="form-control" placeholder="usuario" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <label for="departamento_sl_ctr" class="control-label">Departamento</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="departamento_sl_ctr" name="departamento_sl_ctr" class="form-control" placeholder="departamento" disabled>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <label for="fecha_sl_ctr" class="control-label">Fecha Solicitud</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="fecha_sl_ctr" name="fecha_sl_ctr" class="form-control" placeholder="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <label for="tipo_contrato_sl_ctr" class="control-label">Tipo Solicitud Contrato</label>
+                                                            <div class="form-group">
+                                                                <select name="tipo_contrato_sl_ctr" id="tipo_contrato_sl_ctr" class="form-control">
+                                                                    <option value="">seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="tipo-dedicacion_sl_ctr" class="control-label">Tipo Dedicacion</label>
+                                                            <div class="form-group">
+                                                                <select name="tipo-dedicacion_sl_ctr" id="tipo-dedicacion_sl_ctr" class="form-control">
+                                                                    <option value="">seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="">Codigo</label>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" placeholder="codigo" required>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="pull-right">
+                                                        <button type="button" id="btn_enviar_sl_ctr" name="btn_enviar_sl_ctr" class="btn btn-primary"><i class="fa fa-paper-plane"></i>  Enviar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div id="usuario_rol" role="tabpanel" class="tab-pane fade in">
                     <div class="box box-primary">
                         <div class="box-header">
-                            <div class="col-sm-4">
-                                <button type="button" name="btn_nuevo_rol" id="btn_nuevo_rol" class="btn btn-primary" data-toggle="modal" data-target=""><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
-                            </div>
                         </div>
                         <div class="box-body">
                             <div class="col-sm-12">

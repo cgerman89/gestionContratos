@@ -1,3 +1,10 @@
+$(document).ajaxStart(function () {
+  // swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
+   //swal.showLoading();
+});
+$(document).ajaxComplete(function () {
+    //swal.closeModal();
+});
 $(document).ready(function () {
         $('#n_documento_per').prop('disabled',true);
         console.log('pagina info persona cargada');
@@ -89,9 +96,7 @@ $(document).ready(function () {
                 $('#celular2_domi').val(data.telefono_personal_trabajo);
                 $('#correo1_domi').val(data.correo_personal_institucional);
                 $('#correo2_domi').val(data.correo_personal_alternativo);
-                if(data.idtipo_discapacidad > 0) {
-                    $('#tipo_discapacidad').val(data.idtipo_discapacidad).prop('selected', 'selected');
-                }
+                $('#tipo_discapacidad').val(data.idtipo_discapacidad).prop('selected','selected');
                 $('#porcentaje').val(data.discapacidad_numero_porcentaje);
                 $('#numero_carnet').val(data.discapacidad_numero_carne);
                 $('#observacion_dis').val(data.discapacidad_observacion);

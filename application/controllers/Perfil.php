@@ -325,13 +325,16 @@ class Perfil extends CI_Controller{
     }
     public function EliminarPublicacion(){
         if ($this->input->is_ajax_request()){
-            if(!empty($this->input->post('fichero1'))==true){
+              $fichero1=$this->input->post('fichero1');
+              $fichero2=$this->input->post('fichero2');
+              $id_publicacion=$this->input->post('id_publicacion');
+            if(!empty($fichero1)==true){
                 $res=$this->Perfil_model->EliminarFichero($this->input->post('fichero1'));
             }
-            if(!empty($this->input->post('fichero2'))==true){
+            if(!empty($fichero2)==true){
                 $res=$this->Perfil_model->EliminarFichero($this->input->post('fichero2'));
             }
-            if(!empty($this->input->post('id_publicacion'))==true){
+            if(!empty($id_publicacion)==true){
                 $ress=$this->Perfil_model->EliminarPublicacion($this->input->post('id_publicacion'));
                 echo json_encode($ress);
             }

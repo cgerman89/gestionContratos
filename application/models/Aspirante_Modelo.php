@@ -26,7 +26,7 @@ class Aspirante_Modelo extends CI_Model {
     }
 
     public function SaveRol($data){
-        $res=$this->db_user->query('SELECT p_opcion, p_mensaje from esq_roles.fnc_agregar_rol_sth(?,?);',$data);
+        $res=$this->db_user->query('SELECT p_opcion, p_mensaje from esq_roles.fnc_agregar_rol_sth(?,?,?);',$data);
         //>echo $this->db->last_query();
         return $res->row_array();
     }
@@ -36,6 +36,7 @@ class Aspirante_Modelo extends CI_Model {
                  ->from('esq_datos_personales.personal as p')
                  ->where('p.cedula',$cedula);
         $res=$this->db->get();
+        //echo $this->db->last_query();
         $persona['datos']=$res->result_array();
         $persona['num']=$res->num_rows();
         return $persona;
@@ -45,6 +46,7 @@ class Aspirante_Modelo extends CI_Model {
         $this->db_user->where('tbl_personal_rol.id_rol',$idrol)
                       ->where('tbl_personal_rol.id_personal',$idpersona)
                       ->delete('esq_roles.tbl_personal_rol');
+        //echo $this->db_user->last_query();
         if($this->db_user->affected_rows()){
           return 'Se Elimino Correctamente';
         }else{
@@ -52,14 +54,9 @@ class Aspirante_Modelo extends CI_Model {
         }
     }
 
-    public function RegistrosInscritos(){
-        $sql  =" SELECT personal.idpersonal, personal.cedula, personal.apellido1, personal.apellido2, personal.nombres";
-        $sql .="  FROM esq_datos_personales.personal";
-        $sql .="  JOIN  dblink(esq_contrato.fnc_con_db_usuarios(),'SELECT   tbl_personal_rol.id_personal as idpersona FROM esq_roles.tbl_personal_rol WHERE tbl_personal_rol.id_rol=47 AND tbl_personal_rol.estado=''S'';')";
-        $sql .=" datos(idpersona BIGINT)ON idpersona= esq_datos_personales.personal.idpersonal";
-        $sql .=" where personal.estado_usuario='S';";
-        //echo $sql;
-        $res=$this->db->query($sql);
+    public function RegistrosInscritos($datos){
+        $res=$this->db->query('SELECT p_idpersona,p_cedula,p_apellido1,p_apellido2,p_nombres,p_usuario,p_departamento FROM esq_contrato.fnc_listaraspirantes(?,?);',$datos);
+        //echo $this->db_user->last_query();
         if($res->num_rows() > 0){
             $data['data']=$res->result_array();
             return $data;

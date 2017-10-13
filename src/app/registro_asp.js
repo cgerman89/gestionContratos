@@ -1,4 +1,10 @@
-
+$(document).ajaxStart(function () {
+    swal({text:'espere...',allowOutsideClick:false,allowEnterKey:false});
+    swal.showLoading();
+});
+$(document).ajaxComplete(function () {
+    swal.closeModal();
+});
 var num_asp=0;
 var idpersonal=0;
 $(document).ready(function () {
@@ -15,13 +21,13 @@ $(document).ready(function () {
 
     $('#btn_cerrar_md_asp').click(function (e) {
         e.preventDefault();
-        $('#form_aspirante')[0].reset();
+        $('#form_aspirante').smkClear();
         BloqueDesbloqueo(0);
         $('#claves_asp').prop('hidden',true);
     });
 
     $('#cedula_asp').focusout(function () {
-         el=$(this);
+             el=$(this);
          var cedula=$(this).val();
          if(cedula !==''){
              console.log('no esta vacia');
@@ -57,25 +63,17 @@ $(document).ready(function () {
         if($('#form_aspirante').smkValidate()){
             if(idpersonal > 0){
                 AgregarAspirante(function (data) {
-                    $('#tabla_inscricion').DataTable().ajax.reload();
-                    $('#form_aspirante')[0].reset();
-                    toastr.info(data.p_mensaje);
+                    alertify.alert('Registro Aspirante',data.p_mensaje);
                 });
             }else if(idpersonal === 0){
                 if($.smkEqualPass('#clave_asp','#clave_verifica_asp')){
                     CrearAspirante(function (data) {
-                        $('#tabla_inscricion').DataTable().ajax.reload();
                          console.log(data);
                     });
                 }
             }
         }
     });
-
-    $('#tabla_inscricion tbody').on('click','button.Solicitud_contrato',function () {
-            toastr.info('cliccccc');
-    });
-
 });
 function Mayus(campo) {
     $(campo).keyup(function () {
@@ -88,18 +86,11 @@ function CrearAspirante(callback) {
             type:'POST',
             dataTypes:'json',
             data:$('#form_aspirante').serialize(),
-            beforeSend:function () {
-                swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-                swal.showLoading();
-            },
             success: function (data){
                 var res=JSON.parse(data);
                 callback(res);
             },
-            complete:function () {
-                swal.closeModal();
-            },
-            error: function () {
+            error: function (data) {
                 console.error('error en la peticion crear aspirante ');
             }
         });
@@ -111,16 +102,9 @@ function AgregarAspirante(callback) {
         type:'POST',
         dataTypes:'json',
         data:{idpersonal:idpersonal},
-        beforeSend:function () {
-            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-            swal.showLoading();
-        },
         success: function (data){
             var res=JSON.parse(data);
             callback(res);
-        },
-        complete:function () {
-            swal.closeModal();
         },
         error: function (data) {
             console.error('error en la peticion agregrar aspirante ');
@@ -142,18 +126,11 @@ function BuscarPersona(cedula,callback) {
         type:'POST',
         dataTypes:'json',
         data:{cedula:cedula},
-        beforeSend:function () {
-            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-            swal.showLoading();
-        },
         success:function (response) {
             var res=JSON.parse(response);
             callback(res);
         },
-        complete:function () {
-            swal.closeModal();
-        },
-        error: function () {
+        error: function (data) {
             console.log('error en peticion buscar persona');
         }
     });
@@ -184,31 +161,27 @@ function BloqueDesbloqueo(estado) {
 
 function Tabla_PreInscripcion() {
     var tabla_inscripcion=$('#tabla_inscricion').DataTable({
-        destroy:true,
-        autoWidth:true,
-        orderClasses: true,
-        scrollCollapse: true,
-        responsive:true,
-        language:{
+        "destroy":true,
+        "autoWidth":true,
+        "orderClasses": true,
+        "scrollCollapse": true,
+        "responsive":true,
+        "language":{
             "url": 'public/locales/Spanish.json'
         },
-        ajax:{
-            method:"POST",
-            url:"Aspirante/ListarPreInscritos",
-            beforeSend:function () {
-                swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-                swal.showLoading();
-            },
-            complete:function () {
-                swal.closeModal();
-            }
+        "ajax":{
+            "method":"POST",
+            "url":"Aspirante/ListarPreInscritos"
         },
-        columns:[
-            {"data":"cedula"},
-            {"data":"apellido1"},
-            {"data":"apellido2"},
-            {"data":"nombres"},
-            {"defaultContent":"<button type='button' class='Solicitud_contrato  btn btn-primary'><i class='fa fa-paper-plane-o'></i></button>      <button type='button' class='eliminar_pre_ins btn btn-danger'><i class='fa fa-trash'></i></button>"}
+        "columns":[
+            {"data":"p_cedula"},
+            {"data":"p_apellido1"},
+            {"data":"p_apellido2"},
+            {"data":"p_nombres"},
+            {"data":"p_usuario"},
+            {"data":"p_departamento"},
+            {"defaultContent":"<input type='checkbox' class='seleccion'>"},
+            {"defaultContent":"<button type='button' class='eliminar_pre_ins btn btn-danger'><i class='fa fa-trash'></i></button>"}
 
         ]
     });
@@ -220,30 +193,24 @@ function DelRegisTbl_inscripcion(tbody, table) {
         alertify.confirm('Eliminar Registro',"Confirme para eliminar registro.",
             function(){
                 $.ajax({
-                    url:'Aspirante/EliminarRol',
+                    url:'',
                     type:'Post',
                     dataTypes:'Json',
-                    data:{'idpersonal':data.idpersonal,'idrol':47},
-                    beforeSend:function () {
-                        swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-                        swal.showLoading();
-                    },
+                    data:{'id_capacitacion':data.p_id_capacitacion},
                     success:function(response){
                         var res=JSON.parse(response);
                         $('#tabla_inscricion').DataTable().ajax.reload();
-                        toastr.info(res);
+                        alertify.alert('Eliminar Registro',res.respuesta);
+
                     },
-                    complete:function () {
-                        swal.closeModal();
-                    },
-                    error:function() {
+                    error:function(response) {
                         console.log('error en peticion borrar registro pre inscripcion');
                     }
                 });
             },
-            function(){}
-        );
+            function(){
+
+            });
     });
 
 }
-
