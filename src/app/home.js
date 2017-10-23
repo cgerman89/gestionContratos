@@ -16,7 +16,7 @@ $(document).ready(function (){
             allowOutsideClick:false,
             allowEnterKey:false,
             title: 'Cerrar Session?',
-            type: 'warning',
+            type: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

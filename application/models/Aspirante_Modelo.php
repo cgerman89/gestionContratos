@@ -31,6 +31,11 @@ class Aspirante_Modelo extends CI_Model {
         return $res->row_array();
     }
 
+    public function SaveSolicitud($datos){
+        $res=$this->db->query('SELECT  p_opcion, p_mensaje from esq_contrato.fnc_crear_solicitud_contrato(?,?,?,?,?,?,?,?,?,?);',$datos);
+        //$this->db->last_query();
+       return $res->row_array();
+    }
     public function BuscaPersona($cedula){
         $this->db->select('p.idpersonal, p.cedula, p.apellido1,  p.apellido2, p.nombres, p.correo_personal_institucional')
                  ->from('esq_datos_personales.personal as p')
@@ -56,6 +61,30 @@ class Aspirante_Modelo extends CI_Model {
 
     public function RegistrosInscritos($datos){
         $res=$this->db->query('SELECT p_idpersona,p_cedula,p_apellido1,p_apellido2,p_nombres,p_usuario,p_departamento FROM esq_contrato.fnc_listaraspirantes(?,?);',$datos);
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            $data['data']=$res->result_array();
+            return $data;
+        }else{
+            $res=array('data' => "");
+        }
+        return $res;
+    }
+
+    public function RegistrosSolicitud($datos){
+        $res=$this->db->query('SELECT p_id_solicitud,p_cedula,p_persona,p_tipo_solicitud,p_categoria,p_tipo_dedicacion,p_puesto,p_observacion,p_fecha,p_estdo FROM esq_contrato.fnc_listar_solicitud(?,?);',$datos);
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            $data['data']=$res->result_array();
+            return $data;
+        }else{
+            $res=array('data' => "");
+        }
+        return $res;
+    }
+
+    public function RegistrosProcesos($id_solicitud){
+        $res=$this->db->query('SELECT p_id_proceso_solicitud,p_proceso,p_fecha,p_hora,p_observacion,p_estado FROM  esq_contrato.fnc_listar_procesos(?);',$id_solicitud);
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
             $data['data']=$res->result_array();

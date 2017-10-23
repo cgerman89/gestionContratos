@@ -69,6 +69,28 @@ class Aspirante extends CI_Controller {
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
+
+    public function EnviarSolicitud(){
+        if ($this->input->is_ajax_request()){
+         $campos=array(
+             'id_cordinador'=>$this->session->userdata('id_personal'),
+             'id_dpto'=>$this->session->userdata('id_dpto'),
+             'id_solicitud'=>$this->input->post('tipo_solicitud'),
+             'id_categoria'=>$this->input->post('tipo_categoria'),
+             'id_puesto'=>$this->input->post('tipo_puesto'),
+             'tipo_dedicacion'=>$this->input->post('tipo_dedicacion'),
+             'fecha'=>$this->input->post('fecha'),
+             'id_personal'=>$this->input->post('id_personal'),
+             'id_observacion'=>$this->input->post('id_observacion'),
+             'p_caso'=>$this->input->post('p_caso')
+         );
+            $res=$this->Aspirante_Modelo->SaveSolicitud($campos);
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
     public function ListarPreInscritos(){
         if ($this->input->is_ajax_request()){
             $campos=array('idrol'=>47,'iddpto'=>$this->session->userdata('id_dpto'));
@@ -78,6 +100,25 @@ class Aspirante extends CI_Controller {
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
 
+    }
+
+    public function ListarSolicitud(){
+        if ($this->input->is_ajax_request()){
+            $datos=array('id_dpto'=>$this->session->userdata('id_dpto'),'id_tipo_solicitud'=>$this->input->post('tipo_solicitud'));
+            $res=$this->Aspirante_Modelo->RegistrosSolicitud($datos);
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListarProceso(){
+        if ($this->input->is_ajax_request()){
+            $res=$this->Aspirante_Modelo->RegistrosProcesos($this->input->post('id_solicitud'));
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
     }
 
     public function EliminarRol(){
