@@ -20,16 +20,21 @@
                         <div class="box-body">
                             <div class="col-sm-12">
                                 <div class="panel-body">
-                                    <table id="tabla_inscricion" class="table small table-hover">
+                                    <table id="tabla_inscricion" class="table small table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
-                                            <th>Cedula</th>
-                                            <th>Apellido Paterno</th>
-                                            <th>Apellido Materno</th>
-                                            <th>Nombres</th>
-                                            <th>Usuario</th>
-                                            <th>Departamento</th>
-                                            <th><i class="fa fa-check"></i></th>
+                                            <th class="text-center">
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                Aspirante
+                                            </th>
+                                            <th class="text-center">
+                                                <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                                Usuario
+                                            </th>
+                                            <th class="text-center">
+                                                <i class="fa fa-building-o" aria-hidden="true"></i>
+                                                Departamento
+                                            </th>
                                             <th>Accion</th>
                                         </tr>
                                         </thead>
@@ -233,13 +238,34 @@
                                     <table id="tabla_solicitud_docente" class="table small table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
-                                            <th>Aspirante</th>
-                                            <th>Tipo Solicitud</th>
-                                            <th>Categoria</th>
-                                            <th>Tipo Dedicacion</th>
-                                            <th>Fecha</th>
-                                            <th>Observacion</th>
-                                            <th>Estado</th>
+                                            <th class="text-center">
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                Aspirante
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-file-text" aria-hidden="true"></i>
+                                                Solicitud
+                                            </th>
+                                            <th class="text-center">
+                                                <i class="fa fa-flag" aria-hidden="true"></i>
+                                                Categoria
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-black-tie" aria-hidden="true"></i>
+                                                Dedicacion
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                                Fecha
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                Observacion
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                Estado
+                                            </th>
                                             <th>Accion</th>
                                         </tr>
                                         </thead>
@@ -249,13 +275,31 @@
                                     <table id="tabla_solicitud_admini" class="table small table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
-                                            <th>Aspirante</th>
-                                            <th>Tipo Solicitud</th>
+                                            <th class="text-center">
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                Aspirante
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-file-text" aria-hidden="true"></i>
+                                                Solicitud
+                                            </th>
                                             <th>Categoria</th>
-                                            <th>Puesto</th>
-                                            <th>Fecha</th>
-                                            <th>Observacion</th>
-                                            <th>Estado</th>
+                                            <th>
+                                                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                                Puesto
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                                Fecha
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                Observacion
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                Estado
+                                            </th>
                                             <th>Accion</th>
                                         </tr>
                                         </thead>
@@ -277,12 +321,12 @@
                                                     <thead class="bg-light-blue">
                                                     <tr>
                                                         <th>
-                                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                                            <i class='fa fa-cogs'></i>
                                                             Proceso
                                                         </th>
                                                         <th>
-                                                            <i class="fa fa-calendar" aria-hidden="true"></i>
-                                                             Fecha Revision
+                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                                            Fecha Revision
                                                         </th>
                                                         <th>
                                                             <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -293,7 +337,7 @@
                                                             Observacion
                                                         </th>
                                                         <th>
-                                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                                             Estado
                                                         </th>
                                                     </tr>

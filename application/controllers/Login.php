@@ -14,7 +14,7 @@ class Login extends CI_Controller{
     }
 
     public function index(){
-      $this->load->view('Login');
+       $this->load->view('Login');
     }
     public function Entrar(){
         if ($this->input->is_ajax_request()){

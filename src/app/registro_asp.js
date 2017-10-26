@@ -326,11 +326,11 @@ function Mostrar_tb_Solicitud(tipo_opcion) {
 function Tabla_docente(id_tipo){
      $('#tb_docente').prop('hidden',false);
       var tbl_docente=$('#tabla_solicitud_docente').DataTable({
-        "destroy":true,
-        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
-        "autoWidth":true,
-        "orderClasses": true,
-        "scrollCollapse": true,
+          "destroy":true,
+          "autoWidth":false,
+          "scrollCollapse": true,
+          "responsive":true,
+          "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -348,14 +348,14 @@ function Tabla_docente(id_tipo){
             }
         },
         "columns":[
-            {"data":null},
+            {"data":null,"width": "23%"},
             {"data":"p_tipo_solicitud"},
             {"data":"p_categoria"},
             {"data":"p_tipo_dedicacion"},
             {"data":"p_fecha"},
             {"data":"p_observacion"},
             {"data":"p_estdo"},
-            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Ver_proceso'><i class='fa fa-info-circle'></i>Ver Proceso</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false}
+            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Ver_proceso'><i class='fa fa-cogs'></i>Ver Proceso</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false}
         ],
         "columnDefs": [
             {
@@ -369,7 +369,7 @@ function Tabla_docente(id_tipo){
                 "data": "p_estdo",
                 "render": function(data, type, full) {
                     if(data === 'P'){
-                        return '<span class="label label-warning">PENDIENTE</span>';
+                        return '<span class="label label-warning">PROCESO</span>';
                     }else if(data === 'R') {
                         return '<span class="label label-danger">RECHAZADA</span>';
                     }else if (data === 'A'){
@@ -386,10 +386,10 @@ function TablaAdministrativo(id_tipo) {
     $('#tb_admin').prop('hidden',false);
    var tbl_admin=$('#tabla_solicitud_admini').DataTable({
        "destroy":true,
-       "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
-       "autoWidth":true,
-       "orderClasses": true,
+       "autoWidth":false,
        "scrollCollapse": true,
+       "responsive":true,
+       "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
        "language":{
            "url": 'public/locales/Spanish.json'
        },
@@ -407,14 +407,14 @@ function TablaAdministrativo(id_tipo) {
            }
        },
        "columns":[
-           {"data":null},
+           {"data":null,"width": "20%"},
            {"data":"p_tipo_solicitud"},
-           {"data":"p_categoria"},
-           {"data":"p_puesto"},
+           {"data":"p_categoria","width": "10%"},
+           {"data":"p_puesto","width": "19%"},
            {"data":"p_fecha"},
-           {"data":"p_observacion"},
+           {"data":"p_observacion","width": "14%"},
            {"data":"p_estdo"},
-           {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Ver_proceso'><i class='fa fa-info-circle'></i>Ver Proceso</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false}
+           {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Ver_proceso'><i class='fa fa-cogs'></i>Ver Proceso</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false,"width": "9%"}
        ],
        "columnDefs": [
            {
@@ -427,7 +427,7 @@ function TablaAdministrativo(id_tipo) {
                "data": "p_estdo",
                "render": function(data, type, full) {
                    if(data === 'P'){
-                       return '<span class="label label-warning">PENDIENTE</span>';
+                       return '<span class="label label-warning">PROCESO</span>';
                    }else if(data === 'R') {
                        return '<span class="label label-danger">RECHAZADA</span>';
                    }else if (data === 'A'){
@@ -443,11 +443,10 @@ function TablaAdministrativo(id_tipo) {
 function Tabla_PreInscripcion() {
     var tabla_inscripcion=$('#tabla_inscricion').DataTable({
         "destroy":true,
-        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
-        "autoWidth":true,
-        "orderClasses": true,
+        "autoWidth":false,
         "scrollCollapse": true,
         "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -463,16 +462,21 @@ function Tabla_PreInscripcion() {
             }
         },
         "columns":[
-            {"data":"p_cedula"},
-            {"data":"p_apellido1"},
-            {"data":"p_apellido2"},
-            {"data":"p_nombres"},
+            {"data":null,"width": "25%"},
             {"data":"p_usuario"},
             {"data":"p_departamento"},
-            {"defaultContent":"<input type='checkbox' class='seleccion'>",'orderable': false, 'searchable': false},
             {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Solicitud_asp'><i class='fa fa-paper-plane-o'></i>Solicitud</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false}
 
+        ],
+        "columnDefs": [
+            {
+                "targets": [0],
+                "render":function(data) {
+                    return " <span> <i class='fa fa-user'></i> "+ data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres+"<br><i class='fa fa-id-card'></i> "+ data.p_cedula+"</span>";
+                }
+            }
         ]
+
     });
     SolicitudAspirante("#tabla_inscricion tbody", tabla_inscripcion);
     DelRegisTbl_inscripcion("#tabla_inscricion tbody", tabla_inscripcion);
