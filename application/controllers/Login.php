@@ -14,7 +14,12 @@ class Login extends CI_Controller{
     }
 
     public function index(){
-       $this->load->view('Login');
+        if($this->session->userdata('login')=== TRUE){
+                 redirect('/Home');
+        }else{
+            $this->load->view('Login');
+        }
+
     }
     public function Entrar(){
         if ($this->input->is_ajax_request()){

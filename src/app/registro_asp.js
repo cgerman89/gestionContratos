@@ -19,7 +19,6 @@ $(document).ready(function () {
         preventDuplicates:true
     };
 
-
     $('#btn_cerrar_md_asp').click(function (e) {
         e.preventDefault();
         $('#form_aspirante').smkClear();
@@ -36,11 +35,9 @@ $(document).ready(function () {
     });
 
     $('#cedula_asp').focusout(function () {
-             el=$(this);
          var cedula=$(this).val();
          if(cedula !==''){
              console.log('no esta vacia');
-             if(CedVal(cedula) === true){
                  BuscarPersona(cedula,function (data){
                      if(data.num === 1) {
                          for (var n in data.datos) {
@@ -53,15 +50,12 @@ $(document).ready(function () {
                          }
                      }else if(data.num === 0) {
                           idpersonal=0;
-                          toastr.info('no existe el registro');
-                          BloqueDesbloqueo(0);
+                          toastr.error('no existe el registro');
+                          //BloqueDesbloqueo(0);
                           ClearCampos();
                      }
                  });
-             }else{
-                 toastr.error('cedula incorrecta');
-                 setTimeout(function(){el.focus(); }, 5);
-             }
+
          }else {
              console.log('esta vacia');
          }
@@ -91,7 +85,7 @@ $(document).ready(function () {
     $('#btn_enviar_docente_sl_ctr').click(function (e) {
        e.preventDefault();
        if( ($('#form_solicitud_contrato_asp').smkValidate() === true) && ($('#form_tipo_docente').smkValidate()=== true) ){
-            var form_docente = new FormData();
+           var form_docente = new FormData();
                 form_docente.append('id_personal',$('#txt_id_personal').val());
                 form_docente.append('tipo_solicitud',$('#tipo_contrato_sl_ctr').val());
                 form_docente.append('tipo_categoria',$('#tipo_categoria_sl_ctr').val());
@@ -135,24 +129,19 @@ $(document).ready(function () {
     $('#btn_save_pre_insc').click(function (e) {
         e.preventDefault();
         if($('#form_aspirante').smkValidate()){
-            if(idpersonal > 0){
+            if((idpersonal > 0) && ( $('#correo_institucion_asp').val()!=='') ){
                 AgregarAspirante(function (data){
                     if(data.p_opcion=== '1'){
                         toastr.success(data.p_mensaje);
                     }else if(data.p_opcion=== '2'){
                         toastr.warning(data.p_mensaje);
                     }
-
                 });
-            }else if(idpersonal === 0){
-                if($.smkEqualPass('#clave_asp','#clave_verifica_asp')){
-                    CrearAspirante(function (data) {
-                        console.log(data);
-                        toastr.success(data.p_mensaje);
-                    });
-                }
+            }else if((idpersonal > 0) && ($('#correo_institucion_asp').val() === '')){
+                toastr.warning('Nesecita  Un Usuario');
             }
         }
+
     });
 });
 function Mayus(campo) {
@@ -183,30 +172,6 @@ function EnviarSolicitud(form,callback) {
             console.error('error en la peticion crear aspirante ');
         }
     });
-}
-
-function CrearAspirante(callback) {
-        $.ajax({
-            url:'Aspirante/CrearAspirante',
-            type:'POST',
-            dataTypes:'json',
-            data:$('#form_aspirante').serialize(),
-            beforeSend:function () {
-                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
-                swal.showLoading();
-            },
-            success: function (data){
-                var res=JSON.parse(data);
-                $('#tabla_inscricion').DataTable().ajax.reload();
-                callback(res);
-            },
-            complete:function () {
-                swal.closeModal();
-            },
-            error: function (data) {
-                console.error('error en la peticion crear aspirante ');
-            }
-        });
 }
 
 function AgregarAspirante(callback) {

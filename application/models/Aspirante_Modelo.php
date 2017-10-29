@@ -40,6 +40,7 @@ class Aspirante_Modelo extends CI_Model {
         $this->db->select('p.idpersonal, p.cedula, p.apellido1,  p.apellido2, p.nombres, p.correo_personal_institucional')
                  ->from('esq_datos_personales.personal as p')
                  ->where('p.cedula',$cedula);
+
         $res=$this->db->get();
         //echo $this->db->last_query();
         $persona['datos']=$res->result_array();

@@ -7,7 +7,7 @@ $(document).ready(function () {
     console.log('login listo');
     toastr.options = {
         closeButton:true,
-        positionClass: "toast-bottom-right",
+        positionClass: "toast-top-right",
         preventDuplicates: true
     };
     $('#btn_session').click(function (e) {

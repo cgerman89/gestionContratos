@@ -12,9 +12,9 @@
             <div class="tab-content">
                 <div id="reg_aspirante"  class="tab-pane bg-gray-light active">
                     <div class="box box-primary">
-                        <div class="box-header">
+                        <div class="box-header with-border">
                             <div class="col-sm-4">
-                                <button type="button" name="btn_nuevo_asp" id="btn_nuevo_asp" class="btn btn-primary" data-toggle="modal" data-target="#modal_pre_inscripcion"><i class="fa fa-user-plus"></i> Aspirante</button>
+                                <button type="button" name="btn_nuevo_asp" id="btn_nuevo_asp" class="btn btn-primary" data-toggle="modal" data-target="#modal_pre_inscripcion"><i class="fa fa-user-plus"></i> Permiso </button>
                             </div>
                         </div>
                         <div class="box-body">
@@ -35,7 +35,10 @@
                                                 <i class="fa fa-building-o" aria-hidden="true"></i>
                                                 Departamento
                                             </th>
-                                            <th>Accion</th>
+                                            <th>
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                                Accion
+                                            </th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -48,16 +51,16 @@
                                     <div class="modal-content">
                                         <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
                                             <button type="button"  id="btn_cerrar_md_asp" name="btn_cerrar_md_asp" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Registro Aspirante</h4>
+                                            <h4 class="modal-title">Agregar Permiso</h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="panel">
                                                 <div class="panel-body">
                                                     <form id="form_aspirante" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove">
                                                         <div class="col-sm-8">
-                                                            <label for="cedula_asp">Cedula</label>
+                                                            <label for="cedula_asp">Cedula / Pasaporte</label>
                                                             <div class="form-group">
-                                                                <input type="text" id="cedula_asp" name="cedula_asp" class="form-control" minlength="10" data-smk-type="number" placeholder="cedula"  autofocus required>
+                                                                <input type="text" id="cedula_asp" name="cedula_asp" class="form-control" minlength="10"  placeholder="cedula / pasaporte"  autofocus required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
@@ -84,27 +87,13 @@
                                                                 <input type="email" id="correo_institucion_asp" name="correo_institucion_asp" class="form-control" placeholder="cuenta@utm.edu.ec" required>
                                                             </div>
                                                         </div>
-                                                        <div id="claves_asp" hidden>
-                                                            <div class="col-sm-6">
-                                                                <label for="clave_asp" class="control-label">Contraseña</label>
-                                                                <div class="form-group">
-                                                                    <input type="password" id="clave_asp" name="clave_asp" class="form-control" placeholder="************">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-6">
-                                                                <label for="clave_verifica_asp" class="control-label">Verificar Contraseña</label>
-                                                                <div class="form-group">
-                                                                    <input type="password" id="clave_verifica_asp" class="form-control" placeholder="*************">
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </form>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="pull-right">
-                                                        <button type="button" id="btn_save_pre_insc" name="btn_save_pre_insc" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                        <button type="button" id="btn_save_pre_insc" name="btn_save_pre_insc" class="btn btn-primary"><i class="fa fa-save"></i> Agregar </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -266,7 +255,10 @@
                                                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                                 Estado
                                             </th>
-                                            <th>Accion</th>
+                                            <th>
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                                Accion
+                                            </th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -300,7 +292,10 @@
                                                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
                                                 Estado
                                             </th>
-                                            <th>Accion</th>
+                                            <th>
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                                Accion
+                                            </th>
                                         </tr>
                                         </thead>
                                     </table>
