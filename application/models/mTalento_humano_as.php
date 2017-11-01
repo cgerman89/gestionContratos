@@ -14,6 +14,7 @@ class mTalento_humano_as extends CI_Model {
     public function getListAspXAproTHDepto($id){
         $this->db->select('s.id_solicitud_contrato, s.id_personal, s.id_tipo_solicitud, p.apellido1, p.apellido2, p.nombres, p.cedula, d.nombre as departamento, 
         concat(pcoor.apellido1,\' \',pcoor.apellido2,\' \',pcoor.nombres) as nom_coordinador, s.fecha_solicitud as fecha, cat.nombre as t_contrato,
+        catCat.nombre as categoria, catDed.nombre as dedicacion, catPues.nombre as puesto, catObs.nombre as observacion,
         psar.estado as estado_apro_rec, pusuar.correo_personal_institucional as usuarioar, psar.fecha as fecha_apro_rec, psar.hora as hora_apro_rec,
         psarh.estado as estado_apro_th, pusuarh.correo_personal_institucional as usuarioarh, psarh.fecha as fecha_apro_th, psarh.hora as hora_apro_th');
         $this->db->from('esq_datos_personales.personal p');
@@ -21,6 +22,10 @@ class mTalento_humano_as extends CI_Model {
         $this->db->join('esq_distributivos.departamento d','d.iddepartamento=s.id_departamento','INNER');
         $this->db->join('esq_datos_personales.personal pcoor','pcoor.idpersonal=s.id_cordinador','INNER');
         $this->db->join('esq_catalogos.tipo cat','cat.idtipo=s.id_tipo_solicitud ','INNER');
+        $this->db->join('esq_catalogos.tipo catCat','catCat.idtipo=s.id_categoria_solicitud','INNER');
+        $this->db->join('esq_catalogos.tipo catDed','catDed.idtipo=s.id_dedicacion','INNER');
+        $this->db->join('esq_catalogos.tipo catPues','catPues.idtipo=s.id_puesto','INNER');
+        $this->db->join('esq_catalogos.tipo catObs','catObs.idtipo=s.id_observacion','INNER');
         $this->db->join('esq_contrato.proceso_solicitud psar','psar.id_solicitud=s.id_solicitud_contrato','INNER');
         $this->db->join('esq_datos_personales.personal pusuar','pusuar.idpersonal=psar.id_personal','INNER');
         $this->db->join('esq_contrato.proceso_solicitud psarh','psarh.id_solicitud=s.id_solicitud_contrato','INNER');
@@ -38,6 +43,7 @@ class mTalento_humano_as extends CI_Model {
     public function getListAspXAproTHAllDepto(){
         $this->db->select('s.id_solicitud_contrato, s.id_personal, s.id_tipo_solicitud, p.apellido1, p.apellido2, p.nombres, p.cedula, d.nombre as departamento, 
         concat(pcoor.apellido1,\' \',pcoor.apellido2,\' \',pcoor.nombres) as nom_coordinador, s.fecha_solicitud as fecha, cat.nombre as t_contrato,
+        catCat.nombre as categoria, catDed.nombre as dedicacion, catPues.nombre as puesto, catObs.nombre as observacion,
         psar.estado as estado_apro_rec, pusuar.correo_personal_institucional as usuarioar, psar.fecha as fecha_apro_rec, psar.hora as hora_apro_rec,
         psarh.estado as estado_apro_th, pusuarh.correo_personal_institucional as usuarioarh, psarh.fecha as fecha_apro_th, psarh.hora as hora_apro_th');
         $this->db->from('esq_datos_personales.personal p');
@@ -45,6 +51,10 @@ class mTalento_humano_as extends CI_Model {
         $this->db->join('esq_distributivos.departamento d','d.iddepartamento=s.id_departamento','INNER');
         $this->db->join('esq_datos_personales.personal pcoor','pcoor.idpersonal=s.id_cordinador','INNER');
         $this->db->join('esq_catalogos.tipo cat','cat.idtipo=s.id_tipo_solicitud ','INNER');
+        $this->db->join('esq_catalogos.tipo catCat','catCat.idtipo=s.id_categoria_solicitud','INNER');
+        $this->db->join('esq_catalogos.tipo catDed','catDed.idtipo=s.id_dedicacion','INNER');
+        $this->db->join('esq_catalogos.tipo catPues','catPues.idtipo=s.id_puesto','INNER');
+        $this->db->join('esq_catalogos.tipo catObs','catObs.idtipo=s.id_observacion','INNER');
         $this->db->join('esq_contrato.proceso_solicitud psar','psar.id_solicitud=s.id_solicitud_contrato','INNER');
         $this->db->join('esq_datos_personales.personal pusuar','pusuar.idpersonal=psar.id_personal','INNER');
         $this->db->join('esq_contrato.proceso_solicitud psarh','psarh.id_solicitud=s.id_solicitud_contrato','INNER');
@@ -69,7 +79,7 @@ class mTalento_humano_as extends CI_Model {
 
 
     public function AprobarSolicitudTH($data){
-        $res=$this->db->query('SELECT p_opcion, p_mensaje from esq_contrato.fnc_upd_apro_th(?,?,?,?);',$data);
+        $res=$this->db->query('SELECT p_opcion, p_mensaje from esq_contrato.fnc_actualizar_estado_th(?,?,?,?);',$data);
         //echo $this->db->last_query();
         return $res->row();
     }

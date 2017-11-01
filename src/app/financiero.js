@@ -2,18 +2,14 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
     toastr.options = {
         closeButton:true,
-        positionClass: "toast-bottom-right",
-        //positionClass:"toast-top-right",
+        positionClass: "toast-top-right",
         preventDuplicates: true
     };
 
     console.log('Se cargaron los aspirantes para el proceso de financiero');
 
     //Llenar combo cbodepartamentofinan
-    $.post("cFinanciero/GetListadoDepartamentos",
-        {
-        },
-        function(data){
+    $.post("cFinanciero/GetListadoDepartamentos",function(data){
             var d = JSON.parse(data);
             $.each(d,function(i,item){
                 $('#cbodepartamentofinan').append('<option value="'+item.iddepartamento+'">'+item.nombre+'</option>')
@@ -39,14 +35,11 @@ $(document).ready(function(){
 //Aquí se llena la tabla Lista de Aspirantes para el proceso de financiero de algún departamento en específico con datatables
 function tbl_financiero_depto() {
     $('#tblFinanciero').DataTable({
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-        'paging': true,
-        'info': true,
-        'filter': true,
-        'responsive':true,
-        'stateSave': true,
-        'scrollX':true,
+        "destroy":true,
         "autoWidth":false,
+        "scrollCollapse": true,
+        "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -62,9 +55,7 @@ function tbl_financiero_depto() {
                 swal.showLoading();
             },
             complete:function () {
-                setTimeout(function () {
-                    swal.closeModal();
-                },1000);
+                swal.closeModal();
             }
         },
         'columns': [

@@ -11,13 +11,16 @@
             </ul>
             <div class="tab-content">
                 <div id="reg_aspirante"  class="tab-pane bg-gray-light active">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <div class="col-sm-4">
-                                <button type="button" name="btn_nuevo_asp" id="btn_nuevo_asp" class="btn btn-primary" data-toggle="modal" data-target="#modal_pre_inscripcion"><i class="fa fa-user-plus"></i> Permiso </button>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-sm-4">
+                                    <button type="button" name="btn_nuevo_asp" id="btn_nuevo_asp" class="btn btn-primary" data-toggle="modal" data-target="#modal_pre_inscripcion"><i class="fa fa-user-plus"></i> Permiso </button>
+                                </div>
                             </div>
+                            <h4 class="text-muted">AGREGAR ASPIRANTE</h4>
                         </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <div class="col-sm-12">
                                 <div class="panel-body">
                                     <table id="tabla_inscricion" class="table small table-hover table-bordered">
@@ -210,18 +213,21 @@
                     </div>
                 </div>
                 <div id="usuario_rol" role="tabpanel" class="tab-pane fade in">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <div class="col-md-4">
-                                <label for="">Tipo Solicitud</label>
-                                <div class="form-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-2">
+                                    <label for="tipo_solicitud_tabla" class="control-label">TIPO</label>
+                                </div>
+                                <div class="col-md-10">
                                     <select name="tipo_solicitud_tabla" id="tipo_solicitud_tabla" class="form-control">
-                                        <option value="">seleccione</option>
+                                            <option value="">seleccione</option>
                                     </select>
                                 </div>
                             </div>
+                            <h4 class="text-muted">LISTA DE SOLICITUDES</h4>
                         </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <div class="col-sm-12">
                                 <div id="tb_docente" hidden>
                                     <table id="tabla_solicitud_docente" class="table small table-hover table-bordered">

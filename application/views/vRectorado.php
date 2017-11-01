@@ -48,7 +48,7 @@
                                             </th>
                                             <th>
                                                 <i class="fa fa-user-o" aria-hidden="true"></i>
-                                                Coord.Departamento
+                                                Coord. Departamento
                                             </th>
                                             <th>
                                                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
@@ -57,6 +57,18 @@
                                             <th>
                                                 <i class="fa fa-file-text" aria-hidden="true"></i>
                                                 Solicitud
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-flag" aria-hidden="true"></i>
+                                                Categoria
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                                Dedicacion/Puesto
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                Observacion
                                             </th>
                                             <th>
                                                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -87,7 +99,7 @@
                             <br><br>
                             <div class="col-sm-6">
                                 <label for="cbodepartamentoflu" class="control-label">Departamento:</label>
-                                <select name="cbodepartamentoflu" id="cbodepartamentoflu" class="form-control" >
+                                <select name="cbodepartamentoflu" id="cbodepartamentoflu" class="form-control" style="width:100%">
                                     <option value="-2">Seleccione el departamento</option>
                                     <option value="-3">Todos los departamentos</option>
                                 </select>
@@ -96,29 +108,137 @@
                         <div class="box-body">
                             <div class="col-sm-12">
                                 <!-- <div class="box box-primary"> -->
-                                <table id="tblLisAspFluProc" class="table small table-bordered table-striped table-hover table-responsive">
-                                    <thead>
-                                    <tr class="bg-primary">
-                                        <th style="background-color: #006699; color: white;">Aspirante</th>
-                                        <th style="background-color: #006699; color: white;">Dpto. de la solicitud</th>
-                                        <th style="background-color: #006699; color: white;">Coordinador Dpto.</th>
-                                        <th style="background-color: #006699; color: white;">F. de Solicitud</th>
-                                        <th style="background-color: #006699; color: white;">Tipo de Contrato</th>
-                                        <th style="background-color: #006699; color: white;">Aprobación Rector(a)</th>
-                                        <th style="background-color: #006699; color: white;">Aprobación RRHH</th>
-                                        <th style="background-color: #006699; color: white;">Proceso RRHH</th>
-                                        <th style="background-color: #006699; color: white;">Proceso Financiero</th>
-                                        <th style="background-color: #006699; color: white;">Firma Contratado(a)</th>
-                                        <th style="background-color: #006699; color: white;">RRHH Firma</th>
-                                        <th style="background-color: #006699; color: white;">Firma Rector(a)</th>
-                                        <th style="background-color: #006699; color: white;"><i class="fa fa-ellipsis-v"></i></th>
+                                <table id="tblLisAspFluProc" class="table small table-bordered table-hover table-responsive">
+                                    <thead class="bg-light-blue">
+                                    <tr>
+                                        <th>
+                                            <i class="fa fa-user-o" aria-hidden="true"></i>
+                                            Aspirante
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-building-o" aria-hidden="true"></i>
+                                            Dpto. solicitante
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-user-o" aria-hidden="true"></i>
+                                            Coord. Departamento
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                            Fecha Solicitud
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-file-text" aria-hidden="true"></i>
+                                            Solicitud
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                            Categoria
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                            Dedicacion/Puesto
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                                            Observacion
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                            Accion
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                                 <!-- </div> -->
                             </div>
-                            <!--div class="col-sm-2"><span class='label label-warning' id="spSuma"></span></div-->
+                            <!-- Modal procesos de solicitudes y contratos-->
+                            <div id="md_proc_solic_y_contr"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
+                                <div class="modal-dialog modal-lg">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                                            <button type="button"  id="btn_cerrar_md_asp" name="btn_cerrar_md_asp" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Procesos</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="panel-body">
+                                                <div class="col-sm-12">
+                                                    <span style='color:#black;'><h3 class="panel-title">Procesos solicitud</h3></span>
+                                                </div>
+                                                <br>
+                                                <table id="tabla_proceso_solicitud" class="table small table-hover table-bordered">
+                                                    <thead class="bg-light-blue">
+                                                    <tr>
+                                                        <th>
+                                                            <i class='fa fa-cogs'></i>
+                                                            Proceso
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                                            Usuario
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                                            Fecha Revision
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                            Hora Revision
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                            Observacion
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                            Estado
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div class="col-sm-12">
+                                                    <span style='color:#black;'><h3 class="panel-title">Procesos contrato</h3></span>
+                                                </div>
+                                                <br>
+                                                <table id="tabla_procesos_contrato" class="table small table-hover table-bordered">
+                                                    <thead class="bg-light-blue">
+                                                    <tr>
+                                                        <th>
+                                                            <i class='fa fa-cogs'></i>
+                                                            Proceso
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                                            Usuario
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                                            Fecha Revision
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                            Hora Revision
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                            Observacion
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                            Estado
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

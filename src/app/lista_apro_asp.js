@@ -2,17 +2,10 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
     toastr.options = {
         closeButton:true,
-        positionClass: "toast-bottom-right",
-        //positionClass:"toast-top-right",
+        positionClass: "toast-top-right",
         preventDuplicates: true
     };
     $('#cbodepartamentoapro').select2({theme:"bootstrap"});
-
-    /*$('#tblLisAspPorApro').on('draw.dt', function() {
-    $('input[type=checkbox]').iCheck({
-        checkboxClass: 'icheckbox_flat-blue'
-    });
-    });*/
 
     console.log('Se cargaron los aspirantes por aprobar');
 
@@ -47,7 +40,7 @@ $(document).ready(function(){
                     //console.log("Cantidad de elementos: "+$('#tblLisAspPorApro').DataTable().data().length);
                     $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
                         $(this).children('td').each(function(indiceColumna) {
-                            if(indiceColumna == 6){
+                            if(indiceColumna == 9){
                                 if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                                     var idAspAp = $('.idAspApro:eq('+indiceFila+')').prop('id');
                                     updEstAproRecParaMasiv(idAspAp)
@@ -57,7 +50,6 @@ $(document).ready(function(){
                             }
                         });
                     });
-                    toastr.success(cont+' Solicitud(es) aprobada(s) exitosamente.');
 
                     setTimeout(function () {
 
@@ -70,6 +62,8 @@ $(document).ready(function(){
                         $('#tblLisAspPorApro').DataTable().destroy();
                         tbl_asp_x_aprobar_depto();
                     }
+
+                    toastr.success(cont+' Solicitud(es) aprobada(s) exitosamente.');
 
                     //Poner en el combo "Seleccione el departamento" en la vista Flujo de procesos para la elaboración de un nuevo contrato
                     $('#cbodepartamentoflu  option[value="-2"]').prop('selected',true);
@@ -93,7 +87,7 @@ $(document).ready(function(){
         var cont=0;
         $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
             $(this).children('td').each(function(indiceColumna) {
-                if(indiceColumna == 6){
+                if(indiceColumna == 9){
                     if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                         cont++;
                     }
@@ -109,7 +103,7 @@ $(document).ready(function(){
             var cont=0;
             $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
                 $(this).children('td').each(function(indiceColumna) {
-                    if(indiceColumna == 6){
+                    if(indiceColumna == 9){
                         if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                             cont++;
                         }
@@ -130,7 +124,7 @@ function tbl_asp_x_aprobar_depto() {
         "autoWidth":false,
         "scrollCollapse": true,
         "responsive":true,
-        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+        "lengthMenu": [[-1], ["Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -154,9 +148,7 @@ function tbl_asp_x_aprobar_depto() {
                 swal.showLoading();
             },
             complete:function () {
-                setTimeout(function () {
                     swal.closeModal();
-                },1000);
             }
         },
         'columns': [
@@ -165,6 +157,9 @@ function tbl_asp_x_aprobar_depto() {
             {data: 'nom_coordinador'},
             {data: 'fecha'},
             {data: 't_contrato'},
+            {data: 'categoria'},
+            {data: 't_contrato'},
+            {data: 'observacion'},
             {data: 'estado_apro_rec'},
             {data: 'estado_apro_rec', 'searchable':false, "orderable": false},
             {"orderable": false, 'searchable':false,
@@ -172,13 +167,13 @@ function tbl_asp_x_aprobar_depto() {
                     //if (row.estado_apro_rec == 'P') {
                         return '<span class="pull-left">' +
                             '<div class="dropdown">' +
-                            '  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                            '    <i class="fa fa-bars"></i>' +
+                            '  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                            '    <i class="fa fa-list"></i>' +
                             '  <span class="caret"></span>' +
                             '  </button>' +
                             '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                            '    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Aprobar solicitud" onClick="updEstAproRector('+row.id_solicitud_contrato+',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\')"><i style="color:green;" class="glyphicon glyphicon-ok"></i> Aprobar</a></li>' +
-                            '    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Rechazar solicitud" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Rechazar</a></li>' +
+                            '    <li><a href="#" onClick="updEstAproRector('+row.id_solicitud_contrato+',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\')"><i style="color:green;" class="glyphicon glyphicon-ok"></i> Aprobar</a></li>' +
+                            '    <li><a href="#" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Rechazar</a></li>' +
                             '    </ul>' +
                             '</div>' +
                             '</span>';
@@ -200,34 +195,46 @@ function tbl_asp_x_aprobar_depto() {
                 "targets": [1],
                 "data": "departamento",
                 "render": function(data, type, row) {
-                    return "<span><i class='fa fa-institution'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [2],
                 "data": "nom_coordinador",
                 "render": function(data, type, row) {
-                    return "<span><i class='fa fa-user'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [3],
                 "data": "fecha",
                 "render": function(data, type, row) {
-                    return "<span><i class='fa fa-calendar'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
-                "targets": [5],
-                "data": "estado_apro_rec",
-                "render": function(data, type, row) {
-                    if (data == 'P') {
-                        return "<span class='label label-warning'>Pendiente</span>";
-                    }
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [6],
+                "data": "t_contrato",
+                "render": function(data, type, row) {
+                    if (data == 'DOCENTE') {
+                        return "<span>"+row.dedicacion+"</span>";
+                    }
+                    else if(data == 'ADMINISTRATIVO'){
+                        return "<span>"+row.puesto+"</span>";
+                    }
+                }
+            },
+            {
+                "targets": [8],
+                "data": "estado_apro_rec",
+                "render": function(data, type, row) {
+                    if (data == 'P') {
+                        return "<span class='label label-warning'>PENDIENTE</span>";
+                    }
+                }
+            },
+            {
+                "targets": [9],
                 "data": "estado_apro_rec",
                 "render": function(data, type, row) {
                     if (data == 'P') {
@@ -247,7 +254,7 @@ function tbl_asp_x_aprobar_all_depto() {
         "autoWidth":false,
         "scrollCollapse": true,
         "responsive":true,
-        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+        "lengthMenu": [[-1], ["Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -268,9 +275,7 @@ function tbl_asp_x_aprobar_all_depto() {
                 swal.showLoading();
             },
             complete:function () {
-                setTimeout(function () {
                     swal.closeModal();
-                },1000);
             }
         },
         'columns': [
@@ -279,6 +284,9 @@ function tbl_asp_x_aprobar_all_depto() {
             {data: 'nom_coordinador'},
             {data: 'fecha'},
             {data: 't_contrato'},
+            {data: 'categoria'},
+            {data: 't_contrato'},
+            {data: 'observacion'},
             {data: 'estado_apro_rec'},
             {data: 'estado_apro_rec', 'searchable':false, "orderable": false},
             {"orderable": false, 'searchable':false,
@@ -286,13 +294,13 @@ function tbl_asp_x_aprobar_all_depto() {
                     //if (row.estado_apro_rec == 'P') {
                     return '<span class="pull-left">' +
                         '<div class="dropdown">' +
-                        '  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                        '    <i class="fa fa-bars"></i>' +
+                        '  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                        '    <i class="fa fa-list"></i>' +
                         '  <span class="caret"></span>' +
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                        '    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Aprobar solicitud" onClick="updEstAproRector('+row.id_solicitud_contrato+',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\')"><i style="color:green;" class="glyphicon glyphicon-ok"></i> Aprobar</a></li>' +
-                        '    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Rechazar solicitud" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Rechazar</a></li>' +
+                        '    <li><a href="#" onClick="updEstAproRector('+row.id_solicitud_contrato+',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\')"><i style="color:green;" class="glyphicon glyphicon-ok"></i> Aprobar</a></li>' +
+                        '    <li><a href="#" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Rechazar</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -321,27 +329,39 @@ function tbl_asp_x_aprobar_all_depto() {
                 "targets": [2],
                 "data": "nom_coordinador",
                 "render": function(data, type, row) {
-                    return "<span><i class='fa fa-user'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [3],
                 "data": "fecha",
                 "render": function(data, type, row) {
-                    return "<span><i class='fa fa-calendar'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
-                "targets": [5],
-                "data": "estado_apro_rec",
-                "render": function(data, type, row) {
-                    if (data === 'P') {
-                        return "<span class='label label-warning'>Pendiente</span>";
-                    }
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [6],
+                "data": "t_contrato",
+                "render": function(data, type, row) {
+                    if (data === 'DOCENTE') {
+                        return "<span>"+row.dedicacion+"</span>";
+                    }
+                    else if(data === 'ADMINISTRATIVO'){
+                        return "<span>"+row.puesto+"</span>";
+                    }
+                }
+            },
+            {
+                "targets": [8],
+                "data": "estado_apro_rec",
+                "render": function(data, type, row) {
+                    if (data === 'P') {
+                        return "<span class='label label-warning'>PENDIENTE</span>";
+                    }
+                }
+            },
+            {
+                "targets": [9],
                 "data": "estado_apro_rec",
                 "render": function(data, type, row) {
                     if (data === 'P') {
@@ -364,7 +384,7 @@ updEstAproRector = function(IdSolContrato, apellidop, apellidom, nombres){
                 },
                 function(data){
                     var res=JSON.parse(data);
-                    if (res.fnc_upd_apro_rec === 'OK') {
+                    if (res.fnc_actualizar_estado_rector === 'OK') {
                         toastr.success('Solicitud de: '+apellidop+' '+apellidom+' '+nombres+' aprobada correctamente.');
                         $('#tblLisAspPorApro').DataTable().ajax.reload();
                         $('#tblLisAspFluProc').DataTable().ajax.reload();

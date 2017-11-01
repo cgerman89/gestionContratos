@@ -30,13 +30,16 @@
             </ul>
             <div class="tab-content">
                 <div id="info_personal" role="tabpanel" class="tab-pane fade in active">
-                    <div class="box box-primary">
-                        <div class="box box-header">
-                             <div class="col-sm-4">
-                                 <button type="submit" name="btn_save_per" id="btn_save_per" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
-                             </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-3">
+                                    <button type="submit" name="btn_save_per" id="btn_save_per" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                </div>
+                            </div>
+                            <h4 class="text-muted">INFORMACION PERSONAL</h4>
                         </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <form id="form_info_per" class="small" data-smk-icon="glyphicon glyphicon-remove">
                                 <div class="col-sm-4">
                                     <label for="n_documento_per" class="control-label">N° Documento</label>
@@ -145,13 +148,16 @@
                     </div>
                 </div>
                 <div id="info_domicilio" role="tabpanel" class="tab-pane fade">
-                    <div class="box box-primary">
-                        <div class="box box-header">
-                            <div class="col-sm-4">
-                                <button type="submit" name="btn_save_domi" id="btn_save_domi" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-3">
+                                    <button type="submit" name="btn_save_domi" id="btn_save_domi" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                </div>
                             </div>
+                            <h4 class="text-muted">INFORMACION DOMICILIAR</h4>
                         </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <form id="form_domicilio" class="small" role="form" data-smk-icon="glyphicon glyphicon-remove">
                                 <div class="col-sm-4">
                                     <label for="pais_domi" class="control-label">Pais Residencia</label>
@@ -250,13 +256,16 @@
                     </div>
                 </div>
                 <div id="inst_formal" role="tabpanel" class="tab-pane fade">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <div class="col-sm-4">
-                                <button type="button" id="btn_modal_abrir" name="btn_modal_abrir" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-3">
+                                    <button type="button" id="btn_modal_abrir" name="btn_modal_abrir" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                </div>
                             </div>
+                            <h4 class="text-muted">INSTRUCCIÓN FORMAL</h4>
                         </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <div class="col-sm-12">
                                 <div class="panel-body">
                                     <table id="tabla_formal" class="table small table-hover table-bordered">
@@ -417,13 +426,16 @@
                     </div>
                 </div>
                 <div id="Capacitacion" role="tabpanel" class="tab-pane fade">
-                    <div class="box box-primary">
-                         <div class="box-header">
-                             <div class="col-sm-4">
-                                <button type="button" id="btn_nuevo_capaci" name="btn_nuevo_capaci" class="btn btn-primary" data-toggle="modal" data-target="#modal_capacitacion"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                    <div class="panel panel-default">
+                         <div class="panel-heading">
+                             <div class="pull-right">
+                                 <div class="col-md-3">
+                                     <button type="button" id="btn_nuevo_capaci" name="btn_nuevo_capaci" class="btn btn-primary" data-toggle="modal" data-target="#modal_capacitacion"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                 </div>
                              </div>
+                             <h4 class="text-muted">CAPACITACIONES</h4>
                          </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <div class="col-sm-12">
                                 <div class="panel-body">
                                     <table id="tabla_capacitacion" class="table small table-hover table-bordered">
@@ -548,13 +560,16 @@
                     </div>
                 </div>
                 <div id="exp_profesional" role="tabpanel" class="tab-pane fade">
-                    <div class="box box-primary">
-                            <div class="box-header">
-                                <div class="col-sm-4">
-                                    <button type="button" id="btn_nuevo_exp_pro" class="btn btn-primary" data-toggle="modal" data-target="#modal_experiencia_pro"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                    <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="pull-right">
+                                    <div class="col-md-3">
+                                        <button type="button" id="btn_nuevo_exp_pro" class="btn btn-primary" data-toggle="modal" data-target="#modal_experiencia_pro"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                    </div>
                                 </div>
+                                <h4 class="text-muted">EXPERIENCIA PROFESIONAL</h4>
                             </div>
-                    <div class="box-body">
+                    <div class="panel-body">
                      <div class="col-sm-12">
                          <div class="panel-body">
                               <table id="tabla_exp_profesional" class="table small table-hover table-bordered">
@@ -740,18 +755,22 @@
                     </div>                   
                 </div>
                 <div id="publicacion" role="tabpanel" class="tab-pane fade">
-                    <div class="box box-primary">
-                         <div class="box-header">
-                            <div class="col-md-6">
-                                <select id="tipo_publicacion_pb" name="tipo_publicacion_pb" class="form-control"  required>
-                                    <option value="">Tipo Publicacion</option>
-                                </select>
+                    <div class="panel panel-default">
+                         <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-9">
+                                    <select id="tipo_publicacion_pb" name="tipo_publicacion_pb" class="form-control"  required>
+                                        <option value="">Seleccione</option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="btn_nuevo_publicacion" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                </div>
                             </div>
-                            <div class="col-md-3">
-                                 <button type="button" id="btn_nuevo_publicacion" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
-                            </div>
+                            <h4 class="text-muted">PUBLICACIONES</h4>
                          </div>
-                         <div class="box-body">
+                         <div class="panel-body">
                             <div class="col-sm-12">
                                  <div class="panel-body">
                                      <table id="table_libro" hidden class="table small table-hover table-bordered">
@@ -1120,13 +1139,16 @@
                     </div>
                 </div>
                 <div id="banco" role="tabpanel" class="tab-pane fade">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-3">
                                     <button type="button" id="btn_nuevo_banco" class="btn btn-primary" data-toggle="modal" data-target="#modal_banco"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                </div>
                             </div>
+                            <h4 class="text-muted">CUENTA BANCARIA</h4>
                         </div>
-                        <div class="box-body">
+                        <div class="panel-body">
                             <div class="col-sm-10">
                                  <div class="panel-body">
                                      <table id="tabla_banco" class="table small table-hover table-bordered">
@@ -1194,13 +1216,16 @@
                     </div> 
                 </div>
                 <div id="discapacidad" class="tab-pane fade">
-                     <div class="box box-primary">
-                         <div class="box-header">
-                              <div class="col-sm-4">
-                                  <button type="button" id="btn_save_discapacidad" name="btn_save_discapacidad" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
-                              </div>
+                     <div class="panel panel-default">
+                         <div class="panel-heading">
+                             <div class="pull-right">
+                                 <div class="col-md-3">
+                                     <button type="button" id="btn_save_discapacidad" name="btn_save_discapacidad" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                 </div>
+                             </div>
+                             <h4 class="text-muted">DISCAPACIDAD</h4>
                          </div>
-                         <div class="box-body">
+                         <div class="panel-body">
                               <div class="col-sm-12">
                                   <div class="panel-body">
                                      <form  id="form_discapacidad" data-smk-icon="glyphicon glyphicon-remove" role="form">

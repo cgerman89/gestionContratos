@@ -1,26 +1,28 @@
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
+    $('[data-toggle ="tooltip"]').tooltip();  //Para los tooltips
     toastr.options = {
         closeButton:true,
-        positionClass: "toast-bottom-right",
-        //positionClass:"toast-top-right",
+        positionClass: "toast-top-right",
         preventDuplicates: true
     };
-    $('#mtxtFecIni').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true, startDate: '0d'}); //, endDate:"0d"
+    $('#cbodepartamentotalhum').select2({theme:"bootstrap"});
+    $('#mtxtFecIni').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true, startDate: '0d'}); 
     $('#mtxtFecFin').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true, startDate: '0d'});
     $('#mtxtFecIni').keypress(function (evt) {  return false; });
     $('#mtxtFecFin').keypress(function (evt) {  return false; });
+    $('#mtxtFecIniAdmin').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true, startDate: '0d'}); 
+    $('#mtxtFecFinAdmin').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true, startDate: '0d'});
+    $('#mtxtFecIniAdmin').keypress(function (evt) {  return false; });
+    $('#mtxtFecFinAdmin').keypress(function (evt) {  return false; });
 
     CargaCombo_Denom_Doc('#mcboCategoria',74);
     CargaCombo_Denom_Doc('#mcboRegLaboral',65);
+    CargaCombo_Denom_Doc('#mcboRegLaboralAdmin',65);
 
     console.log('Se cargaron los aspirantes para el proceso de talento humano');
 
     //Llenar combo cbodepartamentotalhum
-    $.post("cTalento_humano/GetListadoDepartamentos",
-        {
-        },
-        function(data){
+    $.post("cTalento_humano/GetListadoDepartamentos",function(data){
             var d = JSON.parse(data);
             $.each(d,function(i,item){
                 $('#cbodepartamentotalhum').append('<option value="'+item.iddepartamento+'">'+item.nombre+'</option>')
@@ -32,7 +34,7 @@ $(document).ready(function(){
     //LLenar tabla de acuerdo a lo que se selecciona en el combo cbodepartamentotalhum
     $('#cbodepartamentotalhum').change(function () {
         $('#tblTalHumano').DataTable().destroy();
-        if($('#cbodepartamentotalhum').val()== -3){
+        if($('#cbodepartamentotalhum').val()==-3){
             tbl_tal_humano_all_depto();
         }
         else{
@@ -80,7 +82,7 @@ $(document).ready(function(){
                 toastr.error('La fecha de inicio no puede ser mayor o igual a la fecha de fin');
             }
             else{
-                alertify.confirm('Procesar solicitud', '¿Está seguro(a) de querer procesar la solicitud de: '+$('#mtxtAspirante').val()+'?',
+                alertify.confirm('Procesar contrato', '¿Está seguro(a) de querer procesar el contrato de: '+$('#mtxtAspirante').val()+'?',
                     function(){
                         if($('#mcboFormProfesional').val()===''){
                             idFP=-1;
@@ -102,7 +104,7 @@ $(document).ready(function(){
                             function(data){
                                 var res=JSON.parse(data);
                                 if (res.fnc_proceso_rrhh == 'OK') {
-                                    toastr.success('Solicitud de: '+$('#mtxtAspirante').val()+' procesada correctamente.');
+                                    toastr.success('Contrato de: '+$('#mtxtAspirante').val()+' procesado correctamente.');
                                     $('#btn_cerrar_modalRH').click();
                                     $('#tblTalHumano').DataTable().ajax.reload();
                                     $('#tblLisAspFluProc').DataTable().ajax.reload();
@@ -123,20 +125,23 @@ $(document).ready(function(){
         //$('#form_pro_rrhh')[0].reset();
     });
 
+    $('#btn_cerrar_modalRHAdmin').click(function () {
+        $('#mtxtFecIniAdmin').datepicker('setDate', null);
+        $('#mtxtFecFinAdmin').datepicker('setDate', null);
+        $('#form_pro_rrhhAdmin').smkClear();
+    });
+
 });
 
 //FUNCIONES
 //Aquí se llena la tabla Lista de Aspirantes para el proceso de talento humano de algún departamento en específico con datatables
 function tbl_tal_humano_depto() {
     $('#tblTalHumano').DataTable({
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-        'paging': true,
-        'info': true,
-        'filter': true,
-        'responsive':true,
-        'stateSave': true,
-        'scrollX':true,
+        "destroy":true,
         "autoWidth":false,
+        "scrollCollapse": true,
+        "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -152,9 +157,7 @@ function tbl_tal_humano_depto() {
                 swal.showLoading();
             },
             complete:function () {
-                setTimeout(function () {
                     swal.closeModal();
-                },1000);
             }
         },
         'columns': [
@@ -163,23 +166,38 @@ function tbl_tal_humano_depto() {
             {data: 'nom_coordinador'},
             {data: 'fecha'},
             {data: 't_contrato'},
+            {data: 'categoria'},
             {data: 'estado_rh'},
             {"orderable": false, 'searchable':false,
                 render:function(data, type, row){
-                    //if (row.estado_rh == 'P') {
+                    if (row.t_contrato === 'DOCENTE') {
                         return '<span class="pull-left">' +
                             '<div class="dropdown">' +
-                            '  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                            '    <i class="fa fa-bars"></i>' +
+                            '  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                            '    <i class="fa fa-list"></i>' +
                             '  <span class="caret"></span>' +
                             '  </button>' +
                             '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                            '    <li><a href="#" title="Ver hoja de vida" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-eye"></i> Hoja de vida</a></li>' +
-                            '    <li><a href="#" title="Procesar contrato" data-toggle="modal" data-target="#modalProSolRRHH" onClick="selAspProRRHH(\''+row.idcontrato+'\',\''+row.idpersonal+'\',\''+row.dedicacion+'\',\''+row.observacion+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\');"><i style="color:green;" class="fa fa-gears"></i> Procesar</a></li>' +
+                            '    <li><a href="#" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li>' +
+                            '    <li><a href="#" data-toggle="modal" data-target="#modalProSolRRHH" onClick="selAspProRRHH(\''+row.idcontrato+'\',\''+row.idpersonal+'\',\''+row.dedicacion+'\',\''+row.observacion+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\',\''+row.t_contrato+'\');"><i style="color:black;" class="fa fa-gears"></i> Procesar contrato</a></li>' +
                             '    </ul>' +
                             '</div>' +
                             '</span>';
-                    //}
+                    }
+                    else if(row.t_contrato === 'ADMINISTRATIVO'){
+                        return '<span class="pull-left">' +
+                            '<div class="dropdown">' +
+                            '  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                            '    <i class="fa fa-list"></i>' +
+                            '  <span class="caret"></span>' +
+                            '  </button>' +
+                            '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
+                            '    <li><a href="#" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li>' +
+                            '    <li><a href="#" data-toggle="modal" data-target="#modalProSolRRHHAdmin" onClick="selAspProRRHHAdministrativo(\''+row.idcontrato+'\',\''+row.idpersonal+'\',\''+row.puesto+'\',\''+row.observacion+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\',\''+row.t_contrato+'\');"><i style="color:black;" class="fa fa-gears"></i> Procesar contrato</a></li>' +
+                            '    </ul>' +
+                            '</div>' +
+                            '</span>';
+                    }
                 }
             }
         ],
@@ -188,37 +206,37 @@ function tbl_tal_humano_depto() {
                 "targets": [0],
                 "data": "apellido1",
                 "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-user'></i> &nbsp;"+data+" "+row.apellido2+" "+row.nombres+"</span><br>"+
-                        "<span style='color:#555;'><i class='fa fa-id-card'></i> &nbsp;"+row.cedula+"</span>";
+                    return "<span><i class='fa fa-user'></i> &nbsp;"+data+" "+row.apellido2+" "+row.nombres+"</span><br>"+
+                        "<span><i class='fa fa-id-card'></i> &nbsp;"+row.cedula+"</span>";
                 }
             },
             {
                 "targets": [1],
                 "data": "departamento",
                 "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-institution'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [2],
                 "data": "nom_coordinador",
                 "render": function(data, type, row) {
-                    return "<span style='color:#555;'><i class='fa fa-user'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [3],
                 "data": "fecha",
                 "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-calendar'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "estado_rh",
                 "render": function(data, type, row) {
                     if (data == 'P') {
-                        return "<span class='label label-warning'>Pendiente</span>";
+                        return "<span class='label label-warning'>PENDIENTE</span>";
                     }
                 }
             },
@@ -230,14 +248,11 @@ function tbl_tal_humano_depto() {
 //Aquí se llena la tabla Lista de Aspirantes para el proceso de talento humano de todos los departamentos con datatables
 function tbl_tal_humano_all_depto() {
     $('#tblTalHumano').DataTable({
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-        'paging': true,
-        'info': true,
-        'filter': true,
-        'responsive':true,
-        'stateSave': true,
-        'scrollX':true,
+        "destroy":true,
         "autoWidth":false,
+        "scrollCollapse": true,
+        "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -250,9 +265,7 @@ function tbl_tal_humano_all_depto() {
                 swal.showLoading();
             },
             complete:function () {
-                setTimeout(function () {
                     swal.closeModal();
-                },1000);
             }
         },
         'columns': [
@@ -261,23 +274,38 @@ function tbl_tal_humano_all_depto() {
             {data: 'nom_coordinador'},
             {data: 'fecha'},
             {data: 't_contrato'},
+            {data: 'categoria'},
             {data: 'estado_rh'},
             {"orderable": false, 'searchable':false,
                 render:function(data, type, row){
-                    //if (row.estado_rh == 'P') {
-                    return '<span class="pull-left">' +
-                        '<div class="dropdown">' +
-                        '  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                        '    <i class="fa fa-bars"></i>' +
-                        '  <span class="caret"></span>' +
-                        '  </button>' +
-                        '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                        '    <li><a href="#" title="Ver hoja de vida" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-eye"></i> Hoja de vida</a></li>' +
-                        '    <li><a href="#" title="Procesar contrato" data-toggle="modal" data-target="#modalProSolRRHH" onClick="selAspProRRHH(\''+row.idcontrato+'\',\''+row.idpersonal+'\',\''+row.dedicacion+'\',\''+row.observacion+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\');"><i style="color:green;" class="fa fa-gears"></i> Procesar</a></li>' +
-                        '    </ul>' +
-                        '</div>' +
-                        '</span>';
-                    //}
+                    if (row.t_contrato === 'DOCENTE') {
+                        return '<span class="pull-left">' +
+                            '<div class="dropdown">' +
+                            '  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                            '    <i class="fa fa-list"></i>' +
+                            '  <span class="caret"></span>' +
+                            '  </button>' +
+                            '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
+                            '    <li><a href="#" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li>' +
+                            '    <li><a href="#" data-toggle="modal" data-target="#modalProSolRRHH" onClick="selAspProRRHH(\''+row.idcontrato+'\',\''+row.idpersonal+'\',\''+row.dedicacion+'\',\''+row.observacion+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\',\''+row.t_contrato+'\');"><i style="color:black;" class="fa fa-gears"></i> Procesar contrato</a></li>' +
+                            '    </ul>' +
+                            '</div>' +
+                            '</span>';
+                    }
+                    else if(row.t_contrato === 'ADMINISTRATIVO'){
+                        return '<span class="pull-left">' +
+                            '<div class="dropdown">' +
+                            '  <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                            '    <i class="fa fa-list"></i>' +
+                            '  <span class="caret"></span>' +
+                            '  </button>' +
+                            '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
+                            '    <li><a href="#" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li>' +
+                            '    <li><a href="#" data-toggle="modal" data-target="#modalProSolRRHHAdmin" onClick="selAspProRRHHAdministrativo(\''+row.idcontrato+'\',\''+row.idpersonal+'\',\''+row.puesto+'\',\''+row.observacion+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\',\''+row.t_contrato+'\');"><i style="color:black;" class="fa fa-gears"></i> Procesar contrato</a></li>' +
+                            '    </ul>' +
+                            '</div>' +
+                            '</span>';
+                    }
                 }
             }
         ],
@@ -286,37 +314,37 @@ function tbl_tal_humano_all_depto() {
                 "targets": [0],
                 "data": "apellido1",
                 "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-user'></i> &nbsp;"+data+" "+row.apellido2+" "+row.nombres+"</span><br>"+
-                        "<span style='color:#555;'><i class='fa fa-id-card'></i> &nbsp;"+row.cedula+"</span>";
+                    return "<span><i class='fa fa-user'></i> &nbsp;"+data+" "+row.apellido2+" "+row.nombres+"</span><br>"+
+                        "<span><i class='fa fa-id-card'></i> &nbsp;"+row.cedula+"</span>";
                 }
             },
             {
                 "targets": [1],
                 "data": "departamento",
                 "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-institution'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [2],
                 "data": "nom_coordinador",
                 "render": function(data, type, row) {
-                    return "<span style='color:#555;'><i class='fa fa-user'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
                 "targets": [3],
                 "data": "fecha",
                 "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-calendar'></i> &nbsp;"+data+"</span>";
+                    return "<span>"+data+"</span>";
                 }
             },
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "estado_rh",
                 "render": function(data, type, row) {
                     if (data == 'P') {
-                        return "<span class='label label-warning'>Pendiente</span>";
+                        return "<span class='label label-warning'>PENDIENTE</span>";
                     }
                 }
             },
@@ -325,8 +353,8 @@ function tbl_tal_humano_all_depto() {
     });
 }
 
-//Con esta función pasamos los parámetros al modal.
-selAspProRRHH = function(idCont, idPersonal, dedi, obs, app, apm, nom, ced){
+//Con esta función pasamos los parámetros al modal (DOCENTE).
+selAspProRRHH = function(idCont, idPersonal, dedi, obs, app, apm, nom, ced, TContrato){
     $('#mhdnIdContProRRHH').val(idCont);
     $('#mtxtAspirante').val(app+' '+apm+' '+nom+'  -  '+ced);
     $('#mtxtReqDedi').val(dedi);
@@ -344,6 +372,33 @@ selAspProRRHH = function(idCont, idPersonal, dedi, obs, app, apm, nom, ced){
                 $('#mcboFormProfesional').append('<option value="'+item.idformacion_profesional+'">'+item.titulo_obtenido+'</option>')
             });
         });
+    if(TContrato ==='DOCENTE'){
+        $('#mcboRegLaboral').val(2526).prop('selected','selected');
+    }
+};
+
+//Con esta función pasamos los parámetros al modal (ADMINISTRATIVO).
+selAspProRRHHAdministrativo = function(idCont, idPersonal, puesto, obs, app, apm, nom, ced, TContrato){
+    $('#mhdnIdContProRRHHAdmin').val(idCont);
+    $('#mtxtAspiranteAdmin').val(app+' '+apm+' '+nom+'  -  '+ced);
+    $('#mtxtObservacionAdmin').val(obs);
+    //Llenar combo mcboFormProfesionalAdmin
+    $('#mcboFormProfesionalAdmin  option').remove();
+    $('#mcboFormProfesionalAdmin').append('<option value="">Seleccione la profesión</option>');
+    $.post("cTalento_humano/GetListProfesiones",
+        {
+        IdPersonal:idPersonal
+        },
+        function(data){
+            var d = JSON.parse(data);
+            $.each(d,function(i,item){
+                $('#mcboFormProfesionalAdmin').append('<option value="'+item.idformacion_profesional+'">'+item.titulo_obtenido+'</option>')
+            });
+        });
+    if(TContrato ==='ADMINISTRATIVO'){
+        $('#mcboRegLaboralAdmin').val(2579).prop('selected','selected');
+    }
+    $('#mtxtPuesto').val(puesto);
 };
 
 function CargaCombo_Denom_Doc(combo,id) {

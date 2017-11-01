@@ -89,19 +89,6 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    //Probando con funciones
-    /*public function GetListContFirmDpto(){
-        if ($this->input->is_ajax_request()) {
-            $id=$this->input->post('id_cbo_dpto_fir');
-            $res=$this->Aspirante_Modelo->getListContFirmDpto($id);
-            //print_r($res);
-            //echo json_encode($res);
-            var_dump($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
-        }
-    }*/
-
     public function GetListContFirmAllDpto(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->mRectorado->getListContFirmAllDpto());

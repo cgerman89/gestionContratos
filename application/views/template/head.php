@@ -52,7 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php base_url()?>public/js/html5shiv.min.js"></script>
     <script src="<?php base_url()?>public/js/respond.min.js"></script>
     <![endif]-->
-       <?php if($this->uri->segment(1) === 'cRectorado') {?>
+
+    <?php if($this->uri->segment(1) === 'cRectorado') {?>
         <script src="<?php echo base_url();?>src/app/lista_apro_asp.js"></script>
         <script src="<?php echo base_url();?>src/app/lista_flu_pro.js"></script>
     <?php }?>
@@ -60,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <script src="<?php echo base_url();?>src/app/talento_humano_as.js"></script>
     <?php }?>
     <?php if($this->uri->segment(1)=='cTalento_humano') {?>
-        <script src="<?php echo base_url();?>src/app/talento_humano.js"></script>
+        <script src="<?php echo base_url();?>src/app/contrato_th.js"></script>
     <?php }?>
     <?php if($this->uri->segment(1)=='cFinanciero') {?>
         <script src="<?php echo base_url();?>src/app/financiero.js"></script>

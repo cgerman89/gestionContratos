@@ -3,6 +3,8 @@ var num_asp=0;
 var idpersonal=0;
 $(document).ready(function () {
     console.log('registro aspirante cargada');
+    $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
+
     $('#fecha_sl_ctr').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
     Mayus('#apellido1_asp');
     Mayus('#apellido2_asp');
@@ -144,6 +146,8 @@ $(document).ready(function () {
 
     });
 });
+//funciones
+
 function Mayus(campo) {
     $(campo).keyup(function () {
         $(this).val($(campo).val().toUpperCase())
@@ -320,7 +324,8 @@ function Tabla_docente(id_tipo){
             {"data":"p_fecha"},
             {"data":"p_observacion"},
             {"data":"p_estdo"},
-            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Ver_proceso'><i class='fa fa-cogs'></i>Ver Proceso</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false}
+            {"defaultContent":"<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' class='Ver_proceso'><span class='text-bold'><i class='fa fa-cogs'></i>  Ver Proceso</span></a></li><li><a href='#' class='eliminar_pre_ins'><span class='text-bold'> <i class='fa fa-trash-o'></i>  Eliminar</span></a></li></ul></div></span>",'orderable': false, 'searchable': false,"width": "9%"}
+
         ],
         "columnDefs": [
             {
@@ -379,7 +384,8 @@ function TablaAdministrativo(id_tipo) {
            {"data":"p_fecha"},
            {"data":"p_observacion","width": "14%"},
            {"data":"p_estdo"},
-           {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Ver_proceso'><i class='fa fa-cogs'></i>Ver Proceso</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false,"width": "9%"}
+           {"defaultContent":"<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' class='Ver_proceso'><span class='text-bold'><i class='fa fa-cogs'></i>  Ver Proceso</span></a></li><li><a href='#' class='eliminar_pre_ins'><span class='text-bold'> <i class='fa fa-trash-o'></i>  Eliminar</span></a></li></ul></div></span>",'orderable': false, 'searchable': false,"width": "9%"}
+
        ],
        "columnDefs": [
            {
@@ -402,7 +408,6 @@ function TablaAdministrativo(id_tipo) {
            }
        ]
    });
-   //ProcesoSolicitud("#tabla_solicitud_admini tbody", tbl_admin);
 }
 
 function Tabla_PreInscripcion() {
@@ -430,8 +435,7 @@ function Tabla_PreInscripcion() {
             {"data":null,"width": "25%"},
             {"data":"p_usuario"},
             {"data":"p_departamento"},
-            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Solicitud_asp'><i class='fa fa-paper-plane-o'></i>Solicitud</a></li><li><a href='#' class='eliminar_pre_ins'><i class='fa fa-trash-o'></i>Eliminar</a></li></ul></div></div>",'orderable': false, 'searchable': false}
-
+            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='fa fa-paper-plane-o'></i>  Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fa fa-trash-o'></i>  Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
         ],
         "columnDefs": [
             {
@@ -489,7 +493,7 @@ function Tabla_Procesos(id_solicitud) {
                     }else if(data === 'R') {
                         return '<span class="label label-danger">RECHAZADA</span>';
                     }else if (data === 'A'){
-                        return '<span class="label label-success">ACEPTADA</span>';
+                        return '<span class="label label-info">ACEPTADA</span>';
                     }
                 }
             }
@@ -541,15 +545,6 @@ function SolicitudAspirante(tbody, table) {
         $('#usuario_sl_ctr').val(data.p_usuario);
         $('#departamento_sl_ctr').val(data.p_departamento);
         $('#modal_solicitud_contrato_asp').modal('show');
-    });
-}
-
-function ProcesoSolicitud(tbody, table) {
-    $(tbody).on("click","a.Ver_proceso",function () {
-        var data = table.row( $(this).parents("tr") ).data();
-        console.log(data);
-        Tabla_Procesos(data.p_id_solicitud);
-        $('#md_solicitud_proceso').modal('show');
     });
 }
 

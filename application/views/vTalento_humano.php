@@ -1,201 +1,175 @@
 <div class="row">
     <div class="col-xs-12">
-        <div class="nav-tabs-justified">
+        <div class="nav-tabs-justified" id="tabs_th">
             <ul class="nav nav-tabs bg-gray-light">
-                <li role="presentation" class="active" >
-                    <a href="#proc_tal_humano" data-toggle="tab" class="fa fa-file-text-o fa-2x" title="Proceso talento humano"></a>
+                <li role="presentation" class="active" data-toggle="tooltip" data-placement="top" title="lista solicitudes aprobadas">
+                    <a href="#lista_solicitud_sl_ctr_th"  data-toggle="tab">
+                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li role="presentation"  data-toggle="tooltip" data-placement="top" title="se crea un nuevo contrato">
+                    <a href="#crear_contrato_th"  data-toggle="tab">
+                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li role="presentation"  data-toggle="tooltip" data-placement="top" title="estado de contrato">
+                    <a href="#lista_contrato_th"  data-toggle="tab">
+                        <i class="fa fa-cogs fa-2x text-info" aria-hidden="true"></i>
+                    </a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="proc_tal_humano" role="tabpanel" class="tab-pane fade in active">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <div class="col-sm-12">
-                                <span style='color:#006699;'><i class="fa fa-eye"></i>&nbsp;<h3 class="box-title">Proceso talento humano</h3></span>
-                            </div>
-                            <br><br>
-                            <div class="col-sm-6">
-                                <label for="cbodepartamentotalhum" class="control-label">Departamento:</label>
-                                <select name="cbodepartamentotalhum" id="cbodepartamentotalhum" class="form-control" >
-                                    <option value="-2">Seleccione el departamento</option>
-                                    <option value="-3">Todos los departamentos</option>
+                <div id="lista_solicitud_sl_ctr_th" role="tabpanel" class="tab-pane fade in active">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">LISTAR SOLICITUDES</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-md-4">
+                                <label for="departamento_sl_ctr_th" class="control-label">DEPARTAMENTO</label>
+                                <select  id="departamento_sl_ctr_th"  class="form-control" style="width: 100%" >
+                                    <option value="">Seleccione</option>
+                                    <option value="-1">TODOS LOS DEPARTAMENTOS</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="col-sm-12">
-                                <!-- <div class="box box-primary"> -->
-                                <table id="tblTalHumano" class="table small table-bordered table-striped table-hover table-responsive">
-                                    <thead>
-                                    <tr class="bg-primary">
-                                        <th style="background-color: #006699; color: white;">Aspirante</th>
-                                        <th style="background-color: #006699; color: white;">Departamento de la solicitud</th>
-                                        <th style="background-color: #006699; color: white;">Coordinador Departamento</th>
-                                        <th style="background-color: #006699; color: white;">Fecha de Solicitud</th>
-                                        <th style="background-color: #006699; color: white;">Tipo de Contrato</th>
-                                        <th style="background-color: #006699; color: white;">Estado</th>
-                                        <th style="background-color: #006699; color: white;"><i class="fa fa-ellipsis-v"></i></th>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                                <!-- </div> -->
+                            <div class="col-md-4">
+                                <label for="tipo_solicitud_sl_ctr_th" class="control-label">TIPO SOLICITUD</label>
+                                <div class="form-group">
+                                    <select id="tipo_solicitud_sl_ctr_th" class="form-control" style="width: 100%">
+                                        <option value="0">Seleccione</option>
+                                    </select>
+                                </div>
                             </div>
-                            <!--div class="col-sm-2"><span class='label label-warning' id="spSuma"></span></div-->
+                            <table id="tabla_lista_solicitud_contrato_th" class="table small table-hover table-bordered">
+                                <thead class="bg-light-blue">
+                                <tr>
+                                    <th>
+                                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                                        Aspirante
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                                        Dpto. solicitante
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                                        Coord. Departamento
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                        Fecha Solicitud
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-file-text" aria-hidden="true"></i>
+                                        Solicitud
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-flag" aria-hidden="true"></i>
+                                        Categoria
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                        Dedicacion/Puesto
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-commenting" aria-hidden="true"></i>
+                                        Observacion
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                        Estado
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                        Accion
+                                    </th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
+                <div id="crear_contrato_th" role="tabpanel" class="tab-pane fade">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="pull-right">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                </div>
+                            </div>
+                            <h4 class="text-muted">CREAR CONTRATO</h4>
+                        </div>
+                        <div class="panel-body">
+                          <div>
+                              <form id="form_encabezado_contrato">
+                                  <input type="text" id="id_aspirante_th_ctr" name="id_aspirante_th_ctr" disabled hidden required>
+                                  <div class="col-md-4">
+                                      <label for="tipo_contrato_th_ctr">TIPO CONTRATO</label>
+                                      <div class="form-group">
+                                          <input type="text" id="tipo_contrato_th_ctr" name="tipo_contrato_th_ctr" class="form-control" placeholder="tipo contrato" disabled required>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label for="aspirante_th_ctr">ASPIRANTE</label>
+                                      <div class="form-group">
+                                          <input type="text" id="aspirante_th_ctr" name="aspirante_th_ctr" class="form-control" placeholder="aspirante" disabled required>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label for="n_documento_th_ctr">N° DOCUMENTO</label>
+                                      <div class="form-group">
+                                          <input type="text" id="n_documento_th_ctr" name="n_documento_th_ctr" class="form-control" placeholder="n° documento" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label for="observacion_th_ctr">OBSERVACION</label>
+                                      <div class="form-group">
+                                          <input type="text" id="observacion_th_ctr" name="observacion_th_ctr" class="form-control" placeholder="observacion" disabled>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <label for="puesto_dedicacion_th_ctr">PUESTO / DEDICACION</label>
+                                      <div class="form-group">
+                                          <input type="text" id="puesto_dedicacion_th_ctr" name="puesto_dedicacion_th_ctr" class="form-control" placeholder="puesto / dedicacion" disabled required>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="lista_contrato_th" role="tabpanel" class="tab-pane fade">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">PROCESO CONTRATO</h4>
+                        </div>
+                        <div class="panel-body">
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal lista de solicitudes -->
+                <div class="modal fade" id="modal_lista_solicitud_th" role="dialog" data-backdrop="static" data-keyboard=”false”>
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-light-blue">
+                                <button type="button" id="btn_cerrar_md_solicitud_th"  class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Solicitudes Aprobadas</h4>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- final modal lista solicitud -->
             </div>
         </div>
     </div>
 </div>
 
 
-<!-- Modal RRHH -->
-<div class="modal fade" id="modalProSolRRHH" role="dialog" data-backdrop="static" data-keyboard=”false”>
-    <div class="modal-dialog modal-lg center-block">
-        <div class="modal-content">
-
-            <div class="modal-header" style="background-color: #3c8dbc; color: white;">
-                <button type="button" id="btn_cerrar_modalRH" name="btn_cerrar_modalRH" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Procesar contrato</h4>
-            </div>
-
-            <div class="modal-body">
-                <div class="panel">
-                    <div class="panel-body">
-                        <form id="form_pro_rrhh" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove" enctype="multipart/form-data">
-                            <!-- parametros ocultos -->
-                            <input type="hidden" id="mhdnIdContProRRHH" name="mhdnIdContProRRHH">
-                            <input type="hidden" id="mhdnIdDenoDocenProRRHH" name="mhdnIdDenoDocenProRRHH">
-
-                            <div class="col-sm-6">
-                                <label for="mtxtAspirante" class="control-label">Aspirante:</label>
-                                <div class="form-group">
-                                    <input type="text" name="mtxtAspirante" class="form-control" id="mtxtAspirante" disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mtxtReqDedi" class="control-label">Requerimiento de dedicación:</label>
-                                <div class="form-group">
-                                    <input type="text" name="mtxtReqDedi" class="form-control" id="mtxtReqDedi" disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mtxtObservacion" class="control-label">Observación:</label>
-                                <div class="form-group">
-                                    <input type="text" name="mtxtObservacion" class="form-control" id="mtxtObservacion" disabled>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-7">
-                                <label for="mcboFormProfesional" class="control-label">Formación profesional:</label>
-                                <div class="form-group">
-                                    <select class="form-control" id="mcboFormProfesional" name="mcboFormProfesional">
-                                        <option value="">Seleccione la profesión</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-5">
-                                <label for="mcboRegLaboral" class="control-label">Régimen laboral:</label>
-                                <div class="form-group">
-                                    <select class="form-control" id="mcboRegLaboral" name="mcboRegLaboral" required>
-                                        <option value="">Seleccione el régimen laboral</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <br><br><br><br><br><br><br><br>
-                            <hr width="850">
-
-                            <div class="col-sm-6">
-                                <label for="mcboCategoria" class="control-label">Categoría:</label>
-                                <div class="form-group">
-                                    <select class="form-control" id="mcboCategoria" name="mcboCategoria" required>
-                                        <option value="">Seleccione la categoría</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mcboNivel" class="control-label">Nivel:</label>
-                                <div class="form-group">
-                                    <select class="form-control" id="mcboNivel" name="mcboNivel" required>
-                                        <option value="">Seleccione el nivel</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mcboDedicacion" class="control-label">Dedicación:</label>
-                                <div class="form-group">
-                                    <select class="form-control" id="mcboDedicacion" name="mcboDedicacion" required>
-                                        <option value="">Seleccione la dedicación</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mtxtRMU" class="control-label">Remuneración:</label>
-                                <div class="form-group">
-                                    <input type="number" name="mtxtRMU" class="form-control" id="mtxtRMU" required>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mtxtAbreviatura" class="control-label">Abreviatura:</label>
-                                <div class="form-group">
-                                    <input type="text" name="mtxtAbreviatura" class="form-control" id="mtxtAbreviatura" disabled>
-                                </div>
-                            </div>
-
-                            <br><br><br><br><br><br><br><br>
-                            <hr width="850">
-
-                            <div class="col-sm-3">
-                                <label for="mtxtFecIni" class="control-label">Fecha inicio:</label>
-                                <div class="form-group">
-                                    <input type="text" id="mtxtFecIni" name="mtxtFecIni" class="form-control" placeholder="yyyy-mm-dd" required>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mtxtFecFin" class="control-label">Fecha fin:</label>
-                                <div class="form-group">
-                                    <input type="text" id="mtxtFecFin" name="mtxtFecFin" class="form-control" placeholder="yyyy-mm-dd" required>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-3">
-                                <label for="mtxtNumMeses" class="control-label">Número de meses:</label>
-                                <div class="form-group">
-                                    <input type="number" name="mtxtNumMeses" class="form-control" id="mtxtNumMeses" required>
-                                </div>
-                            </div>
-
-                            <!--div class="col-sm-6">
-                                <label for="mtxtCodCont" class="control-label">Código:</label>
-                                <div class="form-group">
-                                    <input type="text" name="mtxtCodCont" class="form-control" id="mtxtCodCont" placeholder="Escriba el código del contrato" required>
-                                </div>
-                            </div-->
-                        </form>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-primary" id="mbtnProcRRHH" name="mbtnProcRRHH"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="mbtnCerrarModalRRHH" data-dismiss="modal">Cancelar</button>
-            </div-->
-        </div>
-    </div>
-</div>

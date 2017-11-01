@@ -34,7 +34,7 @@
                                         </th>
                                         <th>
                                             <i class="fa fa-user-o" aria-hidden="true"></i>
-                                            Coord.Departamento
+                                            Coord. Departamento
                                         </th>
                                         <th>
                                             <i class="fa fa-calendar-o" aria-hidden="true"></i>
@@ -43,6 +43,18 @@
                                         <th>
                                             <i class="fa fa-file-text" aria-hidden="true"></i>
                                             Solicitud
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-flag" aria-hidden="true"></i>
+                                             Categoria
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                            Dedicacion/Puesto
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                                            Observacion
                                         </th>
                                         <th>
                                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
