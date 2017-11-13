@@ -6,7 +6,7 @@
                     <a href="#reg_aspirante" data-toggle="tab" class="fa fa-user-plus fa-2x" aria-hidden="true" title="per-inscripcion persona"></a>
                 </li>
                 <li  role="presentation">
-                    <a href="#usuario_rol" data-toggle="tab" class="fa fa-list-alt fa-2x" aria-hidden="true" title="Solicitud contrato"></a>
+                    <a href="#usuario_rol" id="tab_solicitud" data-toggle="tab" class="fa fa-list-alt fa-2x" aria-hidden="true" title="Solicitud contrato"></a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -215,22 +215,15 @@
                 <div id="usuario_rol" role="tabpanel" class="tab-pane fade in">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div class="pull-right">
-                                <div class="col-md-2">
-                                    <label for="tipo_solicitud_tabla" class="control-label">TIPO</label>
-                                </div>
-                                <div class="col-md-10">
-                                    <select name="tipo_solicitud_tabla" id="tipo_solicitud_tabla" class="form-control">
-                                            <option value="">seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <h4 class="text-muted">LISTA DE SOLICITUDES</h4>
+                           <div class="row">
+                               <div class="col-md-8">
+                                   <h4 class="text-muted">LISTA DE SOLICITUDES</h4>
+                               </div>
+                           </div>
                         </div>
                         <div class="panel-body">
                             <div class="col-sm-12">
-                                <div id="tb_docente" hidden>
-                                    <table id="tabla_solicitud_docente" class="table small table-hover table-bordered">
+                                   <table id="tabla_solicitud" class="table small table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
                                             <th class="text-center">
@@ -247,7 +240,7 @@
                                             </th>
                                             <th>
                                                 <i class="fa fa-black-tie" aria-hidden="true"></i>
-                                                Dedicacion
+                                                Puesto / Dedicacion
                                             </th>
                                             <th>
                                                 <i class="fa fa-calendar-o" aria-hidden="true"></i>
@@ -268,45 +261,7 @@
                                         </tr>
                                         </thead>
                                     </table>
-                                </div>
-                                <div  id="tb_admin" hidden>
-                                    <table id="tabla_solicitud_admini" class="table small table-hover table-bordered">
-                                        <thead class="bg-light-blue">
-                                        <tr>
-                                            <th class="text-center">
-                                                <i class="fa fa-user-o" aria-hidden="true"></i>
-                                                Aspirante
-                                            </th>
-                                            <th>
-                                                <i class="fa fa-file-text" aria-hidden="true"></i>
-                                                Solicitud
-                                            </th>
-                                            <th>Categoria</th>
-                                            <th>
-                                                <i class="fa fa-briefcase" aria-hidden="true"></i>
-                                                Puesto
-                                            </th>
-                                            <th>
-                                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                                                Fecha
-                                            </th>
-                                            <th>
-                                                <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                Observacion
-                                            </th>
-                                            <th>
-                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                Estado
-                                            </th>
-                                            <th>
-                                                <i class="fa fa-cog" aria-hidden="true"></i>
-                                                Accion
-                                            </th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                              </div>
                             <!-- Modal proceso solicitud -->
                             <div id="md_solicitud_proceso"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
                                 <div class="modal-dialog modal-lg">
@@ -318,12 +273,49 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="panel-body">
+                                                <h4 class="text-muted">Proceso Solicitud</h4>
                                                 <table id="tabla_proceso_solicitud" class="table small table-hover table-bordered">
                                                     <thead class="bg-light-blue">
                                                     <tr>
                                                         <th>
                                                             <i class='fa fa-cogs'></i>
                                                             Proceso
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                            Usuario
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                                            Fecha Revision
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                                            Hora Revision
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                            Observacion
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                            Estado
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                                <br>
+                                                <h4 class="text-muted">Proceso Contrato</h4>
+                                                <table id="tabla_procesos_contrato" class="table small table-hover table-bordered">
+                                                    <thead class="bg-light-blue">
+                                                    <tr>
+                                                        <th>
+                                                            <i class='fa fa-cogs'></i>
+                                                            Proceso
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                                            Usuario
                                                         </th>
                                                         <th>
                                                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
@@ -354,6 +346,7 @@
                 </div>
             </div>
         </div>
+        <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
     </div>
 </div>
 <script src="<?php base_url()?>src/app/registro_asp.js"></script>

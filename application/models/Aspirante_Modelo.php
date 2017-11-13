@@ -40,10 +40,13 @@ class Aspirante_Modelo extends CI_Model {
         $this->db->select('p.idpersonal, p.cedula, p.apellido1,  p.apellido2, p.nombres, p.correo_personal_institucional')
                  ->from('esq_datos_personales.personal as p')
                  ->where('p.cedula',$cedula);
-
         $res=$this->db->get();
         //echo $this->db->last_query();
-        $persona['datos']=$res->result_array();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $persona['info']=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+        }
         $persona['num']=$res->num_rows();
         return $persona;
     }
@@ -64,24 +67,26 @@ class Aspirante_Modelo extends CI_Model {
         $res=$this->db->query('SELECT p_idpersona,p_cedula,p_apellido1,p_apellido2,p_nombres,p_usuario,p_departamento FROM esq_contrato.fnc_listaraspirantes(?,?);',$datos);
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
-            $data['data']=$res->result_array();
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
             return $data;
         }else{
-            $res=array('data' => "");
+            return $ress = array('data' => "");
         }
-        return $res;
     }
 
     public function RegistrosSolicitud($datos){
         $res=$this->db->query('SELECT p_id_solicitud,p_cedula,p_persona,p_tipo_solicitud,p_categoria,p_tipo_dedicacion,p_puesto,p_observacion,p_fecha,p_estdo FROM esq_contrato.fnc_listar_solicitud(?,?);',$datos);
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
-            $data['data']=$res->result_array();
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
             return $data;
         }else{
-            $res=array('data' => "");
+            return $ress = array('data' => "");
         }
-        return $res;
     }
 
     public function RegistrosProcesos($id_solicitud){

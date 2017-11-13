@@ -1,5 +1,11 @@
 $(document).ready(function (){
     console.log('main cargado');
+    toastr.options = {
+        closeButton:true,
+        positionClass: "toast-top-right",
+        preventDuplicates: true,
+        escapeHtml: true
+    };
     $('#btn_cerrar_session').click(function (e) {
        e.preventDefault();
         swal({

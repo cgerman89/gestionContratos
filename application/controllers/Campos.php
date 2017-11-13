@@ -52,9 +52,27 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
+    public function Tipo2(){
+        if ($this->input->is_ajax_request()) {
+            $res = $this->Campos_model->CargaTipo2($this->input->post('id'));
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
     public function Tipo_hijo(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargaTipoHijo($this->input->post('id_hijo'));
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function Tipo_hijo2(){
+        if ($this->input->is_ajax_request()) {
+            $res = $this->Campos_model->CargaTipoHijo2($this->input->post('id_hijo'));
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');

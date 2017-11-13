@@ -32,7 +32,7 @@
                                        <label class="text-muted small"><?php echo $this->session->userdata('usuario');?></label>
                                    </div>
                                    <div class="row">
-                                       <label class="small"><?php echo $this->session->userdata('tipo_usuario');?></label>
+                                       <label class="small"><?php echo $this->session->userdata('tipo_usuario');?></label><br>
                                        <label class="small"><?php echo $this->session->userdata('departamento');?></label>
                                    </div>
                                </div>

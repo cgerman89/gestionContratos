@@ -29,6 +29,7 @@ class Perfil extends CI_Controller{
      }
 
     }
+
     public function InforPersona(){
         if ($this->input->is_ajax_request()) {
             $campos = array(

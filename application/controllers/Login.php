@@ -23,10 +23,10 @@ class Login extends CI_Controller{
     }
     public function Entrar(){
         if ($this->input->is_ajax_request()){
-            $info=Seguridad::setDatosEquipo();
-            $user=$this->input->post('txt_usuario');
-            $clave=$this->input->post('txt_clave');
-            if((!empty($user) == true) && (!empty($clave)==true)){
+             //$info=Seguridad::setDatosEquipo();
+             $user=$this->input->post("txt_usuario");
+             $clave=$this->input->post("txt_clave");
+             if((!empty($user) == true) && (!empty($clave)==true)){
                 $usuario = (stristr($user, '@') === FALSE ? trim(strtolower(str_replace("'", "", $user))) . '@utm.edu.ec' : trim(strtolower(str_replace("'", "", $user))));
                 $datos = array(
                     'p_usuario' => $usuario,
@@ -61,7 +61,7 @@ class Login extends CI_Controller{
                 }
             }else{
                $respuesta['mensaje']='Campos Usuario y Contraseña Obligatorios';
-               $respuesta['opcion']=3;
+               $respuesta['opcion']="3";
                echo  json_encode($respuesta);
             }
         }else{

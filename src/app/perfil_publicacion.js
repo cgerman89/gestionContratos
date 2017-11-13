@@ -7,11 +7,7 @@ $(document).ready(function () {
        $('#fecha_publicacion_CL').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true,endDate:"0d"});
        $('#fecha_publicacion_Art_me').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true,endDate:"0d"});
        $('#fecha_publicacion_Art_rev').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose: true,endDate:"0d"});
-        toastr.options = {
-            closeButton:true,
-            positionClass:"toast-bottom-right",
-            preventDuplicates:true
-        };
+
 
        $('#arch_subido_Art_Me').prop('disabled',false);
        Mayus('#ciudad_Art_Me');
@@ -63,7 +59,7 @@ $(document).ready(function () {
            if($('#tipo_publicacion_pb').val()!==''){
                $('#modal_publicacion').modal('show');
            }else{
-             alertify.error('Seleccione Tipo Publicacion');
+             toastr.error('Seleccione Tipo Publicacion');
              $('#tipo_publicacion_pb').focus();
            }
        });
@@ -342,7 +338,7 @@ function SavePublicacion(formulario,tablaDT,form) {
             Id_Cientifico_pb=0;
             $('#arch_subido_Art_Me').prop('disabled',false);
             $('#arch_progr_cient_pb').prop('disabled',false);
-            toastr.success(res.perfil_publicaciones);
+            toastr.info(res.perfil_publicaciones);
         },
         complete:function () {
             swal.closeModal();
@@ -408,7 +404,6 @@ function SubirArchivo(nombre,carpeta,callback) {
                 callback(res.id_fichero);
                 toastr.info(res.mensaje);
             }
-            //alertify.alert('Subiendo Archivo',res.mensaje);
 
         },
         complete:function () {

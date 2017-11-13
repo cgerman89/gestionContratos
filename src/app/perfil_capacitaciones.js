@@ -10,11 +10,7 @@ var Id_Archivo_cp=0;
         Mayus('#auspiciante_cp');
         Mayus('#certificado_cp');
         Tabla_cp();
-        toastr.options = {
-             closeButton:true,
-             positionClass: "toast-top-right",
-             preventDuplicates:true
-         };
+
 
         CargaPais(function (pais) {
             for(var n in pais){
@@ -78,7 +74,7 @@ var Id_Archivo_cp=0;
                         $('#archivo_cp').prop('disabled',false);
                         $('#archivo_cp').val('');
                         $('#tabla_capacitacion').DataTable().ajax.reload();
-                        toastr.success(resp.perfil_capacitaciones);
+                        toastr.info(resp.perfil_capacitaciones);
                     });
                 }else{
                     toastr.error('No ha Subido El Archivo pdf');

@@ -11,13 +11,16 @@ class Perfil_model extends CI_Model{
     public function  __construct(){
         parent::__construct();
 
+
     }
     public function SaveInfoPer($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.info_personal(?,?,?,?,?,?,?,?,?,?,?,?,?,?);',$data);
         //echo $this->db->last_query();
         return $res->row();
     }
     public function SaveDimicilio($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.info_domicilio(?,?,?,?,?,?,?,?,?,?,?,?,?,?);',$data);
         //echo $this->db->last_query();
         return $res->row();
@@ -28,32 +31,38 @@ class Perfil_model extends CI_Model{
         return $res->row();
     }
     public function SaveFormal($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.inst_formal(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$data);
         //echo $this->db->last_query();
         return $res->row();
     }
     public function SaveCapacitacion($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.perfil_capacitaciones(?,?,?,?,?,?,?,?,?,?,?)',$data);
         //echo $this->db->last_query();
         return $res->row();   
     }
     public function SaveExpProfesional($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.perfil_exp_profesional(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',$data);
         //echo $this->db->last_query();
         return $res->row();
     }
     public function SaveBanco($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.perfil_banco(?,?,?,?)',$data); 
         //echo $this->db->last_query();
         return $res->row();
     }
     public function SaveDiscapacidad($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.perfil_discapacidad(?,?,?,?,?)',$data);
         //echo $this->db->last_query();
         return $res->row();
     }
 
     public function SavePublicacion($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.perfil_publicaciones(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);',$data);
         //echo $this->db->last_query();
         return $res->row();
@@ -88,7 +97,6 @@ class Perfil_model extends CI_Model{
                 personal.telefono_personal_domicilio,
                 personal.telefono_personal_celular,
                 personal.telefono_personal_trabajo,
-                personal.correo_personal_institucional,
                 personal.correo_personal_alternativo,
                 personal.idtipo_discapacidad,
             personal.discapacidad_numero_porcentaje,
@@ -98,7 +106,12 @@ class Perfil_model extends CI_Model{
             ->from('esq_datos_personales.personal')
             ->where('personal.cedula',$cedula);
         $res=$this->db->get();
-        return $res->row();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }
     }
 
     public function DatosAllFormacion($cedula){

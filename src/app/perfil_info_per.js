@@ -1,249 +1,345 @@
-$(document).ajaxStart(function () {
-  // swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-   //swal.showLoading();
-});
-$(document).ajaxComplete(function () {
-    //swal.closeModal();
-});
 $(document).ready(function () {
-        $('#n_documento_per').prop('disabled',true);
-        console.log('pagina info persona cargada');
-        $('#fnacimiento').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
-        CargaCombo_Infor_Per('#nacionalidad_per',8);
-        CargaCombo_Infor_Per('#sexo_per',11);
-        CargaCombo_Infor_Per('#e_civil_per',3);
-        CargaCombo_Infor_Per('#t_sangre_per',22);
-        CargaCombo_Infor_Per('#etnia_per',18);
-        CargaCombo_Infor_Per('#tipo_discapacidad',23);
-        Mayus('#apellido1');
-        Mayus('#apellido2');
-        Mayus('#nombres');
-        toastr.options = {
-            closeButton:true,
-            positionClass:"toast-top-right",
-            preventDuplicates:true
-        };
+   console.log('info personal listo');
+   //crear variables jquery
+    let fecha_nacimiento=$('#fnacimiento');
+    let n_documento=$('#n_documento_per');
+    let nacionalidad=$('#nacionalidad_per');
+    let apellido1=$('#apellido1');
+    let apellido2=$('#apellido2');
+    let nombres=$('#nombres');
+    let sexo_per=$('#sexo_per');
+    let e_civil_per=$('#e_civil_per');
+    let t_sangre_per=$('#t_sangre_per');
+    let etnia_per=$('#etnia_per');
+    let pais_per=$('#pais_per');
+    let provincia_per=$('#provincia_per');
+    let canton_per=$('#canton_per');
+    let parroquia_per=$('#parroquia_per');
+    let tipo_discapacidad=$('#tipo_discapacidad');
+    let pais_domi=$('#pais_domi');
+    let provincia_domi=$('#provincia_domi');
+    let canton_domi=$('#canton_domi');
+    let parroquia_domi=$('#parroquia_domi');
+    let calle_prin=$('#calle_prin');
+    let calle1_domi=$('#calle1_domi');
+    let calle2_domi=$('#calle2_domi');
+    let refrencia_domi=$('#refrencia_domi');
+    let num_casa=$('#num_casa');
+    let telefono_domi=$('#telefono_domi');
+    let celular_domi=$('#celular_domi');
+    let celular2_domi=$('#celular2_domi');
+    let correo2_domi=$('#correo2_domi');
+    let porcentaje=$('#porcentaje');
+    let numero_carnet=$('#numero_carnet');
+    let observacion_dis=$('#observacion_dis');
+    let form_info_per=$('#form_info_per');
+    let form_domicilio=$('#form_domicilio');
+    let form_discapacidad=$('#form_discapacidad');
+    let btn_save_per=$('#btn_save_per');
+    let btn_save_domi=$('#btn_save_domi');
+    let btn_save_discapacidad=$('#btn_save_discapacidad');
+    //llamar funciones
+    n_documento.prop('disabled',true);
+    Mayus(apellido1);
+    Mayus(apellido2);
+    Mayus(nombres);
+    Mayus(calle_prin);
+    Mayus(calle1_domi);
+    Mayus(calle2_domi);
+    Mayus(refrencia_domi);
+    fecha_nacimiento.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
+    CargaCombo_Infor_Per(nacionalidad,8);
+    CargaCombo_Infor_Per(sexo_per,11);
+    CargaCombo_Infor_Per(e_civil_per,3);
+    CargaCombo_Infor_Per(t_sangre_per,22);
+    CargaCombo_Infor_Per(etnia_per,18);
+    CargaCombo_Infor_Per(tipo_discapacidad,23);
+    CargaPais(pais_per);
+    CargaPais(pais_domi);
 
-        CargaDatosInfo(function (data){
-            console.log(data.cedula);
-                $('#n_documento_per').val(data.cedula);
-                $('#nacionalidad_per').val(data.idtipo_nacionalidad).prop('selected','selected');
-                $('#apellido1').val(data.apellido1);
-                $('#apellido2').val(data.apellido2);
-                $('#nombres').val(data.nombres);
-                $('#fnacimiento').val(data.fecha_nacimiento);
-                $('#sexo_per').val(data.idtipo_genero).prop('selected','selected');
-                $('#e_civil_per').val(data.idtipo_estado_civil).prop('selected','selected');
-                $('#t_sangre_per').val(data.idtipo_sangre).prop('selected','selected');
-                $('#etnia_per').val(data.idtipo_etnia).prop('selected','selected');
-                CargaPais(function (Datos) {
-                    for(var num in Datos){
-                        $('#pais_per').append('<option value='+Datos[num].idpais+'>'+Datos[num].nombre+'</option>');
-                    }
-                    $('#pais_per').val(data.idtipo_pais_origen).prop('selected','selected');
-                });
-                CargaProvincia(data.idtipo_pais_origen,function (datos) {
-                    for (var n in datos){
-                        $('#provincia_per').append('<option value='+datos[n].idprovincia+'>'+datos[n].nombre+'</option>');
-                    }
-                    $('#provincia_per').val(data.idtipo_provincia_origen).prop('selected','selected');
-                });
-                CargarCanton(data.idtipo_provincia_origen,function (canton) {
-                    for (var n in canton){
-                        $('#canton_per').append('<option value='+canton[n].idcanton+'>'+canton[n].nombre+'</option>');
-                    }
-                    $('#canton_per').val(data.idtipo_canton_origen).prop('selected','selected');
-                });
-                CargarParroquia(data.idtipo_canton_origen,function (parroquia) {
-                    for (var n in parroquia){
-                        $('#parroquia_per').append('<option value='+parroquia[n].idparroquia+'>'+parroquia[n].nombre+'</option>');
-                    }
-                    $('#parroquia_per').val(data.idtipo_parroquia_origen).prop('selected','selected');
-                });
-                ///info domicilio
-                CargaPais(function (paises){
-                    for(var n in paises){
-                        $('#pais_domi').append('<option value='+paises[n].idpais+'>'+paises[n].nombre+'</option>');
-                    }
-                    $('#pais_domi').val(data.idtipo_pais_residencia).prop('selected','selected');
-                });
-
-                CargaProvincia(data.idtipo_pais_residencia,function (provincia) {
-                    for(var n in provincia){
-                        $('#provincia_domi').append('<option value='+provincia[n].idprovincia+'>'+provincia[n].nombre+'</option>');
-                    }
-                    $('#provincia_domi').val(data.idtipo_provincia_residencia).prop('selected','selected');
-                });
-                CargarCanton(data.idtipo_provincia_residencia,function (canton) {
-                    for(var n in canton){
-                        $('#canton_domi').append('<option value='+canton[n].idcanton+'>'+canton[n].nombre+'</option>');
-                    }
-                    $('#canton_domi').val(data.idtipo_canton_residencia).prop('selected','selected');
-                });
-                CargarParroquia(data.idtipo_canton_residencia,function (parroquia) {
-                    for(var n in parroquia){
-                        $('#parroquia_domi').append('<option value='+parroquia[n].idparroquia+'>'+parroquia[n].nombre+'</option>');
-                    }
-                    $('#parroquia_domi').val(data.idtipo_parroquia_residencia).prop('selected','selected');
-                });
-                $('#calle_prin').val(data.residencia_calle_1);
-                $('#calle1_domi').val(data.residencia_calle_2);
-                $('#calle2_domi').val(data.residencia_calle_3);
-                $('#refrencia_domi').val(data.residencia_referencia);
-                $('#num_casa').val(data.residencia_domicilio_numero);
-                $('#telefono_domi').val(data.telefono_personal_domicilio);
-                $('#celular_domi').val(data.telefono_personal_celular);
-                $('#celular2_domi').val(data.telefono_personal_trabajo);
-                $('#correo1_domi').val(data.correo_personal_institucional);
-                $('#correo2_domi').val(data.correo_personal_alternativo);
-                $('#tipo_discapacidad').val(data.idtipo_discapacidad).prop('selected','selected');
-                $('#porcentaje').val(data.discapacidad_numero_porcentaje);
-                $('#numero_carnet').val(data.discapacidad_numero_carne);
-                $('#observacion_dis').val(data.discapacidad_observacion);
-
-        });
-
-       $('#pais_per').change(function () {
-            $('#provincia_per  option').remove();
-            $('#provincia_per').append('<option value="">Seleccione</option>');
-            CargaProvincia($('#pais_per').val(),function (provincia) {
-                 for (var n in provincia){
-                     $('#provincia_per').append('<option value='+provincia[n].idprovincia+'>'+provincia[n].nombre+'</option>');
-                 }
+    CargaDatosInfo(function (data) {
+        console.log('documento perosna :'+data.cedula);
+        n_documento.val(data.cedula);
+        if(data.idtipo_nacionalidad > 0)nacionalidad.val(data.idtipo_nacionalidad).prop('selected','selected');
+        apellido1.val(data.apellido1);
+        apellido2.val(data.apellido2);
+        nombres.val(data.nombres);
+        fecha_nacimiento.val(data.fecha_nacimiento);
+        if(data.idtipo_genero > 0)sexo_per.val(data.idtipo_genero).prop('selected','selected');
+        if(data.idtipo_estado_civil > 0)e_civil_per.val(data.idtipo_estado_civil).prop('selected','selected');
+        if(data.idtipo_sangre > 0)t_sangre_per.val(data.idtipo_sangre).prop('selected','selected');
+        if(data.idtipo_sangre > 0)etnia_per.val(data.idtipo_etnia).prop('selected','selected');
+        if(data.idtipo_pais_origen > 0)pais_per.val(data.idtipo_pais_origen).prop('selected','selected');
+        CargaProvincia(data.idtipo_pais_origen,provincia_per,function (datos) {
+            $.each(datos, function (index, value) {
+                provincia_per.append('<option value='+value.idprovincia+'>'+value.nombre +'</option>');
             });
+            if(data.idtipo_provincia_origen > 0)provincia_per.val(data.idtipo_provincia_origen).prop('selected','selected');
         });
-
-        $('#provincia_per').change(function () {
-            $('#canton_per option').remove();
-            $('#canton_per').append('<option value="">Seleccione</option>');
-            CargarCanton($('#provincia_per').val(),function (canton){
-                for(var n in canton){
-                    $('#canton_per').append('<option value='+canton[n].idcanton+'>'+canton[n].nombre+'</option>');
-                }
+        CargarCanton(data.idtipo_provincia_origen,canton_per,function (datos) {
+            $.each(datos, function (index, value) {
+                canton_per.append('<option value='+value.idcanton+'>'+value.nombre +'</option>');
             });
+            if(data.idtipo_canton_origen > 0)canton_per.val(data.idtipo_canton_origen).prop('selected','selected');
         });
-
-        $('#canton_per').change(function () {
-            $('#parroquia_per option').remove();
-            $('#parroquia_per').append('<option value="">Seleccione</option>');
-            CargarParroquia($('#canton_per').val(),function (parroquia){
-                for(var n in parroquia){
-                    $('#parroquia_per').append('<option value='+parroquia[n].idparroquia+'>'+parroquia[n].nombre+'</option>');
-                }
+        CargarParroquia(data.idtipo_canton_origen,parroquia_per,function (datos) {
+            $.each(datos, function (index, value) {
+                parroquia_per.append('<option value='+value.idparroquia+'>'+value.nombre +'</option>');
             });
+            if(data.idtipo_parroquia_origen > 0)parroquia_per.val(data.idtipo_parroquia_origen).prop('selected','selected');
         });
-
-        $('#n_documento_per').focusout(function () {
-            var td=$('#t_documento_per').val();
-            if(td ===''){
-                alertify.error('seleccione Tipo de Documento');
-                $('#t_documento_per').focus();
-            }else if(td ==='344'){
-                if(CedVal($(this).val())=== false){
-                    alertify.error('cedula incorrecta');
-                    $(this).focus();
-                }
-            }
+        if(data.idtipo_pais_residencia > 0)pais_domi.val(data.idtipo_pais_residencia).prop('selected','selected');
+        CargaProvincia(data.idtipo_pais_residencia,provincia_domi,function (datos) {
+            $.each(datos, function (index, value) {
+                provincia_domi.append('<option value='+value.idprovincia+'>'+value.nombre +'</option>');
+            });
+            if(data.idtipo_provincia_residencia > 0)provincia_domi.val(data.idtipo_provincia_residencia).prop('selected','selected');
         });
+        CargarCanton(data.idtipo_provincia_residencia,canton_domi,function (datos) {
+            $.each(datos, function (index, value) {
+                canton_domi.append('<option value='+value.idcanton+'>'+value.nombre +'</option>');
+            });
+            if(data.idtipo_canton_residencia > 0)canton_domi.val(data.idtipo_canton_residencia).prop('selected','selected');
+        });
+        CargarParroquia(data.idtipo_canton_residencia,parroquia_domi,function (datos) {
+            $.each(datos, function (index, value) {
+                parroquia_domi.append('<option value='+value.idparroquia+'>'+value.nombre +'</option>');
+            });
+            if(data.idtipo_parroquia_residencia > 0)parroquia_domi.val(data.idtipo_parroquia_residencia).prop('selected','selected');
+        });
+        calle_prin.val(data.residencia_calle_1);
+        calle1_domi.val(data.residencia_calle_2);
+        calle2_domi.val(data.residencia_calle_3);
+        refrencia_domi.val(data.residencia_referencia);
+        num_casa.val(data.residencia_domicilio_numero);
+        telefono_domi.val(data.telefono_personal_domicilio);
+        celular_domi.val(data.telefono_personal_celular);
+        celular2_domi.val(data.telefono_personal_trabajo);
+        correo2_domi.val(data.correo_personal_alternativo);
+        if(data.idtipo_discapacidad > 0)tipo_discapacidad.val(data.idtipo_discapacidad).prop('selected','selected');
+        porcentaje.val(data.discapacidad_numero_porcentaje);
+        numero_carnet.val(data.discapacidad_numero_carne);
+        observacion_dis.val(data.discapacidad_observacion);
 
-        $('#btn_save_per').click(function (e) {
-            e.preventDefault();
-            if($('#form_info_per').smkValidate()){
-                SaveInfoPer();
-            }
-        })
+    });
+    
+    //eventos jquery
+    btn_save_per.click(function (e) {
+        e.preventDefault();
+        if(form_info_per.smkValidate()){
+            SaveInfoPer(function (data) {
+                toastr.info(data.info_personal,'INFORMACION PERSONAL');
+            });
+        }
     });
 
-//funciones
-    function CargaDatosInfo(callback){
-       $.ajax({
-               url:'Perfil/RegisInf_Personal',
-               type:'GET',
-               dataType:'Json',
-                beforeSend:function () {
-                    swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-                    swal.showLoading();
-                },
-               success:function (data){
-                    callback(data);
-               },
-               complete:function () {
-                   setTimeout(function () {
-                       swal.closeModal();
-                   },3000);
-               }
-       });
-    }
-    
-    function CargaPais(callback) {
-        $.post('Campos/Pais',function (datos, estado, xhr) {
-            if (estado === 'success'){
-                 callback(datos);
-            }
-        },'json');
-    }
-
-    function CargaProvincia(id_pais,callback) {
-        $.post('Campos/Provincia',{id_pais:id_pais},function (datos, estado, xhr) {
-            if (estado === 'success') {
-               callback(datos);
-            }
-        },'json');
-    }
-
-    function CargarCanton(id_provincia,callback) {
-        $.post('Campos/Canton',{id_provincia:id_provincia},function (datos, estado, xhr) {
-            if (estado === 'success') {
-                callback(datos);
-            }
-        },'json');
-    }
-
-    function CargarParroquia(id_canton,callback) {
-        $.post('Campos/Parroquia',{id_canton:id_canton},function (datos, estado, xhr) {
-            if (estado === 'success') {
-                callback(datos);
-            }
-        },'json');
-    }
-    
-    function CargaCombo_Infor_Per(combo,id) {
-        $.post('Campos/Tipo',{'id':id},function (datos, estado, xhr) {
-            if (estado === 'success') $.each(datos, function (index, value) {
-                $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
+   btn_save_domi.click(function (e) {
+        e.preventDefault();
+        if(form_domicilio.smkValidate()){
+            SaveDomicilio(function (data) {
+                toastr.info(data.info_domicilio,'INFORMACION DOMICILIAR');
             });
-        },'json');
-    }
-    
-    function Mayus(campo) {
-        $(campo).keyup(function () {
-            $(this).val($(campo).val().toUpperCase())
+        }
+    });
+
+    btn_save_discapacidad.click(function(e){
+        e.preventDefault();
+        if(form_discapacidad.smkValidate()) {
+            SaveDiscapacidad(function (res) {
+                toastr.info(res.perfil_discapacidad);
+            });
+        }
+    });
+
+    pais_per.change(function () {
+        CargaProvincia(pais_per.val(),provincia_per,function (datos) {
+            $.each(datos, function (index, value) {
+                provincia_per.append('<option value='+value.idprovincia+'>'+value.nombre +'</option>');
+            });
         });
-    }
+    });
+
+    provincia_per.change(function () {
+        CargarCanton(provincia_per.val(),canton_per,function (datos) {
+            $.each(datos, function (index, value) {
+                canton_per.append('<option value='+value.idcanton+'>'+value.nombre +'</option>');
+            });
+        });
+    });
     
-    function SaveInfoPer() {
-        $.ajax({
-            url:'Perfil/InforPersona',
-            type:'POST',
-            dataTypes:'json',
-            data:$('#form_info_per').serialize(),
-            beforeSend:function () {
-                swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
-                swal.showLoading();
-            },
-            success: function (data){
-                var res=JSON.parse(data);
-                toastr.success(res.info_personal);
-            },
-            complete:function () {
+    canton_per.change(function () {
+       CargarParroquia(canton_per.val(),parroquia_per,function (datos) {
+           $.each(datos, function (index, value) {
+               parroquia_per.append('<option value='+value.idparroquia+'>'+value.nombre +'</option>');
+           });
+       });
+    });
+    
+    pais_domi.change(function () {
+        CargaProvincia(pais_domi.val(),provincia_domi,function (datos) {
+            $.each(datos, function (index, value) {
+                provincia_domi.append('<option value='+value.idprovincia+'>'+value.nombre +'</option>');
+            });
+        });
+    });
+    
+    provincia_domi.change(function () {
+        CargarCanton(provincia_domi.val(),canton_domi,function (datos) {
+            $.each(datos, function (index, value) {
+                canton_domi.append('<option value='+value.idcanton+'>'+value.nombre +'</option>');
+            });
+        });
+    });
+    
+    canton_domi.change(function () {
+        CargarParroquia(canton_domi.val(),parroquia_domi,function (datos) {
+            $.each(datos, function (index, value) {
+                parroquia_domi.append('<option value='+value.idparroquia+'>'+value.nombre +'</option>');
+            });
+        });
+    });
+});
+
+//funciones
+function CargaDatosInfo(callback){
+    $.ajax({
+        url:'Perfil/RegisInf_Personal',
+        type:'GET',
+        dataType:'Json',
+        beforeSend:function () {
+            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
+            swal.showLoading();
+        },
+        success:function (data){
+            callback(data);
+        },
+        complete:function () {
+            setTimeout(function () {
                 swal.closeModal();
-            },
-            error: function (data) {
-                console.log('error al guarda '+data)
-            }
+            },4000);
+        }
+    });
+}
+
+function SaveInfoPer(callback) {
+    $.ajax({
+        url:'Perfil/InforPersona',
+        type:'POST',
+        dataTypes:'json',
+        data:$('#form_info_per').serialize(),
+        beforeSend:function () {
+            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
+            swal.showLoading();
+        },
+        success: function (data){
+            callback(JSON.parse(data));
+        },
+        complete:function () {
+            swal.closeModal();
+        },
+        error: function () {
+            console.log('error al guardar en info personal');
+        }
+    });
+}
+
+function SaveDomicilio(callback) {
+    $.ajax({
+        url:'Perfil/Domicilio',
+        type:'POST',
+        dataTypes:'json',
+        data:$('#form_domicilio').serialize(),
+        beforeSend:function () {
+            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
+            swal.showLoading();
+        },
+        success: function (data){
+            callback(JSON.parse(data));
+        },
+        complete:function () {
+            swal.closeModal();
+        },
+        error: function () {
+            console.log('error en la peticion  ajax guardar domicilio');
+        }
+    });
+}
+
+function SaveDiscapacidad(callback) {
+    $.ajax({
+        url: 'Perfil/Discapacidad',
+        type: 'POST',
+        dataType: 'json',
+        data:$('#form_discapacidad').serialize(),
+        beforeSend:function () {
+            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
+            swal.showLoading();
+        },
+        success:function(response){
+            callback(response);
+        },
+        complete:function () {
+            swal.closeModal();
+        },
+        error:function() {
+            console.log('Error al enviar la peticion Discapacidad ');
+        }
+    });
+
+}
+
+
+function CargaCombo_Infor_Per(combo,id) {
+    $.post('Campos/Tipo',{'id':id},function (datos, estado, xhr) {
+        if (estado === 'success') $.each(datos, function (index, value) {
+            $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
         });
-    }
-    
+    },'json');
+}
+function Mayus(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(campo).val().toUpperCase())
+    });
+}
+
+function CargaPais(combo) {
+    $.post('Campos/Pais',function (datos, estado) {
+        if (estado === 'success') $.each(datos, function (index, value) {
+            $(combo).append('<option value='+value.idpais+'>'+value.nombre +'</option>');
+        });
+    },'json');
+}
+function CargaProvincia(id_pais,combo,callback){
+    $(combo).find('option').remove();
+    $(combo).append('<option value="">Seleccione</option>');
+    $.post('Campos/Provincia',{id_pais:id_pais},function (datos, estado, xhr) {
+        if (estado === 'success'){
+            callback(datos);
+        }
+    },'json');
+}
+function CargarCanton(id_provincia,combo,callback) {
+    $(combo).find('option').remove();
+    $(combo).append('<option value="">Seleccione</option>');
+    $.post('Campos/Canton',{id_provincia:id_provincia},function (datos, estado, xhr) {
+        if (estado === 'success'){
+            callback(datos);
+        }
+    },'json');
+}
+
+function CargarParroquia(id_canton,combo,callback) {
+    $(combo).find('option').remove();
+    $(combo).append('<option value="">Seleccione</option>');
+    $.post('Campos/Parroquia',{id_canton:id_canton},function (datos, estado, xhr) {
+        if (estado === 'success'){
+            callback(datos);
+        }
+    },'json');
+}
+
+
+
 
 
 

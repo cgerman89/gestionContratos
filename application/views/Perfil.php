@@ -3,10 +3,10 @@
         <div class="nav-tabs-justified">
             <ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active" >
-                    <a href="#info_personal" data-toggle="tab" class="fa fa-user fa-2x" title="Informacion Personal"></a>
+                    <a href="#info_personal" data-toggle="tab" class="fa fa-address-card fa-2x" title="Informacion Personal"></a>
                 </li>
                 <li role="presentation">
-                    <a href="#info_domicilio" data-toggle="tab" class="fa fa-map-marker fa-2x" title="Domicilio"></a>
+                    <a href="#info_domicilio" data-toggle="tab" class="fa fa-home fa-2x" title="Domicilio"></a>
                 </li>
                 <li role="presentation">
                     <a href="#inst_formal" data-toggle="tab" class="fa  fa-mortar-board fa-2x" title="Instruccion Formal"></a>
@@ -26,7 +26,6 @@
                 <li role="presentation">
                     <a href="#discapacidad" data-toggle="tab" class="fa fa-wheelchair fa-2x" title="Discapacidad"></a>
                 </li>
-
             </ul>
             <div class="tab-content">
                 <div id="info_personal" role="tabpanel" class="tab-pane fade in active">
@@ -44,33 +43,33 @@
                                 <div class="col-sm-4">
                                     <label for="n_documento_per" class="control-label">N° Documento</label>
                                     <div class="form-group">
-                                        <input type="text" name="n_documento_per" id="n_documento_per" data-smk-type="number" minlength="10" class="form-control" placeholder="N° Documento" required>
+                                        <input type="text" name="n_documento_per" id="n_documento_per"  data-smk-type="number" minlength="10" class="form-control" placeholder="N° Documento" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="nacionalidad_per" class="control-label">Nacionalidad</label>
                                     <div class="form-group">
                                         <select name="nacionalidad_per" id="nacionalidad_per" class="form-control" required>
-                                            <option value="">seleccione</option>
+                                            <option value="12">seleccione</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="apellido1" class="control-label">Apellido1</label>
                                     <div class="form-group">
-                                        <input type="text" name="apellido1" id="apellido1" class="form-control" placeholder="Apellido 1"  required>
+                                        <input type="text" name="apellido1" id="apellido1"  class="form-control" placeholder="Apellido 1"  required>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="apellido2" class="control-label">Apellido 2</label>
                                     <div class="form-group">
-                                        <input type="text" name="apellido2" id="apellido2" class="form-control" placeholder="Apellido 2"  required>
+                                        <input type="text" name="apellido2" id="apellido2"  class="form-control" placeholder="Apellido 2"  required>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <label for="nombres" class="control-label">Nombres</label>
                                     <div class="form-group">
-                                        <input type="text" name="nombres" id="nombres" class="form-control" placeholder="Nombres"  required>
+                                        <input type="text" name="nombres" id="nombres"  class="form-control" placeholder="Nombres"  required>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -82,7 +81,7 @@
                                 <div class="col-sm-4">
                                     <label for="sexo_per" class="control-label">Sexo</label>
                                     <div class="form-group">
-                                        <select name="sexo_per" id="sexo_per" class="form-control" required>
+                                        <select name="sexo_per" id="sexo_per"   class="form-control" required>
                                             <option value="">seleccione</option>
                                         </select>
                                     </div>
@@ -98,7 +97,7 @@
                                 <div class="col-sm-4">
                                     <label for="t_sangre_per" class="control-label">Tipo de Sangre</label>
                                     <div class="form-group">
-                                        <select name="t_sangre_per" id="t_sangre_per" class="form-control" required>
+                                        <select name="t_sangre_per" id="t_sangre_per"  class="form-control" required>
                                             <option value="">seleccione</option>
                                         </select>
                                     </div>
@@ -106,7 +105,7 @@
                                 <div class="col-sm-4">
                                     <label for="etnia_per" class="control-label">Étnia</label>
                                     <div class="form-group">
-                                        <select name="etnia_per" id="etnia_per" class="form-control" required>
+                                        <select name="etnia_per" id="etnia_per"  class="form-control" required>
                                             <option value="">seleccione</option>
                                         </select>
                                     </div>
@@ -114,7 +113,7 @@
                                 <div class="col-sm-4">
                                     <label for="pais_per" class="control-label">Pais Origen</label>
                                     <div class="form-group">
-                                        <select name="pais_per" id="pais_per" class="form-control" required>
+                                        <select name="pais_per" id="pais_per"  class="form-control" required>
                                             <option value="">seleccione</option>
                                         </select>
                                     </div>
@@ -130,7 +129,7 @@
                                 <div class="col-sm-4">
                                     <label for="canton_per" class="control-label">Cantón Origen</label>
                                     <div class="form-group">
-                                        <select name="canton_per" id="canton_per" class="form-control" required>
+                                        <select name="canton_per" id="canton_per"  class="form-control" required>
                                             <option value="">seleccione</option>
                                         </select>
                                     </div>
@@ -138,7 +137,7 @@
                                 <div class="col-sm-4">
                                     <label for="parroquia_per" class="control-label">Parroquia Origen</label>
                                     <div class="form-group">
-                                        <select name="parroquia_per" id="parroquia_per" class="form-control" required>
+                                        <select name="parroquia_per" id="parroquia_per"  class="form-control" required>
                                             <option value="">seleccione</option>
                                         </select>
                                     </div>
@@ -237,12 +236,6 @@
                                     <label for="celular2_domi" class="control-label">Celular</label>
                                     <div class="form-group">
                                         <input type="text" id="celular2_domi" name="celular2_domi" class="form-control" placeholder="00 00000000" data-smk-type="number" minlength="10" required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="correo1_domi">Correo Institucional</label>
-                                    <div class="form-group">
-                                        <input type="email" id="correo1_domi" name="correo1_domi" class="form-control" placeholder="correo personal" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -1266,11 +1259,4 @@
     </div>
  </div>   
 <!-- Mi codigo  Js -->
-<script src="<?php base_url()?>src/app/perfil_info_per.js"></script>
-<script src="<?php base_url()?>src/app/perfil_domi_per.js"></script>
-<script src="<?php base_url()?>src/app/perfil_instruc_formal.js"></script>
-<script src="<?php base_url()?>src/app/perfil_capacitaciones.js"></script>
-<script src="<?php base_url()?>src/app/perfil_expe_profesional.js"></script>
-<script src="<?php base_url()?>src/app/perfil_publicacion.js"></script>
-<script src="<?php base_url()?>src/app/perfil_banco.js"></script>
-<script src="<?php base_url()?>src/app/perfil_discapacidad.js"></script>
+

@@ -11,11 +11,7 @@ $(document).ready(function () {
         Mayus('#titulo_obt_fp');
         Mayus('#N_regitro_fp');
         Tabla_ins_formal();
-        toastr.options = {
-            closeButton:true,
-            positionClass:"toast-top-right",
-            preventDuplicates:true
-        };
+
 
         $('#universidad_fp').select2({theme:"bootstrap",dropdownParent: $('#myModal')});
 
@@ -74,7 +70,7 @@ $(document).ready(function () {
                             Id_Archivo_f=0;
                             $('#archivo_fp').val('');
                             $('#archivo_fp').prop('disabled',false);
-                            toastr.success(res);
+                            toastr.info(res);
                             console.log( 'id es  '+Id_Archivo_f)
                         });
                     },
@@ -98,7 +94,7 @@ $(document).ready(function () {
                          $('#archivo_fp').val('');
                          $('#archivo_fp').prop('disabled',false);
                          $('#universidad_fp').val('').trigger("change");
-                         toastr.success(res.inst_formal);
+                         toastr.info(res.inst_formal);
                     });
                 }else{
                     $('#archivo_fp').focus();
@@ -261,7 +257,7 @@ function DelRegisTbl(tbody, table) {
                         success:function(response){                            
                             var res=JSON.parse(response);
                             $('#tabla_formal').DataTable().ajax.reload();
-                            toastr.success(res.respuesta);
+                            toastr.info(res.respuesta);
                         },
                         complete:function () {
                             swal.closeModal();
@@ -277,6 +273,12 @@ function DelRegisTbl(tbody, table) {
         });
         
 }
+function Mayus(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(campo).val().toUpperCase())
+    });
+}
+
 function BorrarIds() {
     if(Id_Archivo_f > 0){
         $('#archivo_fp').prop('disabled',false);

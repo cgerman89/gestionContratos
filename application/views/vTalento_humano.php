@@ -2,17 +2,17 @@
     <div class="col-xs-12">
         <div class="nav-tabs-justified" id="tabs_th">
             <ul class="nav nav-tabs bg-gray-light">
-                <li role="presentation" class="active" data-toggle="tooltip" data-placement="top" title="lista solicitudes aprobadas">
+                <li role="presentation" class="active"  title="lista solicitudes aprobadas">
                     <a href="#lista_solicitud_sl_ctr_th"  data-toggle="tab">
                         <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li role="presentation"  data-toggle="tooltip" data-placement="top" title="se crea un nuevo contrato">
+                <li role="presentation" title="se crea un nuevo contrato">
                     <a href="#crear_contrato_th"  data-toggle="tab">
                         <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li role="presentation"  data-toggle="tooltip" data-placement="top" title="estado de contrato">
+                <li role="presentation"   title="estado de contrato">
                     <a href="#lista_contrato_th"  data-toggle="tab">
                         <i class="fa fa-cogs fa-2x text-info" aria-hidden="true"></i>
                     </a>
@@ -22,24 +22,24 @@
                 <div id="lista_solicitud_sl_ctr_th" role="tabpanel" class="tab-pane fade in active">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">LISTAR SOLICITUDES</h4>
+                           <div class="row">
+                               <div class="col-md-4">
+                                   <h4 class="text-muted">LISTAR SOLICITUDES</h4>
+                               </div>
+                               <div class="col-md-4">
+                                   <select  id="departamento_sl_ctr_th"  class="form-control" style="width: 100%">
+                                       <option value="">SELECCIONE DEPARTAMENTO</option>
+                                       <option value="-1">TODOS LOS DEPARTAMENTOS</option>
+                                   </select>
+                               </div>
+                               <div class="col-md-4">
+                                   <select id="tipo_solicitud_sl_ctr_th" class="form-control" style="width: 100%">
+                                       <option value="0">SELECCIONE TIPO SOLICITUD </option>
+                                   </select>
+                               </div>
+                           </div>
                         </div>
                         <div class="panel-body">
-                            <div class="col-md-4">
-                                <label for="departamento_sl_ctr_th" class="control-label">DEPARTAMENTO</label>
-                                <select  id="departamento_sl_ctr_th"  class="form-control" style="width: 100%" >
-                                    <option value="">Seleccione</option>
-                                    <option value="-1">TODOS LOS DEPARTAMENTOS</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="tipo_solicitud_sl_ctr_th" class="control-label">TIPO SOLICITUD</label>
-                                <div class="form-group">
-                                    <select id="tipo_solicitud_sl_ctr_th" class="form-control" style="width: 100%">
-                                        <option value="0">Seleccione</option>
-                                    </select>
-                                </div>
-                            </div>
                             <table id="tabla_lista_solicitud_contrato_th" class="table small table-hover table-bordered">
                                 <thead class="bg-light-blue">
                                 <tr>
@@ -132,6 +132,27 @@
                                       <div class="form-group">
                                           <input type="text" id="puesto_dedicacion_th_ctr" name="puesto_dedicacion_th_ctr" class="form-control" placeholder="puesto / dedicacion" disabled required>
                                       </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label for="regimen_laboral_th_ctr">RÉGIMEN LABORAL</label>
+                                      <div class="form-group">
+                                          <select name="regimen_laboral_th_ctr" id="regimen_laboral_th_ctr" class="form-control" required>
+                                              <option value="">SELECCIONE</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                      <label for="">INSTRUCCIÓN FORMAL</label>
+                                      <div class="form-group">
+                                          <select name="instrucion_formal_th_ctr" id="instrucion_formal_th_ctr" class="form-control">
+                                              <option value="">SELECCIONE</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </form>
+                              <form id="form_administrativo_th_ctr">
+                                  <div class="col-md-4">
+
                                   </div>
                               </form>
                           </div>

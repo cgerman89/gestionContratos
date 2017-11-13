@@ -12,6 +12,8 @@ class cTalento_humano_as extends CI_Controller{
     function __construct(){
         parent::__construct();
         $this->load->model('mTalento_humano_as');
+        $this->load->model('Solicitud_Contrato_Modelo');
+        $this->load->library('Carga_pdf');
         $this->idusuario=$this->session->userdata('id_personal');
     }
     public function index(){
@@ -29,18 +31,46 @@ class cTalento_humano_as extends CI_Controller{
         }
     }
 
-    public function GetListAspXAproTHDepto(){
+    public function ListaAprobarTalentoHumanoDepto(){
         if ($this->input->is_ajax_request()) {
-            $id=$this->input->post('id_cbo_dpto_x_apro_th');
-            echo json_encode($this->mTalento_humano_as->getListAspXAproTHDepto($id));
+            if($this->input->post('id_dpto') === '-3'){
+               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRecursosHumanoAll('P'));
+            }else{
+               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRecursosHumano($this->input->post('id_dpto'),'P'));
+            }
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
     }
 
-    public function GetListAspXAproTHAllDepto(){
+    public function AprobadasTalentoHumano(){
         if ($this->input->is_ajax_request()) {
-            echo json_encode($this->mTalento_humano_as->getListAspXAproTHAllDepto());
+            if($this->input->post('id_cbo_dpto_flu')==='-3'){
+                echo json_encode($this->mTalento_humano_as->SolicitudesAllAprobadas_RH('A'));
+            }else{
+                echo json_encode($this->mTalento_humano_as->SolicitudesAprobadas_RH($this->input->post('id_cbo_dpto_flu'),'A'));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function RechazadasTalentoHumano(){
+        if ($this->input->is_ajax_request()) {
+            if($this->input->post('id_dpto')==='-3'){
+                echo json_encode($this->mTalento_humano_as->SolicitudesAllAprobadas_RH('R'));
+            }else{
+                echo json_encode($this->mTalento_humano_as->SolicitudesAprobadas_RH($this->input->post('id_cbo_dpto_flu'),'R'));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+
+    }
+
+    public function InfoSolicitudRechazada(){
+        if ($this->input->is_ajax_request()){
+            echo json_encode($this->mTalento_humano_as->InfoSolicitudRechazada($this->input->post('id_solicitud')));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
@@ -54,7 +84,7 @@ class cTalento_humano_as extends CI_Controller{
         }
     }
 
-    public function AprobarSolicitudTH(){
+    public function AprobarSolicitudTalentoHumano(){
         if ($this->input->is_ajax_request()) {
             $campos = array(
                 'idSolcontrato' => $this->input->post('Id_sol_contratoTH'),
@@ -62,11 +92,29 @@ class cTalento_humano_as extends CI_Controller{
                 'idcontratado' => $this->input->post('Id_contratado'),
                 'idTipoSol' => $this->input->post('Id_tipo_sol')
             );
-            $res = $this->mTalento_humano_as->AprobarSolicitudTH($campos);
+            $res = $this->mTalento_humano_as->AprobarSolicitudTalentoHumano($campos);
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
+    public function RechazarSolicitudTalentoHumano(){
+        if ($this->input->is_ajax_request()) {
+            $campos = array(
+                'idSolcontrato' => $this->input->post('Id_sol_contrato'),
+                'idpersonal' => $this->idusuario,
+                'observacion' => $this->input->post('observa')
+            );
+            $res = $this->mTalento_humano_as->RechazarSolicitudTalentoHumano($campos);
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function Hoja_Vida(){
+        $id=$_GET['id'];
+        Carga_pdf::Hoja_Vida($id);
+    }
 }

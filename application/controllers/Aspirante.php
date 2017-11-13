@@ -10,6 +10,8 @@ class Aspirante extends CI_Controller {
      public function __construct(){
          parent::__construct();
          $this->load->model('Aspirante_Modelo');
+         $this->load->model('Solicitud_Contrato_Modelo');
+         $this->load->library('Carga_pdf');
     }
 
     public function index(){
@@ -104,8 +106,7 @@ class Aspirante extends CI_Controller {
 
     public function ListarSolicitud(){
         if ($this->input->is_ajax_request()){
-            $datos=array('id_dpto'=>$this->session->userdata('id_dpto'),'id_tipo_solicitud'=>$this->input->post('tipo_solicitud'));
-            $res=$this->Aspirante_Modelo->RegistrosSolicitud($datos);
+            $res=$this->Solicitud_Contrato_Modelo->RegistrosSolicitudDpto($this->session->userdata('id_dpto'));
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
@@ -114,7 +115,7 @@ class Aspirante extends CI_Controller {
 
     public function ListarProceso(){
         if ($this->input->is_ajax_request()){
-            $res=$this->Aspirante_Modelo->RegistrosProcesos($this->input->post('id_solicitud'));
+            $res=$this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud'));
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
@@ -137,5 +138,10 @@ class Aspirante extends CI_Controller {
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
 
+    }
+
+    public function Hoja_Vida(){
+        $id=$_GET['id'];
+        Carga_pdf::Hoja_Vida($id);
     }
 }

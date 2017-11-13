@@ -88,14 +88,14 @@ class mTalento_humano extends CI_Model {
                            solicitud_contrato.id_personal,
                            (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_cordinador) as cordinador,
                            (SELECT departamento.nombre FROM esq_distributivos.departamento WHERE departamento.iddepartamento=solicitud_contrato.id_departamento) as departamento,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_tipo_solicitud) as tipo_solicitud,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_categoria_solicitud) as categoria,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_puesto) as puesto,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_dedicacion) as dedicacion,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_tipo_solicitud) as tipo_solicitud,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_categoria_solicitud) as categoria,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_puesto) as puesto,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_dedicacion) as dedicacion,
                            solicitud_contrato.fecha_solicitud,
                            (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as aspirante,
                            (SELECT personal.cedula FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as cedula_aspirante,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_observacion) as observacion,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_observacion) as observacion,
                            solicitud_contrato.estado")
                  ->from('esq_contrato.solicitud_contrato')
                  ->where('solicitud_contrato.id_departamento',$dpto)->where('solicitud_contrato.id_tipo_solicitud',$tipo)->where("solicitud_contrato.estado='A'");
@@ -115,14 +115,14 @@ class mTalento_humano extends CI_Model {
                            solicitud_contrato.id_personal,
                            (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_cordinador) as cordinador,
                            (SELECT departamento.nombre FROM esq_distributivos.departamento WHERE departamento.iddepartamento=solicitud_contrato.id_departamento) as departamento,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_tipo_solicitud) as tipo_solicitud,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_categoria_solicitud) as categoria,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_puesto) as puesto,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_dedicacion) as dedicacion,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_tipo_solicitud) as tipo_solicitud,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_categoria_solicitud) as categoria,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_puesto) as puesto,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_dedicacion) as dedicacion,
                            solicitud_contrato.fecha_solicitud,
                            (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as aspirante,
                            (SELECT personal.cedula FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as cedula_aspirante,
-                           (SELECT  esq_catalogos.tipo.nombre from esq_catalogos.tipo WHERE esq_catalogos.tipo.idtipo=solicitud_contrato.id_observacion) as observacion,
+                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_observacion) as observacion,
                            solicitud_contrato.estado")
             ->from('esq_contrato.solicitud_contrato')
             ->where('solicitud_contrato.id_tipo_solicitud',$tipo)->where("solicitud_contrato.estado='A'");

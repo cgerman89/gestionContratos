@@ -60,6 +60,17 @@ class Campos_model extends CI_Model{
         return  $registros->result();
     }
 
+    public function CargaTipo2($idcategoria){
+        $this->db->select('tipo.idtipo,tipo.nombre');
+        $this->db->from('esq_contrato.tipo');
+        $this->db->join('esq_contrato.categoria_tipo','categoria_tipo.idcategoria_tipo=tipo.idcategoria_tipo');
+        $this->db->where('tipo.idcategoria_tipo',$idcategoria);
+        $this->db->order_by('tipo.nombre');
+        $registros=$this->db->get();
+        //echo $this->db->last_query();
+        return  $registros->result();
+    }
+
     public function CargaTipoHijo($idhijo){
         $this->db->select('tipo.idtipo,tipo.nombre');
         $this->db->from('esq_catalogos.tipo');
@@ -68,8 +79,18 @@ class Campos_model extends CI_Model{
         $registros=$this->db->get();
         //echo $this->db->last_query();
         return  $registros->result();
-
     }
+
+    public function CargaTipoHijo2($idhijo){
+        $this->db->select('tipo.idtipo,tipo.nombre');
+        $this->db->from('esq_contrato.tipo');
+        $this->db->where('tipo.idpadre',$idhijo);
+        $this->db->order_by('tipo.nombre');
+        $registros=$this->db->get();
+        //echo $this->db->last_query();
+        return  $registros->result();
+    }
+
     public function CargaUniversidad(){
         $this->db->select('uni.iduniversidad,uni.nombre ');
         $this->db->from('esq_datos_personales.p_universidad as uni');

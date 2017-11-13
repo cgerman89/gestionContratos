@@ -2,7 +2,8 @@ $(document).ready(function () {
    console.log('pagina opciones contrato th cargada');
    Tabla_Solicitudes_th();
    CargaComboDepartamentos_th('#departamento_sl_ctr_th');
-   CargaCombo_th('#tipo_solicitud_sl_ctr_th',66);
+   CargaCombo_th('#tipo_solicitud_sl_ctr_th',1);
+
    $('#departamento_sl_ctr_th').select2({theme:"bootstrap"});
    $('#tipo_solicitud_sl_ctr_th').select2({theme:"bootstrap"});
 
@@ -51,7 +52,6 @@ function PasarDatos(data) {
    }
 
 }
-
 
 function Tabla_Solicitudes_th(dpto,tipo_solicitud) {
     var tabla_solicitudes_th=$('#tabla_lista_solicitud_contrato_th').DataTable({
@@ -135,7 +135,7 @@ function CargaComboDepartamentos_th(combo) {
 }
 
 function CargaCombo_th(combo,id) {
-    $.post('Campos/Tipo',{'id':id},function (datos, estado, xhr) {
+    $.post('Campos/Tipo2',{'id':id},function (datos, estado, xhr) {
         if (estado === 'success') $.each(datos, function (index, value) {
             $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
         });

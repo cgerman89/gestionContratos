@@ -14,7 +14,7 @@ $(document).ready(function() {
                 SaveBanco(function (resp) {
                     $('#form_banco').smkClear();
                     $('#tabla_banco').DataTable().ajax.reload();
-                    toastr.success(resp.perfil_banco);
+                    toastr.info(resp.perfil_banco);
                 });
             }
         });

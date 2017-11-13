@@ -90,7 +90,7 @@ $(document).ready(function() {
                         $('#archivo_exp_pro').prop('disabled',false);
                         $('#archivo_exp_pro').val('');
                         $('#tabla_exp_profesional').DataTable().ajax.reload();
-                        toastr.success(resp.perfil_exp_profesional);
+                        toastr.info(resp.perfil_exp_profesional);
                     });
                 }else{
                     toastr.error('No ha Subido El Archivo pdf');
