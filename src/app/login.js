@@ -22,15 +22,12 @@ new Vue({
                toastr.error('campo contraseña obligatorio','Session');
            }else{
                this.Login(function (data) {
-                   if (data.opcion === '2') {
-                       swal.closeModal();
-                       swal({title:'Session Usuario',html:data.mensaje,type:'error',allowOutsideClick:false,allowEnterKey:false});
-                   } else if (data.opcion === '1') {
+                   if (data.p_opcion === '1') {
                        swal.closeModal();
                        window.location.assign(data.url);
-                   } else if (data.opcion === '3') {
+                   }else {
                        swal.closeModal();
-                       swal({title:'Session Usuario',html:data.mensaje,type:'error',allowOutsideClick:false,allowEnterKey:false});
+                       swal({title:'Session Usuario',html:data.p_mensaje,type:'error',allowOutsideClick:false,allowEnterKey:false});
                    }
                });
            }

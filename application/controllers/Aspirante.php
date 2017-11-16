@@ -7,6 +7,7 @@
  */
 
 class Aspirante extends CI_Controller {
+
      public function __construct(){
          parent::__construct();
          $this->load->model('Aspirante_Modelo');
@@ -28,6 +29,7 @@ class Aspirante extends CI_Controller {
             redirect('/');
         }
     }
+
     public function UsuarioDatos(){
         if ($this->input->is_ajax_request()){
             echo json_encode($this->session->userdata());
@@ -36,36 +38,37 @@ class Aspirante extends CI_Controller {
         }
     }
 
-    public function CrearAspirante(){
+    public function AgregarAspirante(){
         if ($this->input->is_ajax_request()){
             $campos = array(
-                'cedula' => $this->input->post('cedula_asp'),
-                'apellido1' => $this->input->post('apellido1_asp'),
-                'apellido2' => $this->input->post('apellido2_asp'),
-                'nombres' => $this->input->post('nombres_asp'),
-                'usuario'=>$this->input->post('correo_institucion_asp')
+                'cedula' => $this->input->post('n_documento_asp'),
+                'apellido1' => $this->input->post('apellido1_reg_asp'),
+                'apellido2' => $this->input->post('apellido2_reg_asp'),
+                'nombres' => $this->input->post('nombres_reg_asp'),
+                'tipo_documento'=>$this->input->post('t_documento_asp'),
+                'nacionalidad'=>$this->input->post('nacionalidad_reg_asp'),
+                'genero'=>$this->input->post('sexo_reg_asp'),
+                'fecha_nacimiento'=>$this->input->post('f_nacimiento_reg_asp')
             );
-            $res=$this->Aspirante_Modelo->Save($campos);
-            if($res['p_opcion']==='1'){
-                $datos=array('id_usuario'=>$res['p_idpersonal'],'clave'=>$this->input->post('clave_asp'));
-                $clave=$this->Aspirante_Modelo->CrearClave($datos);
-                $datos_rol=array('id_usuario'=>$res['p_idpersonal'],'rol'=>47,'iddpto'=>$this->session->userdata('id_dpto'));
-                $rol=$this->Aspirante_Modelo->SaveRol($datos_rol);
-                echo json_encode($res);
-            }
+            echo json_encode($this->Aspirante_Modelo->Save($campos));
         } else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
-    public function AgregarAspirante(){
+    public function CrearUsuario(){
         if($this->input->is_ajax_request()){
-            $campos=array(
-                'idpersonal'=>$this->input->post(),
-                'id_rol'=>47,
-                'iddpto'=>$this->session->userdata('id_dpto')
-            );
-            $res=$this->Aspirante_Modelo->SaveRol($campos);
+            $campos=array('idpersonal'=>$this->input->post('id_personal'),'n_documento'=>$this->input->post('cedula'));
+            $res=$this->Aspirante_Modelo->CrearUsuraio($campos);
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function AgregarRol(){
+        if($this->input->is_ajax_request()){
+            $res=$this->Aspirante_Modelo->SaveRol($this->input->post('id_personal'),$this->session->userdata('id_dpto'));
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
@@ -130,6 +133,7 @@ class Aspirante extends CI_Controller {
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Buscar(){
         if ($this->input->is_ajax_request()) {
             $res=$this->Aspirante_Modelo->BuscaPersona($this->input->post('cedula'));

@@ -13,17 +13,21 @@
                 <div id="reg_aspirante"  class="tab-pane bg-gray-light active">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <div class="pull-right">
-                                <div class="col-sm-4">
-                                    <button type="button" name="btn_nuevo_asp" id="btn_nuevo_asp" class="btn btn-primary" data-toggle="modal" data-target="#modal_pre_inscripcion"><i class="fa fa-user-plus"></i> Permiso </button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4 class="text-muted">AGREGAR ASPIRANTE</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="pull-right">
+                                        <div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-primary'><i class='fa fa-bars'></i>  AGREGAR</button><button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' data-toggle="modal" data-target="#modal_registro_asp"><span class='text-bold'><i class="fa fa-user-plus"></i> Aspirante</span></a></li><li><a href='#' data-toggle="modal" data-target="#modal_pre_inscripcion"><span class='text-bold'><i class="fa fa-plus-circle"></i> Permiso </span></a></li></ul></div></div>
+                                    </div>
                                 </div>
                             </div>
-                            <h4 class="text-muted">AGREGAR ASPIRANTE</h4>
                         </div>
                         <div class="panel-body">
                             <div class="col-sm-12">
                                 <div class="panel-body">
-                                    <table id="tabla_inscricion" class="table small table-hover table-bordered">
+                                    <table id="tabla_inscricion" class="table table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
                                             <th class="text-center">
@@ -48,8 +52,87 @@
                                 </div>
                             </div>
                             <!-- Modal inscripciones -->
+                            <div id="modal_registro_asp" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-light-blue">
+                                            <button type="button"  id="cerrar_md_reg_asp" name="cerrar_md_reg_asp" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title"><i class="fa fa-user-o" aria-hidden="true"></i> REGISTRAR ASPIRANTE </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <form id="form_reg_aspirante" role="form" class="modal-form" data-smk-icon="glyphicon glyphicon-remove">
+                                                        <div class="col-md-6">
+                                                            <label for="t_documento_asp" class="control-label">TIPO DOCUMENTO</label>
+                                                            <div class="form-group">
+                                                                <select name="t_documento_asp" id="t_documento_asp" class="form-control" required>
+                                                                    <option value="">Seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="n_documento_asp" class="control-label">N° DOCUMENTO</label>
+                                                            <div class="form-group">
+                                                                <input type="text" name="n_documento_asp" id="n_documento_asp" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="apellido1_reg_asp">APELLIDO PATERNO</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="apellido1_reg_asp" name="apellido1_reg_asp" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="apellido2_reg_asp" class="control-label">APELLIDO MATERNO</label>
+                                                            <div class="form-group">
+                                                                <input type="text" name="apellido2_reg_asp" id="apellido2_reg_asp" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="nombres_reg_asp" class="control-label">NOMBRES</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="nombres_reg_asp" name="nombres_reg_asp" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="f_nacimiento_reg_asp" class="control-label">FECHA DE NACIMIENTO</label>
+                                                            <div class="form-group">
+                                                                <input type="text" id="f_nacimiento_reg_asp" name="f_nacimiento_reg_asp" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="sexo_reg_asp" class="control-label">SEXO</label>
+                                                            <div class="form-group">
+                                                                <select name="sexo_reg_asp" id="sexo_reg_asp" class="form-control" required>
+                                                                    <option value="">Seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="nacionalidad_reg_asp" class="control-label">NACIONALIDAD</label>
+                                                            <div class="form-group">
+                                                                <select name="nacionalidad_reg_asp" id="nacionalidad_reg_asp" class="form-control" required>
+                                                                    <option value="">Seleccione</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="pull-right">
+                                                        <button type="button" id="btn_save_reg_asp" name="btn_save_reg_asp" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div id="modal_pre_inscripcion" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-lg">
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
@@ -57,9 +140,9 @@
                                             <h4 class="modal-title">Agregar Permiso</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="panel">
+                                            <div class="panel panel-default">
                                                 <div class="panel-body">
-                                                    <form id="form_aspirante" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove">
+                                                    <form id="form_aspirante" role="form" class="modal-form" data-smk-icon="glyphicon glyphicon-remove">
                                                         <div class="col-sm-8">
                                                             <label for="cedula_asp">Cedula / Pasaporte</label>
                                                             <div class="form-group">
@@ -69,25 +152,19 @@
                                                         <div class="col-sm-6">
                                                             <label for="apellido1_asp">Apellido Paterno</label>
                                                             <div class="form-group">
-                                                                <input type="text" id="apellido1_asp" name="apellido1_asp" class="form-control" placeholder="apellido paterno" required>
+                                                                <input type="text" id="apellido1_asp" name="apellido1_asp" class="form-control" placeholder="apellido paterno" disabled required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <label for="apellido2_asp" class="control-label">Apellido Materno</label>
                                                             <div class="form-group">
-                                                                <input type="text" id="apellido2_asp" name="apellido2_asp" class="form-control" placeholder="apellido materno" required>
+                                                                <input type="text" id="apellido2_asp" name="apellido2_asp" class="form-control" placeholder="apellido materno" disabled required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <label for="nombres_asp" class="control-label">Nombres</label>
                                                             <div class="form-group">
-                                                                <input type="text" id="nombres_asp"  name="nombres_asp" class="form-control" placeholder="nombres" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <label for="correo_institucion_asp" class="control-label">Usuario</label>
-                                                            <div class="form-group">
-                                                                <input type="email" id="correo_institucion_asp" name="correo_institucion_asp" class="form-control" placeholder="cuenta@utm.edu.ec" required>
+                                                                <input type="text" id="nombres_asp"  name="nombres_asp" class="form-control" placeholder="nombres"  disabled required>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -125,12 +202,6 @@
                                                         <label for="nombres_sl_ctr" class="control-label">Aspirante</label>
                                                         <div class="form-group">
                                                             <input type="text" id="nombres_sl_ctr" name="nombres_sl_ctr" placeholder="nombres" class="form-control" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="usuario_sl_ctr" class="control-label">Usuario</label>
-                                                        <div class="form-group">
-                                                            <input type="text" id="usuario_sl_ctr" name="usuario_sl_ctr" class="form-control" placeholder="usuario" disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">

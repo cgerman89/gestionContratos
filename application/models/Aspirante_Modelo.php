@@ -9,26 +9,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Aspirante_Modelo extends CI_Model {
     private $db_user;
+
     public function  __construct(){
         parent::__construct();
         $this->db_user=$this->load->database('db_usuarios',TRUE);
     }
+
     public function Save($data){
-        $res=$this->db->query('SELECT p_idpersonal,p_opcion, p_mensaje from  esq_contrato.crear_persona(?,?,?,?,?);',$data);
-        //>echo $this->db->last_query();
+        $res=$this->db->query('SELECT opcion,p_id_personal FROM  esq_contrato.fnc_crear_aspirante(?,?,?,?,?,?,?,?);',$data);
+        //echo $this->db->last_query();
         return $res->row_array();
     }
 
-    public function CrearClave($datos){
-        $res=$this->db_user->query('SELECT opcion, mensaje FROM esq_roles.fnc_crear_clave_sth(?,?);',$datos);
-        //>echo $this->db_user->last_query();
+    public function CrearUsuraio($data){
+       $res=$this->db->query("SELECT  esq_contrato.fnc_agregrar_usuario(?,?);",$data);
+        //$this->db->last_query();
         return $res->row_array();
     }
 
-    public function SaveRol($data){
-        $res=$this->db_user->query('SELECT p_opcion, p_mensaje from esq_roles.fnc_agregar_rol_sth(?,?,?);',$data);
-        //>echo $this->db->last_query();
-        return $res->row_array();
+    public function SaveRol($id_personal,$id_dpto){
+        $res=$this->db_user->query('SELECT count(tbl_personal_rol.id_personal) as num_reg FROM esq_roles.tbl_personal_rol WHERE tbl_personal_rol.id_personal=? AND tbl_personal_rol.id_rol=47 ;',$id_personal);
+        if($res->row('num_reg') == 0){
+            $data=array('id_personal'=>$id_personal,'id_departamento'=>$id_dpto,'id_rol'=>47,'estado'=>'S','fecha'=>'now()');
+            $this->db_user->insert('esq_roles.tbl_personal_rol', $data);
+            if($this->db_user->affected_rows()== 1){
+              return 1;
+            }
+        }else if($res->row('num_reg')== 1){
+            return 2;
+        }
     }
 
     public function SaveSolicitud($datos){
@@ -36,6 +45,7 @@ class Aspirante_Modelo extends CI_Model {
         //$this->db->last_query();
        return $res->row_array();
     }
+
     public function BuscaPersona($cedula){
         $this->db->select('p.idpersonal, p.cedula, p.apellido1,  p.apellido2, p.nombres, p.correo_personal_institucional')
                  ->from('esq_datos_personales.personal as p')
@@ -64,7 +74,7 @@ class Aspirante_Modelo extends CI_Model {
     }
 
     public function RegistrosInscritos($datos){
-        $res=$this->db->query('SELECT p_idpersona,p_cedula,p_apellido1,p_apellido2,p_nombres,p_usuario,p_departamento FROM esq_contrato.fnc_listaraspirantes(?,?);',$datos);
+        $res=$this->db->query('SELECT p_idpersona,p_cedula,p_apellido1,p_apellido2,p_nombres,p_departamento FROM esq_contrato.fnc_listaraspirantes(?,?);',$datos);
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
             for ($i=0; $i < $res->num_rows(); $i++) {

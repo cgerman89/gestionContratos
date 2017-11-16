@@ -1,0 +1,39 @@
+
+.texto {
+	font-family: "Cooper Black";
+	font-variant:small-caps;
+	font-size: 20px;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.textos {
+	font-family: "Cooper Black";
+	font-variant:small-caps;
+	font-size: 15px;
+	text-align: center;
+	vertical-align: middle;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.datos {
+	font-family: "Cooper Black";
+	font-variant:small-caps;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.titulo {
+	font-weight: bold;
+	font-size: 24px;
+	font-family: "Cooper Black";
+	color: #000000;
+}
+
+.spacer {
+	font-size: 6px;
+}
+

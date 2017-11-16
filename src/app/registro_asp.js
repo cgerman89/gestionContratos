@@ -3,12 +3,28 @@ var num_asp=0;
 var idpersonal=0;
 $(document).ready(function () {
     console.log('registro aspirante cargada');
-    $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
+    let fecha_sl_ctr=$('#fecha_sl_ctr');
+    let t_documento_asp=$('#t_documento_asp');
+    let n_documento_asp=$('#n_documento_asp');
+    let apellido1_reg_asp=$('#apellido1_reg_asp');
+    let apellido2_reg_asp=$('#apellido2_reg_asp');
+    let nombres_reg_asp=$('#nombres_reg_asp');
+    let f_nacimiento_reg_asp=$('#f_nacimiento_reg_asp');
+    let sexo_reg_asp=$('#sexo_reg_asp');
+    let nacionalidad_reg_asp=$('#nacionalidad_reg_asp');
+    let btn_save_reg_asp=$('#btn_save_reg_asp');
+    let form_reg_aspirante=$('#form_reg_aspirante');
 
-    $('#fecha_sl_ctr').datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
-    Mayus('#apellido1_asp');
-    Mayus('#apellido2_asp');
-    Mayus('#nombres_asp');
+    $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
+    fecha_sl_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
+    f_nacimiento_reg_asp.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
+
+    Mayus(apellido1_reg_asp);
+    Mayus(apellido2_reg_asp);
+    Mayus(nombres_reg_asp);
+    CargaCombo_reg_asp(t_documento_asp,16);
+    CargaCombo_reg_asp(nacionalidad_reg_asp,8);
+    CargaCombo_reg_asp(sexo_reg_asp,11);
     CargaCombo_asp('#tipo_contrato_sl_ctr',1);
     CargaCombo_asp('#puesto_admin',8);
     CargaCombo_asp('#tipo_observacion_sl',7);
@@ -21,6 +37,46 @@ $(document).ready(function () {
         positionClass:"toast-top-right",
         preventDuplicates:true
     };
+
+    //eventos jquery
+    btn_save_reg_asp.click(function (e) {
+        e.preventDefault();
+        if(form_reg_aspirante.smkValidate() === true){
+            SaveRegistroAspirante(form_reg_aspirante,function (data) {
+                    if (data.opcion === '1'){
+                        toastr.info('Se Agregro Correctamente');
+                    }else if(data.opcion ==='2') {
+                        toastr.error('Registro Ya Existe');
+                    }
+            });
+        }
+    });
+
+    t_documento_asp.change(function () {
+         n_documento_asp.val('');
+    });
+    
+    n_documento_asp.focusin(function (){
+        if(t_documento_asp.val()===''){
+            toastr.error('Elija El Tipo de Documento...');
+            t_documento_asp.focus();
+        }
+
+    });
+
+    n_documento_asp.focusout(function () {
+        el=$(this);
+        if(t_documento_asp.val() === '344'){
+            if($(this).val()!=='') {
+                if (CedVal(n_documento_asp.val()) === false) {
+                    toastr.error('cedula incorrecta');
+                    setTimeout(function () {
+                        el.focus();
+                    }, 5);
+                }
+            }
+        }
+    });
 
    $('#tab_solicitud').click(function (e) {
        e.preventDefault();
@@ -129,16 +185,19 @@ $(document).ready(function () {
     $('#btn_save_pre_insc').click(function (e) {
         e.preventDefault();
         if($('#form_aspirante').smkValidate()){
-            if((idpersonal > 0) && ( $('#correo_institucion_asp').val()!=='') ){
-                AgregarAspirante(function (data){
-                    if(data.p_opcion=== '1'){
-                        toastr.info(data.p_mensaje);
-                    }else if(data.p_opcion=== '2'){
-                        toastr.warning(data.p_mensaje);
-                    }
+            if(idpersonal > 0){
+                CrearUsuario(function (data) {
+                   if(data.fnc_agregrar_usuario === '1'){
+                       toastr.info('Usuario Creado');
+                       CrearPermiso(function (res) {
+                            if(res === 1){
+                                toastr.info('Permiso Creado');
+                            }
+                       });
+                   }else if(data.fnc_agregrar_usuario === '2'){
+                       toastr.warning('usuario ya existe');
+                   }
                 });
-            }else if((idpersonal > 0) && ($('#correo_institucion_asp').val() === '')){
-                toastr.warning('Nesecita  Un Usuario');
             }
         }
 
@@ -156,6 +215,28 @@ function Mayus(campo) {
     $(campo).keyup(function () {
         $(this).val($(campo).val().toUpperCase())
     });
+}
+
+function SaveRegistroAspirante(form,callback) {
+   $.ajax({
+       url:'Aspirante/AgregarAspirante',
+       type:'POST',
+       dataTypes:'json',
+       data:form.serialize(),
+       beforeSend:function () {
+           swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+           swal.showLoading();
+       },
+       success: function (data){
+           callback(JSON.parse(data));
+       },
+       complete:function () {
+           swal.closeModal();
+       },
+       error: function (data) {
+           console.error('error en la peticion agregrar aspirante ');
+       }
+   });
 }
 
 function EnviarSolicitud(form,callback) {
@@ -182,26 +263,46 @@ function EnviarSolicitud(form,callback) {
     });
 }
 
-function AgregarAspirante(callback) {
+function CrearUsuario(callback) {
     $.ajax({
-        url:'Aspirante/AgregarAspirante',
+        url:'Aspirante/CrearUsuario',
         type:'POST',
         dataTypes:'json',
-        data:{idpersonal:idpersonal},
+        data:{'id_personal':idpersonal,'cedula':$('#cedula_asp').val()},
         beforeSend:function () {
-            swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+            swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
             swal.showLoading();
         },
         success: function (data){
-            var res=JSON.parse(data);
-            $('#tabla_inscricion').DataTable().ajax.reload();
-            callback(res);
+           callback(JSON.parse(data));
         },
         complete:function () {
             swal.closeModal();
         },
         error: function (data) {
-            console.error('error en la peticion agregrar aspirante ');
+            console.error('error en la peticion crear usuario ');
+        }
+    });
+}
+
+function CrearPermiso(callback) {
+    $.ajax({
+        url:'Aspirante/AgregarRol',
+        type:'POST',
+        dataTypes:'json',
+        data:{'id_personal':idpersonal},
+        beforeSend:function () {
+            swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
+            swal.showLoading();
+        },
+        success: function (data){
+            callback(JSON.parse(data));
+        },
+        complete:function () {
+            swal.closeModal();
+        },
+        error: function (data) {
+            console.error('error en la peticion crear permiso');
         }
     });
 }
@@ -362,16 +463,16 @@ function Tabla_PreInscripcion() {
             }
         },
         "columns":[
-            {"data":null,"width": "25%"},
-            {"data":"p_usuario"},
+            {"data": null,"width":"25%"},
+            {"data":"p_cedula"},
             {"data":"p_departamento"},
-            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-list'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='hoja_vida_asp'><span class='text-bold'><i class='fa fa-file-pdf-o' aria-hidden='true'></i>&nbsp;Hoja De Vida</span></a></li><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='fa fa-paper-plane-o'></i>&nbsp;Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp;Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
+            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-bars'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='hoja_vida_asp'><span class='text-bold'><i class='fa fa-file-pdf-o' aria-hidden='true'></i>&nbsp;Hoja De Vida</span></a></li><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='fa fa-paper-plane-o'></i>&nbsp;Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp;Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
         ],
         "columnDefs": [
             {
                 "targets": [0],
                 "render":function(data) {
-                    return " <span> <i class='fa fa-user'></i> "+ data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres+"<br><i class='fa fa-id-card'></i> "+ data.p_cedula+"</span>";
+                    return " <span> <i class='fa fa-user'></i> "+ data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres+"</span>";
                 }
             }
         ]
@@ -484,11 +585,10 @@ function DelRegisTbl_inscripcion(tbody, table) {
 function SolicitudAspirante(tbody, table) {
     $(tbody).on("click","a.Solicitud_asp",function () {
         var data = table.row( $(this).parents("tr") ).data();
-        console.log(data);
+        //console.log(data);
         $('#txt_id_personal').val(data.p_idpersona);
         $('#n_documento_sl_ctr').val(data.p_cedula);
         $('#nombres_sl_ctr').val(data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres);
-        $('#usuario_sl_ctr').val(data.p_usuario);
         $('#departamento_sl_ctr').val(data.p_departamento);
         $('#modal_solicitud_contrato_asp').modal('show');
     });
@@ -496,6 +596,14 @@ function SolicitudAspirante(tbody, table) {
 
 function CargaCombo_asp(combo,id) {
     $.post('Campos/Tipo2',{'id':id},function (datos, estado, xhr) {
+        if (estado === 'success') $.each(datos, function (index, value) {
+            $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
+        });
+    },'json');
+}
+
+function CargaCombo_reg_asp(combo,id) {
+    $.post('Campos/Tipo',{'id':id},function (datos, estado, xhr) {
         if (estado === 'success') $.each(datos, function (index, value) {
             $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
         });

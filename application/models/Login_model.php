@@ -8,13 +8,22 @@
 
 class Login_model extends CI_Model {
    private $db_user;
+
     public function __construct(){
         parent::__construct();
         $this->db_user=$this->load->database('db_usuarios',TRUE);
     }
 
+    public function Login_Aspirante($datos){
+       $this->db->db_set_charset('UTF-8');
+       $res=$this->db->query('SELECT p_opcion,p_mensaje,p_id_personal,p_cedula,p_nombres,p_t_usuario,p_desc_usuario FROM esq_contrato.fnc_login_aspirante(?,?);',$datos);
+       //echo $this->db_user->last_query();
+       return $res->row_array();
+    }
+
     public function Login_User($datos){
-        $res=$this->db_user->query('SELECT p_mensaje, p_opcion, p_idpersonal,p_cedula,p_nombres,p_fecha_ultimo_acceso,p_t_usuario,p_desc_usuario FROM esq_roles.fnc_login_sth(?,?)',$datos);
+        $this->db->db_set_charset('UTF-8');
+        $res=$this->db_user->query('SELECT p_mensaje, p_opcion , p_idpersonal,p_cedula,p_nombres,p_fecha_ultimo_acceso,p_t_usuario,p_desc_usuario FROM esq_roles.fnc_login_sth(?,?)',$datos);
         //echo $this->db_user->last_query();
         if($res->num_rows() > 0){
             for ($i=0; $i < $res->num_rows(); $i++) {
@@ -55,6 +64,7 @@ class Login_model extends CI_Model {
         }
         return $menu;
     }
+
     public function SubMenu($id_menu){
         $this->db_user->select('tbl_menu.id_menu, tbl_menu.descripcion,tbl_menu.id_padre,tbl_menu.ruta')
                       ->from('esq_roles.tbl_menu')
@@ -64,6 +74,7 @@ class Login_model extends CI_Model {
         //echo $this->db_user->last_query();
         return $res_sub->result_array();
     }
+
     public function Rol_User($datos){
         $res=$this->db_user->query('SELECT p_conexion,p_idpersonal,p_cedula,p_nombre,p_idsesion,p_password_changed,p_mail_alternativo,p_error , p_fecha From  esq_roles.fnc_roles(?,?,?)',$datos);
         //echo $this->db_user->last_query();

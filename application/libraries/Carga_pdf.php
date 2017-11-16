@@ -32,7 +32,7 @@ class Carga_pdf {
         //$siteaddressAPI = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css";
         //$data = file_get_contents($siteaddressAPI);
         $hoy=date("dmyhis");
-        //$data = file_get_contents('././public/css/bootstrap.css');
+        $data = file_get_contents('././public/css/hoja_vida.css');
         $CI->m_pdf->pdf->setFooter('Sistema de Gesion de Contratos SGC - {PAGENO} de {nbpg}');
         $CI->m_pdf->pdf->writeHTML($data, 1);
         //$this->m_pdf->pdf->SetWatermarkImage('https://upload.wikimedia.org/wikipedia/commons/c/ce/Logo_utm_png.png',0.05,'F', array(66,147));
