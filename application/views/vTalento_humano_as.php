@@ -34,6 +34,10 @@
                                     <thead class="bg-light-blue">
                                     <tr>
                                         <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                            Codigo
+                                        </th>
+                                        <th>
                                             <i class="fa fa-user-o" aria-hidden="true"></i>
                                             Aspirante
                                         </th>
@@ -54,22 +58,12 @@
                                             Solicitud
                                         </th>
                                         <th>
-                                            <i class="fa fa-flag" aria-hidden="true"></i>
-                                             Categoria
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-black-tie" aria-hidden="true"></i>
-                                            Dedicacion / 
-                                            <i class="fa fa-briefcase" aria-hidden="true"></i> 
-                                            Puesto
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                            Dedicacion/Puesto
                                         </th>
                                         <th>
                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                             Observacion
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                            Estado
                                         </th>
                                         <th>
                                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -104,6 +98,10 @@
                                     <thead class="bg-light-blue">
                                     <tr>
                                         <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                            Codigo
+                                        </th>
+                                        <th>
                                             <i class="fa fa-user-o" aria-hidden="true"></i>
                                             Aspirante
                                         </th>
@@ -124,20 +122,12 @@
                                             Solicitud
                                         </th>
                                         <th>
-                                            <i class="fa fa-flag" aria-hidden="true"></i>
-                                            Categoria
-                                        </th>
-                                        <th>
                                             <i class="fa fa-briefcase" aria-hidden="true"></i>
                                             Dedicacion/Puesto
                                         </th>
                                         <th>
                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                             Observacion
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                            Estado
                                         </th>
                                         <th>
                                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -255,6 +245,10 @@
                                     <thead class="bg-light-blue">
                                     <tr>
                                         <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                            Codigo
+                                        </th>
+                                        <th>
                                             <i class="fa fa-user-o" aria-hidden="true"></i>
                                             Aspirante
                                         </th>
@@ -275,20 +269,12 @@
                                             Solicitud
                                         </th>
                                         <th>
-                                            <i class="fa fa-flag" aria-hidden="true"></i>
-                                            Categoria
-                                        </th>
-                                        <th>
                                             <i class="fa fa-briefcase" aria-hidden="true"></i>
                                             Dedicacion/Puesto
                                         </th>
                                         <th>
                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                             Observacion
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                            Estado
                                         </th>
                                         <th>
                                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -298,97 +284,12 @@
                                     </thead>
                                 </table>
                             </div>
-                            <div id="md_proc_solic_y_contr_rechazadas" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
-                                            <button type="button"  id="btn_cerrar_md_procesos_recha" name="btn_cerrar_md_procesos_recha" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Procesos</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="panel-body">
-                                                <div class="col-sm-12">
-                                                    <span><h3 class="panel-title">Procesos solicitud</h3></span>
-                                                </div>
-                                                <br>
-                                                <table id="tabla_proceso_solicitud_recha" class="table small table-hover table-bordered">
-                                                    <thead class="bg-light-blue">
-                                                    <tr>
-                                                        <th>
-                                                            <i class='fa fa-cogs'></i>
-                                                            Proceso
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                                            Usuario
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                                                            Fecha Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            Hora Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                            Observacion
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            Estado
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="col-sm-12">
-                                                    <span><h3 class="panel-title">Procesos contrato</h3></span>
-                                                </div>
-                                                <br>
-                                                <table id="tabla_procesos_contrato_recha" class="table small table-hover table-bordered">
-                                                    <thead class="bg-light-blue">
-                                                    <tr>
-                                                        <th>
-                                                            <i class='fa fa-cogs'></i>
-                                                            Proceso
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                                            Usuario
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                                                            Fecha Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            Hora Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                            Observacion
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            Estado
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
 
 

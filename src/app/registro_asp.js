@@ -1,19 +1,20 @@
 
-var num_asp=0;
-var idpersonal=0;
+let num_asp=0;
+let idpersonal=0;
 $(document).ready(function () {
     console.log('registro aspirante cargada');
-    let fecha_sl_ctr=$('#fecha_sl_ctr');
-    let t_documento_asp=$('#t_documento_asp');
-    let n_documento_asp=$('#n_documento_asp');
-    let apellido1_reg_asp=$('#apellido1_reg_asp');
-    let apellido2_reg_asp=$('#apellido2_reg_asp');
-    let nombres_reg_asp=$('#nombres_reg_asp');
-    let f_nacimiento_reg_asp=$('#f_nacimiento_reg_asp');
-    let sexo_reg_asp=$('#sexo_reg_asp');
-    let nacionalidad_reg_asp=$('#nacionalidad_reg_asp');
-    let btn_save_reg_asp=$('#btn_save_reg_asp');
-    let form_reg_aspirante=$('#form_reg_aspirante');
+    const fecha_sl_ctr=$('#fecha_sl_ctr');
+    const t_documento_asp=$('#t_documento_asp');
+    const n_documento_asp=$('#n_documento_asp');
+    const apellido1_reg_asp=$('#apellido1_reg_asp');
+    const apellido2_reg_asp=$('#apellido2_reg_asp');
+    const nombres_reg_asp=$('#nombres_reg_asp');
+    const f_nacimiento_reg_asp=$('#f_nacimiento_reg_asp');
+    const sexo_reg_asp=$('#sexo_reg_asp');
+    const nacionalidad_reg_asp=$('#nacionalidad_reg_asp');
+    const btn_save_reg_asp=$('#btn_save_reg_asp');
+    const cerrar_md_reg_asp=$('#cerrar_md_reg_asp');
+    const form_reg_aspirante=$('#form_reg_aspirante');
 
     $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
     fecha_sl_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
@@ -28,7 +29,7 @@ $(document).ready(function () {
     CargaCombo_asp('#tipo_contrato_sl_ctr',1);
     CargaCombo_asp('#puesto_admin',8);
     CargaCombo_asp('#tipo_observacion_sl',7);
-    CargaCombo_asp('#tipo_dedicacion_docente',4);
+    CargaCombo_asp('#tipo_dedicacion_docente',13);
     CargaCombo_asp('#tipo_solicitud_tabla',1);
     Tabla_PreInscripcion();
     Tabla_Solicitud();
@@ -52,6 +53,11 @@ $(document).ready(function () {
         }
     });
 
+    cerrar_md_reg_asp.click(function (e) {
+        e.preventDefault();
+        form_reg_aspirante.smkClear();
+    });
+    
     t_documento_asp.change(function () {
          n_documento_asp.val('');
     });
@@ -78,19 +84,20 @@ $(document).ready(function () {
         }
     });
 
-   $('#tab_solicitud').click(function (e) {
+    $('#tab_solicitud').click(function (e) {
        e.preventDefault();
        Tabla_Solicitud();
    });
 
-   $('#btn_cerrar_md_asp').click(function (e) {
+    $('#btn_cerrar_md_asp').click(function (e) {
         e.preventDefault();
         $('#form_aspirante').smkClear();
-        BloqueDesbloqueo(0);
         $('#claves_asp').prop('hidden',true);
     });
+
     $('#btn_cerrar_md_solicitud_asp').click(function (e) {
         e.preventDefault();
+        fecha_sl_ctr.datepicker('update', '');
         let form_docente=$('#form_tipo_docente');
         let form_admin=$('#form_administrativo');
         $('#form_solicitud_contrato_asp').smkClear();
@@ -110,8 +117,6 @@ $(document).ready(function () {
                          $('#apellido1_asp').val(data.info.apellido1);
                          $('#apellido2_asp').val(data.info.apellido2);
                          $('#nombres_asp').val(data.info.nombres);
-                         $('#correo_institucion_asp').val(data.info.correo_personal_institucional);
-                         BloqueDesbloqueo(1);
                      }else if(data.num === 0) {
                           idpersonal=0;
                           toastr.error('no existe el registro');
@@ -134,7 +139,7 @@ $(document).ready(function () {
     });
 
     $('#tabla_solicitud').on("click","a.Ver_proceso",function () {
-        var data = $('#tabla_solicitud').DataTable().row( $(this).parents("tr") ).data();
+        let data = $('#tabla_solicitud').DataTable().row( $(this).parents("tr") ).data();
         Tabla_ProcesoSolicitud(data.id_solicitud_contrato);
         Tabla_ProcesoContrato(data.id_solicitud_contrato);
         $('#md_solicitud_proceso').modal('show');
@@ -143,36 +148,34 @@ $(document).ready(function () {
     $('#btn_enviar_docente_sl_ctr').click(function (e) {
        e.preventDefault();
        if( ($('#form_solicitud_contrato_asp').smkValidate() === true) && ($('#form_tipo_docente').smkValidate()=== true) ){
-           var form_docente = new FormData();
-                form_docente.append('id_personal',$('#txt_id_personal').val());
-                form_docente.append('tipo_solicitud',$('#tipo_contrato_sl_ctr').val());
-                form_docente.append('tipo_categoria',$('#tipo_categoria_sl_ctr').val());
-                form_docente.append('fecha',$('#fecha_sl_ctr').val());
-                form_docente.append('tipo_dedicacion',$('#tipo_dedicacion_docente').val());
-                form_docente.append('id_observacion',$('#tipo_observacion_sl').val());
-                form_docente.append('p_caso','DOCENTE');
-                EnviarSolicitud(form_docente,function (resp) {
-                    if(resp.p_opcion=== '1'){
-                        toastr.info(resp.p_mensaje);
-                    }else if(resp.p_opcion=== '2'){
-                        toastr.warning(resp.p_mensaje);
-                    }
-                });
+           let data = new Object();
+               data.id_personal=$('#txt_id_personal').val();
+               data.tipo_solicitud=$('#tipo_contrato_sl_ctr').val();
+               data.fecha=$('#fecha_sl_ctr').val();
+               data.tipo_dedicacion=$('#tipo_dedicacion_docente').val();
+               data.id_observacion=$('#tipo_observacion_sl').val();
+               data.p_caso='DOCENTE';
+           EnviarSolicitud(data,function (resp) {
+               if(resp.p_opcion=== '1'){
+                   toastr.info(resp.p_mensaje);
+               }else if(resp.p_opcion=== '2'){
+                   toastr.warning(resp.p_mensaje);
+               }
+           });
        }
     });
 
     $('#btn_enviar_admin_sl_ctr').click(function (e) {
         e.preventDefault();
         if( ($('#form_solicitud_contrato_asp').smkValidate() === true) && ($('#form_administrativo').smkValidate()=== true) ){
-            var form_admin = new FormData();
-                form_admin.append('id_personal',$('#txt_id_personal').val());
-                form_admin.append('tipo_solicitud',$('#tipo_contrato_sl_ctr').val());
-                form_admin.append('tipo_categoria',$('#tipo_categoria_sl_ctr').val());
-                form_admin.append('fecha',$('#fecha_sl_ctr').val());
-                form_admin.append('tipo_puesto',$('#puesto_admin').val());
-                form_admin.append('id_observacion',$('#tipo_observacion_sl').val());
-                form_admin.append('p_caso','ADMINISTRATIVO');
-                EnviarSolicitud(form_admin,function (resp) {
+            let data = new Object();
+                data.id_personal=$('#txt_id_personal').val();
+                data.tipo_solicitud=$('#tipo_contrato_sl_ctr').val();
+                data.fecha=$('#fecha_sl_ctr').val();
+                data.tipo_puesto=$('#puesto_admin').val();
+                data.id_observacion=$('#tipo_observacion_sl').val();
+                data.p_caso='ADMINISTRATIVO';
+                EnviarSolicitud(data,function (resp) {
                     if(resp.p_opcion=== '1'){
                         toastr.info(resp.p_mensaje);
                     }else if(resp.p_opcion=== '2'){
@@ -186,21 +189,12 @@ $(document).ready(function () {
         e.preventDefault();
         if($('#form_aspirante').smkValidate()){
             if(idpersonal > 0){
-                CrearUsuario(function (data) {
-                   if(data.fnc_agregrar_usuario === '1'){
-                       toastr.info('Usuario Creado');
-                       CrearPermiso(function (res) {
-                            if(res === 1){
-                                toastr.info('Permiso Creado');
-                            }
-                       });
-                   }else if(data.fnc_agregrar_usuario === '2'){
-                       toastr.warning('usuario ya existe');
-                   }
+                CrearUsuarioRol(function (res) {
+                    toastr.info(res.fnc_agregrar_usuario_rol,'Agregar Usuario Y Permiso');
+                    $('#tabla_inscricion').DataTable().ajax.reload();
                 });
             }
         }
-
     });
 
     $('#tabla_inscricion').on("click","a.hoja_vida_asp",function () {
@@ -239,31 +233,29 @@ function SaveRegistroAspirante(form,callback) {
    });
 }
 
-function EnviarSolicitud(form,callback) {
+function EnviarSolicitud(datos,callback) {
     $.ajax({
         url:'Aspirante/EnviarSolicitud',
         type:'POST',
-        data:form,
-        contentType: false,
-        processData: false,
+        data:datos,
+        dataTypes:'json',
         beforeSend:function () {
             swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
             swal.showLoading();
         },
         success: function (data){
-            var res=JSON.parse(data);
-            callback(res);
+            callback(JSON.parse(data));
         },
         complete:function () {
             swal.closeModal();
         },
-        error: function (data) {
+        error: function () {
             console.error('error en la peticion crear aspirante ');
         }
     });
 }
 
-function CrearUsuario(callback) {
+function CrearUsuarioRol(callback) {
     $.ajax({
         url:'Aspirante/CrearUsuario',
         type:'POST',
@@ -281,28 +273,6 @@ function CrearUsuario(callback) {
         },
         error: function (data) {
             console.error('error en la peticion crear usuario ');
-        }
-    });
-}
-
-function CrearPermiso(callback) {
-    $.ajax({
-        url:'Aspirante/AgregarRol',
-        type:'POST',
-        dataTypes:'json',
-        data:{'id_personal':idpersonal},
-        beforeSend:function () {
-            swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
-            swal.showLoading();
-        },
-        success: function (data){
-            callback(JSON.parse(data));
-        },
-        complete:function () {
-            swal.closeModal();
-        },
-        error: function (data) {
-            console.error('error en la peticion crear permiso');
         }
     });
 }
@@ -355,30 +325,6 @@ function BuscarPersona(cedula,callback) {
     });
 }
 
-function BloqueDesbloqueo(estado) {
-    if(estado === 1){
-       //$('#cedula_asp').prop('disabled',true);
-       $('#apellido1_asp').prop('disabled',true);
-       $('#apellido2_asp').prop('disabled',true);
-       $('#nombres_asp').prop('disabled',true);
-       $('#correo_institucion_asp').prop('disabled',true);
-       $('#claves_asp').prop('hidden',true);
-       $('#clave_asp').prop('required',false);
-       $('#clave_verifica_asp').prop('required',false);
-
-    }else if(estado === 0){
-        //$('#cedula_asp').prop('disabled',false);
-        $('#apellido1_asp').prop('disabled',false);
-        $('#apellido2_asp').prop('disabled',false);
-        $('#nombres_asp').prop('disabled',false);
-        $('#correo_institucion_asp').prop('disabled',false);
-        $('#claves_asp').prop('hidden',false);
-        $('#clave_asp').prop('required',true);
-        $('#clave_verifica_asp').prop('required',true);
-
-    }
-}
-
 function Tabla_Solicitud(){
    let tbl_solicitud=$('#tabla_solicitud').DataTable({
           "destroy":true,
@@ -395,19 +341,19 @@ function Tabla_Solicitud(){
             dataType:'json'
         },
         "columns":[
+            {"data":"codigo"},
             {"data":null,"width": "23%"},
             {"data":"t_contrato"},
-            {"data":"categoria"},
             {"data":null},
             {"data":"fecha_solicitud","width": "7%"},
             {"data":"observacion"},
             {"data":"estado"},
-            {"defaultContent":"<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' class='Ver_proceso'><span class='text-bold'><i class='fa fa-cogs'></i>&nbsp;Ver Proceso</span></a></li><li><a href='#' class='eliminar_pre_ins'><span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp;Eliminar</span></a></li></ul></div></span>",'orderable': false, 'searchable': false,"width": "9%"}
+            {"defaultContent":"<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' class='Ver_proceso'><span class='text-bold'><i class='fa fa-cogs'></i>&nbsp;Ver Proceso</span></a></li><li><a href='#' class='eliminar_pre_ins'><span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp;Anular</span></a></li></ul></div></span>",'orderable': false, 'searchable': false,"width": "9%"}
 
         ],
         "columnDefs": [
             {
-                "targets": [0],
+                "targets": [1],
                 "render":function(data) {
                     return " <span class='text-center'> <i class='fa fa-user'></i> "+ data.aspirante+" <br><i class='fa fa-id-card'></i> "+ data.cedula_aspirante+"</span>";
                 }
@@ -550,34 +496,44 @@ function Tabla_ProcesoContrato(id_solicitud){
 
 function DelRegisTbl_inscripcion(tbody, table) {
     $(tbody).on("click","a.eliminar_pre_ins",function () {
-        var data = table.row( $(this).parents("tr") ).data();
-        alertify.confirm('Eliminar Permiso',"Confirme para eliminar Permiso de Acceso al Usuario: <b>"+data.p_usuario+"</b>",
-            function(){
-                $.ajax({
-                    url:'Aspirante/EliminarRol',
-                    type:'Post',
-                    dataTypes:'Json',
-                    data:{'idpersonal':data.p_idpersona,'idrol':47},
-                    beforeSend:function () {
-                        swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
-                        swal.showLoading();
-                    },
-                    success:function(response){
-                        var res=JSON.parse(response);
+        let data = table.row( $(this).parents("tr") ).data();
+        swal({
+            title:'Eliminar Registro!',
+            html:"Confirme para eliminar al Usuario: <br> </b> <span> <i class='fa fa-user'></i> "+ data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres+"</span>",
+            type: 'warning',
+            allowOutsideClick: false,
+            allowEnterKey: false,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si'
+        }).then(function () {
+            $.ajax({
+                url:'Aspirante/EliminarRol',
+                type:'Post',
+                dataTypes:'Json',
+                data:{'idpersonal':data.p_idpersona,'idrol':47},
+                beforeSend:function () {
+                    swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                    swal.showLoading();
+                },
+                success:function(response){
+                    let res=JSON.parse(response);
+                    if(res.opcion === 1){
+                        toastr.info(res.mensaje,'Eliminar Aspirante');
                         $('#tabla_inscricion').DataTable().ajax.reload();
-                        toastr.info(res);
-                    },
-                    complete:function () {
-                        swal.closeModal();
-                    },
-                    error:function() {
-                        console.log('error en peticion borrar registro pre inscripcion');
+                    }else{
+                        toastr.error(res.mensaje,'Eliminar Aspirante');
                     }
-                });
-            },
-            function(){
-
+                },
+                complete:function () {
+                    swal.closeModal();
+                },
+                error:function() {
+                    console.log('error en peticion borrar registro pre inscripcion');
+                }
             });
+        },function (dismiss){});
     });
 
 }

@@ -21,29 +21,10 @@ class Aspirante_Modelo extends CI_Model {
         return $res->row_array();
     }
 
-    public function CrearUsuraio($data){
-       $res=$this->db->query("SELECT  esq_contrato.fnc_agregrar_usuario(?,?);",$data);
+    public function CrearUsuraioRol($data){
+       $res=$this->db->query("SELECT  esq_contrato.fnc_agregrar_usuario_rol(?,?,?);",$data);
         //$this->db->last_query();
         return $res->row_array();
-    }
-
-    public function SaveRol($id_personal,$id_dpto){
-        $res=$this->db_user->query('SELECT count(tbl_personal_rol.id_personal) as num_reg FROM esq_roles.tbl_personal_rol WHERE tbl_personal_rol.id_personal=? AND tbl_personal_rol.id_rol=47 ;',$id_personal);
-        if($res->row('num_reg') == 0){
-            $data=array('id_personal'=>$id_personal,'id_departamento'=>$id_dpto,'id_rol'=>47,'estado'=>'S','fecha'=>'now()');
-            $this->db_user->insert('esq_roles.tbl_personal_rol', $data);
-            if($this->db_user->affected_rows()== 1){
-              return 1;
-            }
-        }else if($res->row('num_reg')== 1){
-            return 2;
-        }
-    }
-
-    public function SaveSolicitud($datos){
-        $res=$this->db->query('SELECT  p_opcion, p_mensaje from esq_contrato.fnc_crear_solicitud_contrato(?,?,?,?,?,?,?,?,?,?);',$datos);
-        //$this->db->last_query();
-       return $res->row_array();
     }
 
     public function BuscaPersona($cedula){
@@ -62,14 +43,25 @@ class Aspirante_Modelo extends CI_Model {
     }
 
     public function EliminarRol($idpersona,$idrol){
-        $this->db_user->where('tbl_personal_rol.id_rol',$idrol)
-                      ->where('tbl_personal_rol.id_personal',$idpersona)
-                      ->delete('esq_roles.tbl_personal_rol');
-        //echo $this->db_user->last_query();
-        if($this->db_user->affected_rows()){
-          return 'Se Elimino Correctamente';
+        $reg_solicitud=$this->db->query("SELECT count(solicitud_contrato.id_solicitud_contrato) as num_reg FROM esq_contrato.solicitud_contrato WHERE solicitud_contrato.id_personal=? AND solicitud_contrato.estado='P';",$idpersona);
+        if($reg_solicitud->row('num_reg')== 0) {
+            $this->db_user->where('tbl_personal_rol.id_rol', $idrol)
+                ->where('tbl_personal_rol.id_personal', $idpersona)
+                ->delete('esq_roles.tbl_personal_rol');
+            //echo $this->db_user->last_query();
+            if ($this->db_user->affected_rows() == 1) {
+              $resp['mensaje']='Se Elimino Correctamente';
+              $resp['opcion']=1;
+              return $resp;
+            } else {
+              $resp['mensaje']='Error: No Se Elimino';
+              $resp['opcion']=2;
+              return $resp;
+            }
         }else{
-            return 'No Se Elimino';
+            $resp['mensaje']='Error: Tiene Solicitudes En Proceso';
+            $resp['opcion']=2;
+            return $resp;
         }
     }
 

@@ -58,17 +58,8 @@ class Aspirante extends CI_Controller {
 
     public function CrearUsuario(){
         if($this->input->is_ajax_request()){
-            $campos=array('idpersonal'=>$this->input->post('id_personal'),'n_documento'=>$this->input->post('cedula'));
-            $res=$this->Aspirante_Modelo->CrearUsuraio($campos);
-            echo json_encode($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
-        }
-    }
-
-    public function AgregarRol(){
-        if($this->input->is_ajax_request()){
-            $res=$this->Aspirante_Modelo->SaveRol($this->input->post('id_personal'),$this->session->userdata('id_dpto'));
+            $campos=array('idpersonal'=>$this->input->post('id_personal'),'n_documento'=>$this->input->post('cedula'),'id_dpto'=>$this->session->userdata('id_dpto'));
+            $res=$this->Aspirante_Modelo->CrearUsuraioRol($campos);
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
@@ -81,15 +72,13 @@ class Aspirante extends CI_Controller {
              'id_cordinador'=>$this->session->userdata('id_personal'),
              'id_dpto'=>$this->session->userdata('id_dpto'),
              'id_solicitud'=>$this->input->post('tipo_solicitud'),
-             'id_categoria'=>$this->input->post('tipo_categoria'),
              'id_puesto'=>$this->input->post('tipo_puesto'),
              'tipo_dedicacion'=>$this->input->post('tipo_dedicacion'),
              'fecha'=>$this->input->post('fecha'),
              'id_personal'=>$this->input->post('id_personal'),
              'id_observacion'=>$this->input->post('id_observacion'),
-             'p_caso'=>$this->input->post('p_caso')
-         );
-            $res=$this->Aspirante_Modelo->SaveSolicitud($campos);
+             'p_caso'=>$this->input->post('p_caso'));
+            $res=$this->Solicitud_Contrato_Modelo->SaveSolicitud($campos);
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');

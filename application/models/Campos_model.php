@@ -7,10 +7,12 @@
  * Time: 16:19
  */
 class Campos_model extends CI_Model{
+
     public function __construct(){
         parent::__construct();
         $this->db->db_set_charset('UTF8');
     }
+
     public function CargarPais(){
         $this->db->select('pais.idubicacion_geografica as idpais,pais.nombre');
         $this->db->from('esq_catalogos.ubicacion_geografica as pais');
@@ -40,6 +42,7 @@ class Campos_model extends CI_Model{
         //echo $this->db->last_query();
         return  $registros->result();
     }
+
     public function CargarParroquia($idcanton){
         $this->db->select('parroquia.idubicacion_geografica as idparroquia,parroquia.nombre');
         $this->db->from('esq_catalogos.ubicacion_geografica as parroquia');
@@ -49,6 +52,7 @@ class Campos_model extends CI_Model{
         //echo $this->db->last_query();
         return  $registros->result();
     }
+
     public function CargaTipo($idcategoria){
         $this->db->select('tipo.idtipo,tipo.nombre');
         $this->db->from('esq_catalogos.tipo');
@@ -65,7 +69,7 @@ class Campos_model extends CI_Model{
         $this->db->from('esq_contrato.tipo');
         $this->db->join('esq_contrato.categoria_tipo','categoria_tipo.idcategoria_tipo=tipo.idcategoria_tipo');
         $this->db->where('tipo.idcategoria_tipo',$idcategoria);
-        $this->db->order_by('tipo.nombre');
+        $this->db->order_by('tipo.idtipo');
         $registros=$this->db->get();
         //echo $this->db->last_query();
         return  $registros->result();
@@ -116,6 +120,12 @@ class Campos_model extends CI_Model{
         }else{
             return  $res->result();
         }
+    }
+
+    public function CargaTituloUniversitario($id_personal){
+        $res=$this->db->query(' SELECT   f_profecional.idformacion_profesional as id_inst_formal, concat((SELECT tipo.nombre FROM esq_catalogos.tipo WHERE tipo.idtipo=f_profecional.idtipo_nivel_instruccion),\' => \',f_profecional.titulo_obtenido) as titulo FROM esq_datos_personales.p_formacion_profesional as f_profecional WHERE f_profecional.idpersonal=?;',$id_personal);
+        //echo $this->db->last_query();
+        return  $res->result();
     }
 
 }

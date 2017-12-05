@@ -1,129 +1,255 @@
+let inicio=null;
+let finaliza=null;
 $(document).ready(function () {
-   console.log('pagina opciones contrato th cargada');
-   Tabla_Solicitudes_th();
-   CargaComboDepartamentos_th('#departamento_sl_ctr_th');
-   CargaCombo_th('#tipo_solicitud_sl_ctr_th',1);
+   console.log('cargado modulo contrato th');
+    let fecha_ini=null;
+    let fecha_fin=null;
+   const personal_txt=$('#personal_txt');
+   const id_solicitud_txt=$('#id_solicitud_txt');
+   const tipo_solicitud_th_ctr=$('#tipo_solicitud_th_ctr');
+   const observacion_th_ctr=$('#observacion_th_ctr');
+   const n_documento_th_ctr=$('#n_documento_th_ctr');
+   const aspirante_th_ctr=$('#aspirante_th_ctr');
+   const puesto_dedicacion_th_ctr=$('#puesto_dedicacion_th_ctr');
+   const departamento_sl_ctr_th=$('#departamento_sl_ctr_th');
+   const tipo_categoria_docente_ctr=$('#tipo_categoria_docente_ctr');
+   const tipo_regimen_ctr=$('#tipo_regimen_ctr');
+   const nivel_docente_ctr=$('#nivel_docente_ctr');
+   const dedicacion_docente_ctr=$('#dedicacion_docente_ctr');
+   const rmu_docente_ctr=$('#rmu_docente_ctr');
+   const rmu_admin_ctr=$('#rmu_admin_ctr');
+   const puesto_administrativo_ctr=$('#puesto_administrativo_ctr');
+   const gp_ocupacional_admin_ctr=$('#gp_ocupacional_admin_ctr');
+   const fecha_inicio_ctr=$('#fecha_inicio_ctr');
+   const fecha_fin_ctr=$('#fecha_fin_ctr');
+   const meses_ctr=$('#meses_ctr');
+   const btn_save_docente_ctr=$('#btn_save_docente_ctr');
+   const btn_save_admin_ctr=$('#btn_save_admin_ctr');
+   const btn_cerrar_md_contrato_th=$('#btn_cerrar_md_contrato_th');
+   const form_cabecera_ctr=$('#form_cabecera_ctr');
+   const form_ctr_docente=$('#form_ctr_docente');
+   const form_ctr_admin=$('#form_ctr_admin');
+   const modal_crear_contrato_th=$('#modal_crear_contrato_th');
+   const panel_docente_ctr=$('#panel_docente_ctr');
+   const panel_administrativo_ctr=$('#panel_administrativo_ctr');
+   const tabla_lista_solicitud_contrato_th=$('#tabla_lista_solicitud_contrato_th');
+   const id_denominacion_docente=$('#id_denominacion_docente');
+   const id_denominacion_admin=$('#id_denominacion_admin');
+   const titulo_academico_ctr=$('#titulo_academico_ctr');
 
-   $('#departamento_sl_ctr_th').select2({theme:"bootstrap"});
-   $('#tipo_solicitud_sl_ctr_th').select2({theme:"bootstrap"});
 
+   //funciones
+     departamento_sl_ctr_th.select2({theme:"bootstrap"});
+     fecha_inicio_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true});
+     fecha_fin_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true});
+     CargaComboDepartamentos_th(departamento_sl_ctr_th);
+     CargaCombo_th(tipo_regimen_ctr,2);
+     CargaCombo_th(tipo_categoria_docente_ctr,10);
+     CargaCombo_th(gp_ocupacional_admin_ctr,6);
+
+   TablaSolicitudes_th();
   //eventos
-   $('#btn_md_lista_solicitud_th').click(function (e) {
-       e.preventDefault();
-       $('#modal_lista_solicitud_th').modal('show');
-   });
-   $('#tipo_solicitud_sl_ctr_th').change(function (){
-      if($(this).val() !== ''){
-          Tabla_Solicitudes_th($('#departamento_sl_ctr_th').val(),$(this).val());
-      }
 
+   tipo_categoria_docente_ctr.change(function () {
+     ComboNiveles_contrato(nivel_docente_ctr,$(this).val());
    });
-    $('#tabla_lista_solicitud_contrato_th').on("click","button.selecion_solicitud_th",function () {
-        var data = $('#tabla_lista_solicitud_contrato_th').DataTable().row( $(this).parents("tr") ).data();
-        swal({
-            title: 'Seleccionar a ?',
-            html: "<span>"+data.aspirante+"<br>"+data.cedula_aspirante +"</span>",
-            type: 'question',
-            allowOutsideClick: false,
-            allowEnterKey: false,
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si'
-        }).then(function () {
-            PasarDatos(data);
-            $('#tabs_th a[href="#crear_contrato_th"]').tab('show');
-        },function (dismiss){});
 
+   nivel_docente_ctr.change(function () {
+     ComboDedicacion_contrato(dedicacion_docente_ctr,$(this).val());
+   });
+
+   gp_ocupacional_admin_ctr.change(function () {
+       ListaOcupaciones(puesto_administrativo_ctr,$(this).val());
+   });
+   
+   btn_cerrar_md_contrato_th.click(function (e) {
+        e.preventDefault();
+        limpiarFormulario();
     });
+
+   btn_save_docente_ctr.click(function (e) {
+       e.preventDefault();
+       if( (form_cabecera_ctr.smkValidate()) && (form_ctr_docente.smkValidate())){
+           let data={
+               'tipo':tipo_solicitud_th_ctr.val(),
+               'id_personal':personal_txt.val(),
+               'id_solicitud':id_solicitud_txt.val(),
+               'id_regimen':tipo_regimen_ctr.val(),
+               'denominacion':id_denominacion_docente.val(),
+               'rmu':rmu_docente_ctr.val(),
+               'fecha_inicio':fecha_inicio_ctr.val(),
+               'fecha_finaliza':fecha_fin_ctr.val(),
+               'id_titulo':titulo_academico_ctr.val()
+           };
+           console.log(JSON.stringify(data));
+           SaveContrato(data,function (resp){
+              console.log(resp);
+              if(resp.opcion === '1'){
+                  tabla_lista_solicitud_contrato_th.DataTable().ajax.reload();
+                  toastr.success(resp.mensaje,'Crear Contrato');
+              }else if(resp.opcion === '2'){
+                  toastr.error(resp.mensaje,'Crear Contrato');
+              }
+           });
+       }
+   });
+
+   btn_save_admin_ctr.click(function (e) {
+       e.preventDefault();
+       if((form_cabecera_ctr.smkValidate())&&(form_ctr_admin.smkValidate())){
+           let data={
+               'tipo':tipo_solicitud_th_ctr.val(),
+               'id_personal':personal_txt.val(),
+               'id_solicitud':id_solicitud_txt.val(),
+               'id_regimen':tipo_regimen_ctr.val(),
+               'denominacion':id_denominacion_admin.val(),
+               'rmu':rmu_admin_ctr.val(),
+               'fecha_inicio':fecha_inicio_ctr.val(),
+               'fecha_finaliza':fecha_fin_ctr.val(),
+               'id_titulo':titulo_academico_ctr.val()
+           };
+           console.log(JSON.stringify(data));
+           SaveContrato(data,function (resp){
+               console.log(resp);
+               if(resp.opcion === '1'){
+                   tabla_lista_solicitud_contrato_th.DataTable().ajax.reload();
+                   toastr.success(resp.mensaje,'Crear Contrato');
+               }else if(resp.opcion === '2'){
+                   toastr.error(resp.mensaje,'Crear Contrato');
+               }
+           });
+       }
+   });
+    
+   departamento_sl_ctr_th.change(function () {
+       TablaSolicitudes_th($(this).val());
+   });
+
+   fecha_inicio_ctr.datepicker().on('changeDate', function(ev){
+        fecha_ini=new Date(ev.date.getFullYear(),ev.date.getMonth(),ev.date.getDate(),0,0,0);
+            if(fecha_fin!==null&&fecha_fin!=='undefined'){
+                if(fecha_fin<=fecha_ini){
+                    toastr.error('Fecha Finalización No Puede Ser Menor A Fecha Inicio');
+                    fecha_ini=null;
+                    fecha_inicio_ctr.val("");
+                }else{
+                    meses_ctr.val(Meses(fecha_fin,fecha_ini));
+                }
+            }
+    });
+
+   fecha_fin_ctr.datepicker().on("changeDate", function(ev){
+            fecha_fin=new Date(ev.date.getFullYear(),ev.date.getMonth(),ev.date.getDate(),0,0,0);
+            if(fecha_ini!==null&&fecha_ini!=='undefined'){
+                if(fecha_fin<=fecha_ini){
+                    toastr.error('Fecha Finalización No Puede Ser Menor A Fecha Inicio');
+                    fecha_fin=null;
+                    fecha_fin_ctr.val("");
+                }else{
+                    meses_ctr.val(Meses(fecha_fin,fecha_ini));
+                }
+            }
+    });
+
+   tabla_lista_solicitud_contrato_th.on("click","a.CrearContrato",function () {
+        let datos=tabla_lista_solicitud_contrato_th.DataTable().row( $(this).parents("tr") ).data();
+        if(datos!==null){
+            personal_txt.val(datos.id_personal);
+            id_solicitud_txt.val(datos.id_solicitud_contrato);
+            tipo_solicitud_th_ctr.val(datos.t_contrato);
+            observacion_th_ctr.val(datos.observacion);
+            n_documento_th_ctr.val(datos.cedula_aspirante);
+            aspirante_th_ctr.val(datos.aspirante);
+            if(datos.t_contrato==='DOCENTE') {
+                puesto_dedicacion_th_ctr.val(datos.dedicacion);
+            }else if(datos.t_contrato==='ADMINISTRATIVO'){
+                puesto_dedicacion_th_ctr.val(datos.puesto);
+            }
+            if(datos.t_contrato==='DOCENTE'){
+                panel_docente_ctr.prop('hidden',false);
+            }else if(datos.t_contrato==='ADMINISTRATIVO'){
+                panel_administrativo_ctr.prop('hidden',false);
+            }
+            ListarTitulos(datos.id_personal,titulo_academico_ctr);
+            modal_crear_contrato_th.modal('show');
+        }
+
+   });
+
+   form_ctr_docente.on("change","select",function () {
+      console.log('se hizo cliccc');
+       LlenarRenumeracionDocente(tipo_categoria_docente_ctr.val(),nivel_docente_ctr.val(),dedicacion_docente_ctr.val(),function (datos) {
+          if(datos!== null){
+              id_denominacion_docente.val(datos.id_denominacion_docente);
+              rmu_docente_ctr.val(datos.rmu);
+          }else{
+              id_denominacion_docente.val('');
+              rmu_docente_ctr.val('');
+          }
+       });
+   });
+
+   form_ctr_admin.on("change","select",function () {
+       console.log('se hizo cliccc admin');
+       LLenarRemneracionAdmin(gp_ocupacional_admin_ctr.val(),puesto_administrativo_ctr.val(),function (datos) {
+           if(datos!== null) {
+               id_denominacion_admin.val(datos.id_denominacion_admin);
+               rmu_admin_ctr.val(datos.rmu);
+           }else{
+               id_denominacion_admin.val('');
+               rmu_admin_ctr.val('');
+           }
+       })
+   });
+
+   function limpiarFormulario() {
+        fecha_inicio_ctr.datepicker('update', '');
+        fecha_fin_ctr.datepicker('update', '');
+        form_cabecera_ctr.smkClear();
+        form_cabecera_ctr[0].reset();
+        form_ctr_docente.smkClear();
+        form_ctr_docente[0].reset();
+        form_ctr_admin.smkClear();
+        form_ctr_admin[0].reset();
+        panel_docente_ctr.prop('hidden',true);
+        panel_administrativo_ctr.prop('hidden',true);
+        fecha_ini=null;
+        fecha_fin=null;
+   }
+
 });
 
 //funciones
-function PasarDatos(data) {
-   $('#id_aspirante_th_ctr').val(data.id_personal);
-   $('#tipo_contrato_th_ctr').val(data.tipo_solicitud);
-   $('#aspirante_th_ctr').val(data.aspirante);
-   $('#n_documento_th_ctr').val(data.cedula_aspirante);
-   $('#observacion_th_ctr').val(data.observacion);
-   if(data.tipo_solicitud ==='ADMINISTRATIVO'){
-       $('#puesto_dedicacion_th_ctr').val(data.puesto);
-   }else{
-       $('#puesto_dedicacion_th_ctr').val(data.dedicacion);
-   }
-
+function SaveContrato(datos,callback){
+    $.ajax({
+        url:'cTalento_humano/CrearContrato',
+        type:'POST',
+        dataType:'json',
+        data:datos,
+        beforeSend:function () {
+            swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});
+            swal.showLoading();
+        },
+        success:function(response){
+            callback(response);
+        },
+        complete:function () {
+            swal.closeModal();
+        },
+        error:function() {
+            console.log('Error al enviar la peticion crear contrato ');
+        }
+    });
 }
 
-function Tabla_Solicitudes_th(dpto,tipo_solicitud) {
-    var tabla_solicitudes_th=$('#tabla_lista_solicitud_contrato_th').DataTable({
-        "destroy":true,
-        "autoWidth":false,
-        "scrollCollapse": true,
-        "responsive":true,
-        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
-        "language":{
-            "url": 'public/locales/Spanish.json'
-        },
-        "ajax":{
-            "method":"POST",
-            "url":"cTalento_humano/GetSolicitud_Contrato_th",
-            "data":{'dpto':dpto,'tipo':tipo_solicitud},
-            beforeSend:function () {
-                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
-                swal.showLoading();
-            },
-            complete:function () {
-                swal.closeModal();
-            }
-        },
-        "columns":[
-            {"data":null,"width":"15%",'orderable': false},
-            {"data":"departamento","width":"16%",'orderable': false},
-            {"data":"cordinador","width":"18%"},
-            {"data":"fecha_solicitud","width":"15%"},
-            {"data":"tipo_solicitud","width":"15%"},
-            {"data":"categoria","width":"15%"},
-            {"data":null},
-            {"data":"observacion"},
-            {"data":"estado","width": "9%"},
-            {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
-        ],
-        "columnDefs": [
-            {
-                "targets": [0],
-                "render":function(data) {
-                    return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
-                }
-            },
-            {
-                "targets": [6],
-                "render":function(data) {
-                    if(data.tipo_solicitud === 'ADMINISTRATIVO'){
-                        return " <span>"+ data.puesto+"</span>";
-                    }else if(data.tipo_solicitud === 'DOCENTE'){
-                        return " <span>"+ data.dedicacion+"</span>";
-                    }
-
-                }
-            },
-            {   "targets": [8],
-                "data": "estado",
-                "render": function(data, type, full) {
-                    if(data === 'P'){
-                        return '<span class="label label-warning">PROCESO</span>';
-                    }else if(data === 'R') {
-                        return '<span class="label label-danger">RECHAZADA</span>';
-                    }else if (data === 'A'){
-                        return '<span class="label label-success">ACEPTADA</span>';
-                    }
-                }
-            },
-            {   "targets": [9],
-                "render": function(data, type, row) {
-                      return "<button type='button' class='selecion_solicitud_th btn btn-primary'   data-toggle='tooltip' data-placement='bottom' title='seleccionar solicitud'> <i class='fa fa-check-square-o'></i></button>";
-                }
-            }
-        ]
-    });
+function ListarTitulos(id_personal,combo){
+   $(combo).find('option').remove();
+   $(combo).append('<option value="">seleccione</option>');
+   $.post('Campos/ListarTitulos',{'id_personal':id_personal},function (datos, estado){
+       if (estado === 'success')$.each(datos, function (index, value) {
+           $(combo).append('<option value='+value.id_inst_formal+'>'+value.titulo+'</option>');
+       });
+   },'json');
 }
 
 function CargaComboDepartamentos_th(combo) {
@@ -140,4 +266,189 @@ function CargaCombo_th(combo,id) {
             $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
         });
     },'json');
+}
+
+function ComboNiveles_contrato(combo,id) {
+    $(combo).find('option').remove();
+    $(combo).append('<option value="">seleccione</option>');
+    $.post('cTalento_humano/ListaNiveles',{'categoria':id},function (datos, estado, xhr) {
+        if (estado === 'success') $.each(datos, function (index, value) {
+            $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
+        });
+    },'json');
+}
+
+function ComboDedicacion_contrato(combo,id) {
+    $(combo).find('option').remove();
+    $(combo).append('<option value="">Seleccione</option>');
+    $.post('cTalento_humano/ListaDedicacion',{'dedicacion':id},function (datos, estado, xhr) {
+        if (estado === 'success') $.each(datos, function (index, value) {
+            $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
+        });
+    },'json');
+}
+
+function LlenarRenumeracionDocente(categoria,nivel,dedicacion,callback){
+   $.post('cTalento_humano/ListaRemuneracionDocente',{'catetoria':categoria,'nivel':nivel,'dedicacion':dedicacion},function (datos,estado,xhr) {
+       if(estado ==='success'){
+           callback(datos);
+       }else if(estado ==='error'){
+         console.log("error"+xhr);
+       }
+   },'json');
+}
+
+function ListaOcupaciones(combo,id_grupo){
+   $(combo).find('option').remove();
+   $(combo).append('<option value="">seleccione</option>');
+   $.post('cTalento_humano/ListaOcupacion',{'grupo_ocupacion':id_grupo},function (datos,estado,xhr) {
+       if(estado ==='success')$.each(datos, function (index, value) {
+           $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
+       });
+   },'json');
+}
+
+function LLenarRemneracionAdmin(grupo,puesto,callback) {
+    $.post('cTalento_humano/ListaRemuneracionAdmin',{'grupo_ocupacion':grupo,'puesto':puesto},function (datos,estado,xhr) {
+        if(estado ==='success'){
+            callback(datos);
+        }else if(estado ==='error'){
+            console.log("error"+xhr);
+        }
+    },'json');
+}
+
+function Meses(fecha_final,fecha_inicial) {
+  inicio=moment(fecha_inicial);
+  finaliza=moment(fecha_final);
+  if((inicio!==null&&inicio!=='undefined')&& (finaliza!==null&&finaliza!=='undefined')){
+      return finaliza.diff(inicio,'month');
+  }
+}
+
+function Generar_hoja_vida(id_persona) {
+    let html ="<div class='modal-dialog'>";
+    html +=" <div class='modal-content'>";
+    html +=" <div class='modal-header'>";
+    html +=" <button type='button'  id='btn_cerrar_md_banco' name='btn_cerrar_md_banco' class='close' data-dismiss='modal'>&times;</button>";
+    html +=" <h4 class='panel-title'>Hoja de Vida</h4>";
+    html +=" </div>";
+    html +=" <div class='modal-body'>";
+    html +="<iframe id='frame' height='650' width='100%' src='cTalento_humano/Hoja_Vida/?id="+id_persona+"'  frameborder='0'></iframe>";
+    html +=" </div>";
+    html +=" </div>";
+    html +=" </div>";
+    $('#pdf_contenedor_hv').html(html);
+    $("#pdf_contenedor_hv").modal('show');
+}
+
+function TablaSolicitudes_th(id_dpto) {
+   $('#tabla_lista_solicitud_contrato_th').DataTable({
+        "destroy":true,
+        "autoWidth":false,
+        "scrollCollapse": true,
+        "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+        "language":{
+            "url": 'public/locales/Spanish.json'
+        },
+        "ajax":{
+            "method":"POST",
+            "url":"cTalento_humano/SolicitudContrato",
+            "data":{'id_dpto':id_dpto},
+            beforeSend:function () {
+                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                swal.showLoading();
+            },
+            complete:function () {
+                swal.closeModal();
+            }
+        },
+        "columns":[
+            {"data":"codigo","width":"9%"},
+            {"data":null,"width":"22%",'orderable': false},
+            {"data":"departamento","width":"16%",'orderable': false},
+            {"data":"cordinador","width":"18%"},
+            {"data":"fecha_solicitud","width":"12%"},
+            {"data":"t_contrato","width":"9%"},
+            {"data":null},
+            {"data":"observacion"},
+            {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
+        ],
+        "columnDefs": [
+            {
+                "targets": [1],
+                "render":function(data) {
+                    return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
+                }
+            },
+            {
+                "targets": [6],
+                "render":function(data) {
+                    if(data.t_contrato === 'ADMINISTRATIVO'){
+                        return " <span>"+ data.puesto+"</span>";
+                    }else if(data.t_contrato === 'DOCENTE'){
+                        return " <span>"+ data.dedicacion+"</span>";
+                    }
+
+                }
+            },
+            {   "targets": [8],
+                "render": function(data,row) {
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li><li><a href="#" onclick="TablaProcesoSolicitud('+data.id_solicitud_contrato+')" data-toggle="modal" data-target="#md_solicitud_proceso" > <i class="fa fa-gears"></i> Ver Proceso</a></li><li><a href="#" class="CrearContrato"><i class="fa fa-file-o" aria-hidden="true"></i> Nuevo Contrato</a></li>  </ul></div></span>';
+                }
+            }
+        ]
+    });
+}
+
+function TablaProcesoSolicitud(id_solicitud){
+   $('#tabla_proceso_solicitud').DataTable({
+       "destroy":true,
+       "paging": false,
+       "searching": false,
+       "ordering":  false,
+       "info":false,
+       "autoWidth":true,
+       "orderClasses": true,
+       "responsive":true,
+       "language":{
+           "url": 'public/locales/Spanish.json'
+       },
+       "ajax":{
+           "method":"POST",
+           "url":"cTalento_humano/ProcesoSolicitud",
+           "data":{'id_solicitud':id_solicitud},
+           beforeSend:function () {
+               swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+               swal.showLoading();
+           },
+           complete:function () {
+               swal.closeModal();
+           }
+       },
+       "columns":[
+           {"data":"proceso"},
+           {"data":"usuario"},
+           {"data":"fecha"},
+           {"data":"hora"},
+           {"data":"observacion"},
+           {"data":"estado"}
+       ],
+       "columnDefs": [
+           {
+               "targets": [5],
+               "data": "p_estdo",
+               "render": function(data, type, full) {
+                   if(data === 'P'){
+                       return '<span class="label label-warning">PENDIENTE</span>';
+                   }else if(data === 'R') {
+                       return '<span class="label label-danger">RECHAZADA</span>';
+                   }else if (data === 'A'){
+                       return '<span class="label label-info">ACEPTADA</span>';
+                   }
+               }
+           }
+       ]
+   });
 }

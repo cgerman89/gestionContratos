@@ -40,7 +40,7 @@ $(document).ready(function(){
     //Aprobar masivamente
     $('#btn_apro_mas').click(function (e) {
         e.preventDefault();
-        if($('#spNumSolApro').html()!=0){
+        if($('#spNumSolApro').html()!==0){
             swal({
                 title: 'Aprobar Solicitudes!',
                 html: "<span>¿Aprobar Las ( <b>"+$('#spNumSolApro').html()+"</b> ) Solicitudes Seleccionadas?</span>",
@@ -52,27 +52,26 @@ $(document).ready(function(){
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si'
             }).then(function () {
-                var cont=0;
+                let cont=0;
                 $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
                     $(this).children('td').each(function(indiceColumna) {
-                        if(indiceColumna == 9){
+                        if(indiceColumna == 7){
                             if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
-                                var idAspAp = $('.idAspApro:eq('+indiceFila+')').prop('id');
-                                Aprueba_rector_masivamente(idAspAp);
-                                cont++;
+                                let idAspAp = $('.idAspApro:eq('+indiceFila+')').prop('id');
+                                Aprueba_rector_masivamente(idAspAp,function (datos) {
+                                    if(datos.fnc_aprobar_rector === "OK"){
+                                        cont++;
+                                    }
+                                });
                             }
                         }
                     });
                 });
-
                 setTimeout(function () {
                     toastr.info(cont+' Solicitud(es) aprobada(s) exitosamente.');
                     //LLenar tabla de acuerdo a lo que hay en el combo en la vista Solicitudes por aprobar
                     tbl_aprobar_rector_depto();
-                    //Poner en el combo "Seleccione el departamento" en la vista Flujo de procesos para la elaboración de un nuevo contrato
-                    //$('#cbodepartamentoflu option[value="-2"]').prop('selected',true);
                     $('#cbodepartamentoflu').val('-2').trigger('change.select2');
-                    $('#tblLisAspFluProc').DataTable().destroy();
                     tbl_flujo_procesos_depto();
 
                 },1000);
@@ -89,7 +88,7 @@ $(document).ready(function(){
         let cont=0;
         $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
             $(this).children('td').each(function(indiceColumna) {
-                if(indiceColumna == 9){
+                if(indiceColumna === 9){
                     if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                         cont++;
                     }
@@ -105,7 +104,7 @@ $(document).ready(function(){
             let cont=0;
             $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
                 $(this).children('td').each(function(indiceColumna) {
-                    if(indiceColumna == 9){
+                    if(indiceColumna == 8){
                         if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                             cont++;
                         }
@@ -157,14 +156,13 @@ function tbl_aprobar_rector_depto(id_dpto) {
             }
         },
         'columns': [
+            {"data":"codigo"},
             {"data": null,"width": "13%"},
             {"data": 'departamento'},
             {"data": 'cordinador'},
             {"data": 'fecha_solicitud'},
             {"data": 't_contrato'},
-            {"data": 'categoria'},
             {"data": null},
-            {"data": 'estado_apro_rec'},
             {"data": null, 'searchable':false, "orderable": false},
             {"orderable": false, 'searchable':false,
                 render:function(data, type, row){
@@ -186,7 +184,7 @@ function tbl_aprobar_rector_depto(id_dpto) {
         ],
         "columnDefs": [
             {
-                "targets": [0],
+                "targets": [1],
                 "render": function(data) {
                     return "<div class='idAspApro' id="+data.id_solicitud_contrato+"></div>" +
                            "<span><i class='fa fa-user'></i> &nbsp;"+data.aspirante+"</span><br>"+
@@ -206,15 +204,6 @@ function tbl_aprobar_rector_depto(id_dpto) {
             },
             {
                 "targets": [7],
-                "data": "estado_apro_rec",
-                "render": function(data) {
-                    if (data === 'P') {
-                        return "<span class='label label-warning'>PENDIENTE</span>";
-                    }
-                }
-            },
-            {
-                "targets": [8],
                 "render": function(data) {
                     if (data.estado_apro_rec === 'P') {
                         return "<input class='checkboxstabla' id='checkbox1' name='checkbox1' type='checkbox' checked>";
@@ -250,15 +239,14 @@ function tbl_flujo_procesos_depto(id_dpto) {
             }
         },
         'columns': [
-            {data: null,"width": "13%"},
+            {"data":"codigo"},
+            {"data": null,"width": "13%"},
             {"data": 'departamento'},
             {"data": 'cordinador'},
             {"data": 'fecha_solicitud'},
             {"data": 't_contrato'},
-            {"data": 'categoria'},
             {"data":  null},
             {"data": 'observacion'},
-            {"data": null},
             {"orderable": false, 'searchable':false,
                 render:function(data, type, row){
                     return '<span class="pull-left">' +
@@ -278,7 +266,7 @@ function tbl_flujo_procesos_depto(id_dpto) {
         ],
         "columnDefs": [
             {
-                "targets": [0],
+                "targets": [1],
                 "render": function(data) {
                     return "<span><i class='fa fa-user'></i> &nbsp;"+data.aspirante+"</span><br>"+
                            "<span><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+"</span>";
@@ -293,15 +281,6 @@ function tbl_flujo_procesos_depto(id_dpto) {
                     else if(data.t_contrato === 'ADMINISTRATIVO'){
                         return "<span>"+data.puesto+"</span>";
                     }
-                }
-            },
-            {
-                "targets": [8],
-                "render": function(data) {
-                    if (data.estado_apro_rec === 'A'){
-                        return '<span class="label label-info">ACEPTADA</span>';
-                    }
-
                 }
             }
         ],
@@ -333,20 +312,19 @@ function tbl_flujo_procesos_solicitudes_rechazadas(id_dpto) {
             }
         },
         'columns': [
+            {"data":"codigo"},
             {"data": null,"width": "13%"},
             {"data":'departamento'},
             {"data":'cordinador'},
             {"data":'fecha_solicitud'},
             {"data":'t_contrato'},
-            {"data":'categoria'},
             {"data": null},
             {"data":'observacion'},
-            {"data": null},
             {"data": null , 'searchable':false}
         ],
         "columnDefs": [
             {
-                "targets": [0],
+                "targets": [1],
                 "render": function(data) {
                     return "<span><i class='fa fa-user'></i> &nbsp;"+data.aspirante+"</span><br>"+
                         "<span><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+"</span>";
@@ -363,16 +341,7 @@ function tbl_flujo_procesos_solicitudes_rechazadas(id_dpto) {
                     }
                 }
             },
-            {
-                "targets": [8],
-                "render": function(data) {
-                    if (data.estado === 'R'){
-                        return '<span class="label label-danger">RECHAZADA</span>';
-                    }
-
-                }
-            },
-            {   "targets": [9],
+            {   "targets": [8],
                 "render": function(data) {
                     return "<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' onClick='Generar_hoja_vida("+data.id_personal+")'><i style='color:black;' class='fa fa-file-pdf-o' aria-hidden='true'></i> Hoja de vida</a></li><li><a href='#' class='info_rechazada'><i class='fa fa-info'></i> info</a></li></ul></div></span>"
                 }
@@ -509,9 +478,13 @@ Aprueba_rector = function(IdSolContrato,aspirante){
 };
 
 //Con esta función aprobamos masivamente las solicitudes (Cambiar el estado de la aprobación del rector)
-Aprueba_rector_masivamente = function(IdSolContrato){
-    $.post("cRectorado/AprobarSolicitud",{Id_sol_contrato:IdSolContrato});
-};
+function Aprueba_rector_masivamente(Id_sol_contrato,callback){
+    $.post('cRectorado/AprobarSolicitud',{'Id_sol_contrato':Id_sol_contrato},function (datos,estado,xhr) {
+        if(estado === 'success'){
+           callback(datos);
+        }
+    },'json');
+}
 
 //Con esta función rechazamos la solicitud (Cambiar el estado de la aprobación del rector)
 rechazar_rector = function(IdSolContrato, aspirante){
@@ -542,19 +515,14 @@ rechazar_rector = function(IdSolContrato, aspirante){
         })
       }
     }).then(function (observacion) {
-        $.post("cRectorado/RechazarSolicitud",
-                {
-                Id_sol_contrato:IdSolContrato,
-                observa:observacion
-                },
-                function(data){
-                    var res=JSON.parse(data);
-                    if (res.fnc_rechazar_solicitud_rector === 'OK') {
-                        toastr.error('Solicitud de: '+aspirante+' rechazada correctamente.');
-                        $('#tblLisAspPorApro').DataTable().ajax.reload();
-                        $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
-                    }
-                });
+        $.post("cRectorado/RechazarSolicitud",{Id_sol_contrato:IdSolContrato,observa:observacion},function(data){
+             let res=JSON.parse(data);
+             if (res.fnc_rechazar_solicitud_rector === 'OK') {
+                toastr.error('Solicitud de: '+aspirante+' rechazada correctamente.');
+                $('#tblLisAspPorApro').DataTable().ajax.reload();
+                $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
+             }
+        });
     })
 };
 

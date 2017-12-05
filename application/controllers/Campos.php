@@ -7,10 +7,12 @@
  * Time: 16:19
  */
 class Campos extends  CI_Controller {
+
     function __construct(){
         parent::__construct();
         $this->load->model('Campos_model');
     }
+
     public function Pais(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargarPais();
@@ -19,6 +21,7 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Provincia(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargarProvin($this->input->post('id_pais'));
@@ -36,6 +39,7 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Parroquia(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargarParroquia($this->input->post('id_canton'));
@@ -44,6 +48,7 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Tipo(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargaTipo($this->input->post('id'));
@@ -61,6 +66,7 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Tipo_hijo(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargaTipoHijo($this->input->post('id_hijo'));
@@ -78,6 +84,7 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Universidad(){
         if ($this->input->is_ajax_request()) {
             $res = $this->Campos_model->CargaUniversidad();
@@ -86,6 +93,7 @@ class Campos extends  CI_Controller {
             echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Instrumento_Pub(){
        if ($this->input->is_ajax_request()) {
             $cadena=$this->input->post('q');
@@ -111,6 +119,7 @@ class Campos extends  CI_Controller {
             echo json_encode($respuesta);
 
     }
+
     public function EliminarFile(){
         if ($this->input->is_ajax_request()) {
                   $base = './uploads/'.$this->input->post('carpeta').'/'.$this->input->post('nombre');
@@ -125,5 +134,13 @@ class Campos extends  CI_Controller {
         }  
     }
 
-
+    public function ListarTitulos(){
+        if ($this->input->is_ajax_request()){
+            if(empty($this->input->post('id_personal'))!==true){
+              echo json_encode($this->Campos_model->CargaTituloUniversitario($this->input->post('id_personal')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
 }

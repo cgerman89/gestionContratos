@@ -29,7 +29,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <a name="btn_apro_mas" id="btn_apro_mas" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aprobar masivamente">
-                                            <span class="badge bg-blue" id="spNumSolApro"></span>
+                                            <span class="badge" id="spNumSolApro"></span>
                                             <i class="fa fa-check-square-o"></i> APROBAR
                                         </a>
                                     </div>
@@ -41,6 +41,10 @@
                                     <table id="tblLisAspPorApro" class="table small table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
+                                            <th>
+                                                <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                                Codigo
+                                            </th>
                                             <th>
                                                 <i class="fa fa-user-o" aria-hidden="true"></i>
                                                 Aspirante
@@ -62,16 +66,8 @@
                                                 Solicitud
                                             </th>
                                             <th>
-                                                <i class="fa fa-flag" aria-hidden="true"></i>
-                                                Categoria
-                                            </th>
-                                            <th>
                                                 <i class="fa fa-briefcase" aria-hidden="true"></i>
                                                 Dedicacion/Puesto
-                                            </th>
-                                            <th>
-                                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                Estado
                                             </th>
                                             <th class="text-center">
                                                 <i class="fa fa-check-square-o"></i>
@@ -108,6 +104,10 @@
                                     <thead class="bg-light-blue">
                                     <tr>
                                         <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                            Codigo
+                                        </th>
+                                        <th>
                                             <i class="fa fa-user-o" aria-hidden="true"></i>
                                             Aspirante
                                         </th>
@@ -128,20 +128,12 @@
                                             Solicitud
                                         </th>
                                         <th>
-                                            <i class="fa fa-flag" aria-hidden="true"></i>
-                                            Categoria
-                                        </th>
-                                        <th>
                                             <i class="fa fa-briefcase" aria-hidden="true"></i>
                                             Dedicacion/Puesto
                                         </th>
                                         <th>
                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                             Observacion
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                            Estado
                                         </th>
                                         <th>
                                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -260,6 +252,10 @@
                                     <thead class="bg-light-blue">
                                     <tr>
                                         <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                            Codigo
+                                        </th>
+                                        <th>
                                             <i class="fa fa-user-o" aria-hidden="true"></i>
                                             Aspirante
                                         </th>
@@ -280,20 +276,12 @@
                                             Solicitud
                                         </th>
                                         <th>
-                                            <i class="fa fa-flag" aria-hidden="true"></i>
-                                            Categoria
-                                        </th>
-                                        <th>
                                             <i class="fa fa-briefcase" aria-hidden="true"></i>
                                             Dedicacion/Puesto
                                         </th>
                                         <th>
                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                             Observacion
-                                        </th>
-                                        <th>
-                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                            Estado
                                         </th>
                                         <th>
                                             <i class="fa fa-cog" aria-hidden="true"></i>

@@ -9,9 +9,13 @@
 class cTalento_humano extends CI_Controller{
 
     private $idusuario=0;
+
     function __construct(){
         parent::__construct();
         $this->load->model('mTalento_humano');
+        $this->load->model('Solicitud_Contrato_Modelo');
+        $this->load->model('Contrato_Modelo');
+        $this->load->library('Carga_pdf');
         $this->idusuario=$this->session->userdata('id_personal');
     }
 
@@ -30,6 +34,25 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
+    public function CrearContrato(){
+        if ($this->input->is_ajax_request()){
+             $datos = array (
+                 'p_tipo'=>$this->input->post('tipo'),
+                 'p_id_personal'=>$this->input->post('id_personal'),
+                 'p_id_solicitud'=>$this->input->post('id_solicitud'),
+                 'p_id_regimen'=>$this->input->post('id_regimen'),
+                 'p_id_denominacion'=>$this->input->post('denominacion'),
+                 'p_remuneracion'=>$this->input->post('rmu'),
+                 'p_fecha_inicio'=>$this->input->post('fecha_inicio'),
+                 'p_fecha_finaliza'=>$this->input->post('fecha_finaliza'),
+                 'p_id_titulo'=>$this->input->post('id_titulo')
+             );
+             echo json_encode($this->Contrato_Modelo->SaveContrato($datos));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
     public function GetListadoDepartamentos(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->mTalento_humano->getListadoDepartamentos());
@@ -37,62 +60,77 @@ class cTalento_humano extends CI_Controller{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
-    public function GetListTipo(){
-        if ($this->input->is_ajax_request()) {
-            $res = $this->mTalento_humano->CargaTipo($this->input->post('Id_Cat_tipo'));
-            echo json_encode($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
-        }
-    }
 
-    public function GetListNivel(){
+    public function SolicitudContrato(){
         if ($this->input->is_ajax_request()) {
-            $res = $this->mTalento_humano->getListNivel($this->input->post('Id_Cat'));
-            echo json_encode($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
-        }
-    }
-
-    public function GetListDedicacion(){
-        if ($this->input->is_ajax_request()) {
-            $res = $this->mTalento_humano->getListDedicacion($this->input->post('Id_Cat'),$this->input->post('Id_Niv'));
-            echo json_encode($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
-        }
-    }
-
-    public function GetRemuneracion(){
-        if ($this->input->is_ajax_request()) {
-            $res = $this->mTalento_humano->getRemuneracion($this->input->post('Id_Cat'),$this->input->post('Id_Niv'),$this->input->post('Id_Ded'));
-            echo json_encode($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
-        }
-    }
-
-    public function GetListProfesiones(){
-        if ($this->input->is_ajax_request()) {
-            $id=$this->input->post('IdPersonal');
-            echo json_encode($this->mTalento_humano->getListProfesiones($id));
-        }else{
-            echo show_error('No Tiene Acceso Esta Url','403', $heading = 'Error de Acceso');
-        }
-    }
-
-    public function GetSolicitud_Contrato_th(){
-        if ($this->input->is_ajax_request()) {
-            if($this->input->post('dpto')==='-1'){
-                $res =$this->mTalento_humano->ListaAllSolicitudes($this->input->post('tipo'));
-            }else{
-                $res =$this->mTalento_humano->ListaSolicitudes($this->input->post('dpto'),$this->input->post('tipo'));
+            if($this->input->post('id_dpto') === '-3'){
+              echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudAceptadaAll());
+            }else if($this->input->post('id_dpto') !== ''){
+              echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudAceptada($this->input->post('id_dpto')));
             }
-            echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
+    public function ProcesoSolicitud(){
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListaNiveles(){
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->mTalento_humano->Tipo(5,$this->input->post('categoria')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListaDedicacion(){
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->mTalento_humano->Tipo(4,$this->input->post('dedicacion')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListaRemuneracionDocente(){
+        if ($this->input->is_ajax_request()){
+           if( (!empty($this->input->post('catetoria'))==true) && (!empty($this->input->post('nivel'))==true) && (!empty($this->input->post('dedicacion'))==true) ) {
+               echo json_encode($this->mTalento_humano->Remuneracion_Docente($this->input->post('catetoria'), $this->input->post('nivel'), $this->input->post('dedicacion')));
+           }else{
+               echo json_encode(null);
+           }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListaOcupacion(){
+        if ($this->input->is_ajax_request()){
+            echo json_encode($this->mTalento_humano->Tipo(8,$this->input->post('grupo_ocupacion')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListaRemuneracionAdmin(){
+        if ($this->input->is_ajax_request()){
+            if((!empty($this->input->post('grupo_ocupacion'))==true) && (!empty($this->input->post('puesto'))==true)){
+                echo json_encode($this->mTalento_humano->ListaRemuneracionAdmin($this->input->post('grupo_ocupacion'),$this->input->post('puesto')));
+            }else{
+                echo json_encode(null);
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function Hoja_Vida(){
+        $id=$_GET['id'];
+        Carga_pdf::Hoja_Vida($id);
+    }
 }

@@ -9,6 +9,7 @@
 class cTalento_humano_as extends CI_Controller{
 
     private $idusuario=0;
+
     function __construct(){
         parent::__construct();
         $this->load->model('mTalento_humano_as');
@@ -16,6 +17,7 @@ class cTalento_humano_as extends CI_Controller{
         $this->load->library('Carga_pdf');
         $this->idusuario=$this->session->userdata('id_personal');
     }
+
     public function index(){
         if($this->session->userdata('login')=== TRUE){
             if($this->session->userdata('id_tipo_usuario') === '48') {
@@ -45,10 +47,10 @@ class cTalento_humano_as extends CI_Controller{
 
     public function AprobadasTalentoHumano(){
         if ($this->input->is_ajax_request()) {
-            if($this->input->post('id_cbo_dpto_flu')==='-3'){
-                echo json_encode($this->mTalento_humano_as->SolicitudesAllAprobadas_RH('A'));
+            if($this->input->post('id_dpto')==='-3'){
+                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRecursosHumanoAll('A'));
             }else{
-                echo json_encode($this->mTalento_humano_as->SolicitudesAprobadas_RH($this->input->post('id_cbo_dpto_flu'),'A'));
+                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRecursosHumano($this->input->post('id_dpto'),'A'));
             }
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
@@ -58,9 +60,9 @@ class cTalento_humano_as extends CI_Controller{
     public function RechazadasTalentoHumano(){
         if ($this->input->is_ajax_request()) {
             if($this->input->post('id_dpto')==='-3'){
-                echo json_encode($this->mTalento_humano_as->SolicitudesAllAprobadas_RH('R'));
+                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadasAll());
             }else{
-                echo json_encode($this->mTalento_humano_as->SolicitudesAprobadas_RH($this->input->post('id_cbo_dpto_flu'),'R'));
+                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadas($this->input->post('id_dpto')));
             }
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
@@ -70,7 +72,7 @@ class cTalento_humano_as extends CI_Controller{
 
     public function InfoSolicitudRechazada(){
         if ($this->input->is_ajax_request()){
-            echo json_encode($this->mTalento_humano_as->InfoSolicitudRechazada($this->input->post('id_solicitud')));
+            echo json_encode($this->Solicitud_Contrato_Modelo->InfoSolicitudRechazada($this->input->post('id_solicitud')));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
@@ -84,14 +86,9 @@ class cTalento_humano_as extends CI_Controller{
         }
     }
 
-    public function AprobarSolicitudTalentoHumano(){
+    public function AprobarSolicitud_th(){
         if ($this->input->is_ajax_request()) {
-            $campos = array(
-                'idSolcontrato' => $this->input->post('Id_sol_contratoTH'),
-                'idpersonal' => $this->idusuario,
-                'idcontratado' => $this->input->post('Id_contratado'),
-                'idTipoSol' => $this->input->post('Id_tipo_sol')
-            );
+            $campos = array('idSolcontrato' => $this->input->post('Id_sol_contratoTH'),'idpersonal' => $this->idusuario);
             $res = $this->mTalento_humano_as->AprobarSolicitudTalentoHumano($campos);
             echo json_encode($res);
         }else{
@@ -101,13 +98,16 @@ class cTalento_humano_as extends CI_Controller{
 
     public function RechazarSolicitudTalentoHumano(){
         if ($this->input->is_ajax_request()) {
-            $campos = array(
-                'idSolcontrato' => $this->input->post('Id_sol_contrato'),
-                'idpersonal' => $this->idusuario,
-                'observacion' => $this->input->post('observa')
-            );
-            $res = $this->mTalento_humano_as->RechazarSolicitudTalentoHumano($campos);
-            echo json_encode($res);
+            $campos = array('idSolcontrato' => $this->input->post('Id_sol_contrato'),'idpersonal' => $this->idusuario,'observacion' => $this->input->post('observa'));
+            echo json_encode($this->mTalento_humano_as->RechazarSolicitudTalentoHumano($campos));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ProcesoSolicitud(){
+        if ($this->input->is_ajax_request()) {
+             echo json_encode($this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud')));
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }

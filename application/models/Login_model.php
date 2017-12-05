@@ -22,8 +22,8 @@ class Login_model extends CI_Model {
     }
 
     public function Login_User($datos){
-        $this->db->db_set_charset('UTF-8');
-        $res=$this->db_user->query('SELECT p_mensaje, p_opcion , p_idpersonal,p_cedula,p_nombres,p_fecha_ultimo_acceso,p_t_usuario,p_desc_usuario FROM esq_roles.fnc_login_sth(?,?)',$datos);
+        $this->db->db_set_charset('LATIN1');
+        $res=$this->db->query('SELECT p_mensaje, p_opcion , p_idpersonal,p_cedula,p_nombres,p_t_usuario,p_desc_usuario FROM esq_contrato.fnc_login_sth(?,?)',$datos);
         //echo $this->db_user->last_query();
         if($res->num_rows() > 0){
             for ($i=0; $i < $res->num_rows(); $i++) {

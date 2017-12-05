@@ -190,7 +190,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="panel-body">
-                                                <form id="form_solicitud_contrato_asp" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove">
+                                                <form id="form_solicitud_contrato_asp" role="form" class="small">
                                                     <input type="text" id="txt_id_personal" name="txt_id_personal" hidden required>
                                                     <div class="col-md-6">
                                                         <label for="n_documento_sl_ctr" class="control-label">N° Documento</label>
@@ -211,25 +211,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="tipo_contrato_sl_ctr" class="control-label">Tipo Solicitud Contrato</label>
-                                                        <div class="form-group">
-                                                            <select name="tipo_contrato_sl_ctr" id="tipo_contrato_sl_ctr" class="form-control" required>
-                                                                <option value="">seleccione</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
                                                         <label for="fecha_sl_ctr" class="control-label">Fecha Solicitud</label>
                                                         <div class="form-group">
                                                             <input type="text" id="fecha_sl_ctr" name="fecha_sl_ctr" class="form-control" placeholder="YYYY-MM-DD" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="tipo_categoria_sl_ctr" class="control-label">Categoria</label>
-                                                        <div class="form-group">
-                                                            <select name="tipo_categoria_sl_ctr" id="tipo_categoria_sl_ctr" class="form-control" required>
-                                                                <option value="">seleccione</option>
-                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -240,8 +224,16 @@
                                                             </select>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <label for="tipo_contrato_sl_ctr" class="control-label">Tipo Solicitud</label>
+                                                        <div class="form-group">
+                                                            <select name="tipo_contrato_sl_ctr" id="tipo_contrato_sl_ctr" class="form-control" required>
+                                                                <option value="">seleccione</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </form>
-                                                <form id="form_tipo_docente" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove" hidden>
+                                                <form id="form_tipo_docente" role="form" class="small"  hidden>
                                                     <div class="col-md-6">
                                                         <label for="tipo_categoria_docente" class="control-label">Dedicacion</label>
                                                         <div class="form-group">
@@ -258,7 +250,7 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                                <form id="form_administrativo" role="form" class="small" data-smk-icon="glyphicon glyphicon-remove" hidden>
+                                                <form id="form_administrativo" role="form" class="small"  hidden>
                                                     <div class="col-md-6">
                                                         <label for="puesto_admin" class="control-label">Puesto</label>
                                                         <div class="form-group">
@@ -297,6 +289,10 @@
                                    <table id="tabla_solicitud" class="table small table-hover table-bordered">
                                         <thead class="bg-light-blue">
                                         <tr>
+                                            <th>
+                                                <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                                Codigo
+                                            </th>
                                             <th class="text-center">
                                                 <i class="fa fa-user-o" aria-hidden="true"></i>
                                                 Aspirante
@@ -304,10 +300,6 @@
                                             <th>
                                                 <i class="fa fa-file-text" aria-hidden="true"></i>
                                                 Solicitud
-                                            </th>
-                                            <th class="text-center">
-                                                <i class="fa fa-flag" aria-hidden="true"></i>
-                                                Categoria
                                             </th>
                                             <th>
                                                 <i class="fa fa-black-tie" aria-hidden="true"></i>
@@ -419,5 +411,6 @@
         </div>
         <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
     </div>
+  
 </div>
 <script src="<?php base_url()?>src/app/registro_asp.js"></script>

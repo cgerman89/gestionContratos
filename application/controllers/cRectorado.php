@@ -124,6 +124,7 @@ class cRectorado extends CI_Controller{
         $id=$_GET['id'];
         Carga_pdf::Hoja_Vida($id);
     }
+
     public function foto(){
         $id = $_GET['id'];
         $res = $this->mRectorado->Hoja_vida($id);

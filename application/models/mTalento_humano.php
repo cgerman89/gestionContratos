@@ -20,121 +20,31 @@ class mTalento_humano extends CI_Model {
         $r = $this->db->get();
         return $r->result();
     }
-
-    public function CargaTipo($idCategoriaTipo){
-        $this->db->select('t.idtipo,t.nombre');
-        $this->db->from('esq_catalogos.tipo t');
-        $this->db->join('esq_catalogos.categoria_tipo ct','ct.idcategoria_tipo=t.idcategoria_tipo');
-        $this->db->where('t.idcategoria_tipo',$idCategoriaTipo);
-        $this->db->where('t.nombre !=','ESCALAFON DOCENTE');
-        $this->db->where('t.habilitado','S');
-        $this->db->where('t.bloqueado','N');
-        $r=$this->db->get();
-        return $r->result();
+    public function Tipo($id_tipo,$id_padre){
+        $this->db->db_set_charset('UTF-8');
+        $this->db->select(" tipo.idtipo, tipo.nombre ")
+                 ->from(" esq_contrato.tipo ")
+                 ->where(" tipo.idcategoria_tipo", $id_tipo)->where(" tipo.idpadre ",$id_padre)->order_by(" idtipo");
+        $res = $this->db->get();
+        //echo $this->db->last_query();
+        return $res->result();
     }
 
-    public function getListNivel($idCategoria){
-        $this->db->select('DISTINCT(t.idtipo), t.nombre');
-        $this->db->from('esq_catalogos.tipo t');
-        $this->db->join('esq_contrato.denominacion_docente dd','dd.id_nivel_docente=t.idtipo');
-        $this->db->where('dd.id_categoria_docente',$idCategoria);
-        $this->db->where('t.habilitado','S');
-        $this->db->where('t.bloqueado','N');
-        $this->db->order_by('t.idtipo');
-        $r=$this->db->get();
-        return $r->result();
-    }
-
-    public function getListDedicacion($idCategoria,$idNivel){
-        $this->db->select('DISTINCT(t.idtipo), t.nombre');
-        $this->db->from('esq_catalogos.tipo t');
-        $this->db->join('esq_contrato.denominacion_docente dd','dd.id_dedicacion_docente=t.idtipo');
-        $this->db->where('dd.id_categoria_docente',$idCategoria);
-        $this->db->where('dd.id_nivel_docente',$idNivel);
-        $this->db->where('t.habilitado','S');
-        $this->db->where('t.bloqueado','N');
-        $this->db->order_by('t.idtipo');
-        $r=$this->db->get();
-        return $r->result();
-    }
-
-    public function getRemuneracion($idCategoria,$idNivel,$Dedicacion){
-        $this->db->select('dd.id_denominacion_docente, dd.rmu, dd.abrevia');
-        $this->db->from('esq_contrato.denominacion_docente dd');
-        $this->db->where('dd.id_categoria_docente',$idCategoria);
-        $this->db->where('dd.id_nivel_docente',$idNivel);
-        $this->db->where('dd.id_dedicacion_docente',$Dedicacion);
-        $this->db->where('dd.estado','S');
-        $r=$this->db->get();
-        return $r->result();
-    }
-
-    public function getListProfesiones($idPersonal){
-        $this->db->select('fp.idformacion_profesional, fp.titulo_obtenido');
-        $this->db->from('esq_datos_personales.p_formacion_profesional fp');
-        $this->db->where('fp.idpersonal',$idPersonal);
-        $r=$this->db->get();
-        return $r->result();
-    }
-
-    public function ProcesarSolicitudRRHH($data){
-        $res=$this->db->query('SELECT esq_contrato.fnc_proceso_rrhh(?,?,?,?,?,?,?,?,?);',$data);
+    public function Remuneracion_Docente($categoria, $nivel, $dedicacion){
+        $this->db->select(" denominacion_docente.id_denominacion_docente, denominacion_docente.rmu ")
+                 ->from(" esq_contrato.denominacion_docente ")
+                 ->where("denominacion_docente.id_categoria_docente ",$categoria)
+                 ->where(" denominacion_docente.id_nivel_docente ",$nivel)
+                 ->where(" denominacion_docente.id_dedicacion_docente", $dedicacion)->order_by(" id_denominacion_docente");
+        $res = $this->db->get();
         return $res->row();
     }
 
-
-    public function ListaSolicitudes($dpto,$tipo){
-        $this->db->select("solicitud_contrato.id_solicitud_contrato,
-                           solicitud_contrato.id_personal,
-                           (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_cordinador) as cordinador,
-                           (SELECT departamento.nombre FROM esq_distributivos.departamento WHERE departamento.iddepartamento=solicitud_contrato.id_departamento) as departamento,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_tipo_solicitud) as tipo_solicitud,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_categoria_solicitud) as categoria,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_puesto) as puesto,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_dedicacion) as dedicacion,
-                           solicitud_contrato.fecha_solicitud,
-                           (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as aspirante,
-                           (SELECT personal.cedula FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as cedula_aspirante,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_observacion) as observacion,
-                           solicitud_contrato.estado")
-                 ->from('esq_contrato.solicitud_contrato')
-                 ->where('solicitud_contrato.id_departamento',$dpto)->where('solicitud_contrato.id_tipo_solicitud',$tipo)->where("solicitud_contrato.estado='A'");
-        $res=$this->db->get();
-        //echo $this->db->last_query();
-        if($res->num_rows() > 0){
-            $data['data']=$res->result_array();
-            return $data;
-        }else{
-            $res=array('data' => "");
-        }
-        return $res;
+    public function ListaRemuneracionAdmin($grupo_ocupacion,$ocupacion){
+        $this->db->select(" d_admin.id_denominacion_admin, d_admin.rmu ")
+                 ->from(" esq_contrato.denominacion_administrativo as d_admin ")
+                 ->where(" d_admin.id_grupo_ocupacional ",$grupo_ocupacion)->where(" d_admin.id_puesto ",$ocupacion);
+        $res = $this->db->get();
+        return $res->row();
     }
-
-    public function ListaAllSolicitudes($tipo){
-        $this->db->select("solicitud_contrato.id_solicitud_contrato,
-                           solicitud_contrato.id_personal,
-                           (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_cordinador) as cordinador,
-                           (SELECT departamento.nombre FROM esq_distributivos.departamento WHERE departamento.iddepartamento=solicitud_contrato.id_departamento) as departamento,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_tipo_solicitud) as tipo_solicitud,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_categoria_solicitud) as categoria,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_puesto) as puesto,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_dedicacion) as dedicacion,
-                           solicitud_contrato.fecha_solicitud,
-                           (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as aspirante,
-                           (SELECT personal.cedula FROM esq_datos_personales.personal WHERE personal.idpersonal=solicitud_contrato.id_personal) as cedula_aspirante,
-                           (SELECT  esq_contrato.tipo.nombre from esq_contrato.tipo WHERE esq_contrato.tipo.idtipo=solicitud_contrato.id_observacion) as observacion,
-                           solicitud_contrato.estado")
-            ->from('esq_contrato.solicitud_contrato')
-            ->where('solicitud_contrato.id_tipo_solicitud',$tipo)->where("solicitud_contrato.estado='A'");
-        $res=$this->db->get();
-        //echo $this->db->last_query();
-        if($res->num_rows() > 0){
-            $data['data']=$res->result_array();
-            return $data;
-        }else{
-            $res=array('data' => "");
-        }
-        return $res;
-    }
-
 }

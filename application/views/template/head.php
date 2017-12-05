@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
+
     <link rel="stylesheet" href="<?php base_url()?>public/css/bootstrap.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/select2.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/select2-bootstrap.css">
@@ -42,6 +43,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php base_url()?>public/js/toastr.js"></script>
     <script src="<?php base_url()?>public/dist/js/app.min.js"></script>
     <script src="<?php base_url()?>public/js/select2.js"></script>
+    <script src="<?php base_url()?>public/js/moment.js"></script>
+    <script src="<?php base_url()?>public/js/moment-with-locales.js"></script>
     <!-- mis js de la app -->
     <script src="<?php base_url()?>src/app/home.js"></script>
 

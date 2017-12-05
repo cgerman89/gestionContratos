@@ -543,7 +543,7 @@
 
     if(type == 'select'){
       // Se agrega la clase de error
-      formGroup.addClass('has-feedback has-error smk-' + type);
+      formGroup.addClass('has-error smk-' + type);
       // Se agrega el icono y el mensaje de error
       formGroup.append(ico + msg);
     }else if(type == 'checkbox' || type == 'radio'){

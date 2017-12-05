@@ -18,7 +18,7 @@ class Login extends CI_Controller{
         if($this->session->userdata('login')=== TRUE){
                  redirect('/Home');
         }else{
-            $this->load->view('Login');
+            $this->load->view('Login_bulma');
         }
 
     }
@@ -58,9 +58,8 @@ class Login extends CI_Controller{
                      $info_rol['nombres']=$login_user['p_nombres'];
                      $info_rol['cedula']=$login_user['p_cedula'];
                      $info_rol['id_personal']=$login_user['p_idpersonal'];
-                     $info_rol['fecha_ult_acceso']=$login_user['p_fecha_ultimo_acceso'];
                      $info_rol['id_tipo_usuario']=$login_user['p_t_usuario'];
-                     $info_rol['tipo_usuario']=utf8_encode(trim($login_user['p_desc_usuario']));
+                     $info_rol['tipo_usuario']=$login_user['p_desc_usuario'];
                      $info_rol['usuario']=$usuario;
                      $info_rol['token'] = $this->Token();
                      $info_rol['login'] = TRUE;

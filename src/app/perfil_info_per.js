@@ -216,7 +216,7 @@ function CargaDatosInfo(callback){
         complete:function () {
             setTimeout(function () {
                 swal.closeModal();
-            },4000);
+            },5000);
         }
     });
 }
