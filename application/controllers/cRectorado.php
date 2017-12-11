@@ -16,6 +16,7 @@ class cRectorado extends CI_Controller{
         $this->load->library('Carga_pdf');
         $this->idusuario=$this->session->userdata('id_personal');
     }
+
     public function index(){
         if($this->session->userdata('login')=== TRUE){
             if($this->session->userdata('id_tipo_usuario') === '12') {

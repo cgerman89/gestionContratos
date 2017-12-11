@@ -17,6 +17,7 @@
             <!-- Navbar Right Menu -->
             <div class="navbar-custom-menu">
                <div class="nav navbar-nav">
+                   <!-- /.messages-menu -->
                    <li class="dropdown user user-menu">
                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                            <span class="hidden-xs"><?php echo $this->session->userdata('nombres');?></span>
@@ -75,7 +76,7 @@
                            $sub_menu=$row['submenu'];
                            foreach ($sub_menu as $item){
                         ?>
-                        <li><a href="<?=site_url($item['ruta'])?>"><i class="fa fa-circle-o text-aqua"></i><?=$item['descripcion'];?></a></li>
+                        <li><a href="<?=site_url($item['ruta'])?>"><?=$item['descripcion'];?></a></li>
                         <?php } ?>
                     </ul>
                 </li>

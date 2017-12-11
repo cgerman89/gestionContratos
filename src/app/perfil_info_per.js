@@ -205,6 +205,7 @@ function CargaDatosInfo(callback){
     $.ajax({
         url:'Perfil/RegisInf_Personal',
         type:'GET',
+        async: false,
         dataType:'Json',
         beforeSend:function () {
             swal({title:'espere...',allowOutsideClick:false,allowEnterKey:false});

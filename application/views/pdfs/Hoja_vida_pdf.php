@@ -5,7 +5,6 @@
 
 </head>
 <body>
-
 	<div align="center">
     <table width="100%" border="0" cellspacing="0">
   <tr>
@@ -27,8 +26,6 @@
     <td height="9" align="right" valign="top"><img src="<?php echo base_url(); ?>public/img/spansJPG.JPG" width="495" height="5" /></td>
   </tr>
 </table>
-
-
   	<p class="spacer">&nbsp;</p>
   	<table width="100%" cellpadding="3" border="0" cellspacing="2">
       <tr>

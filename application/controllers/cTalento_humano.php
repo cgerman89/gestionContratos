@@ -36,18 +36,44 @@ class cTalento_humano extends CI_Controller{
 
     public function CrearContrato(){
         if ($this->input->is_ajax_request()){
-             $datos = array (
-                 'p_tipo'=>$this->input->post('tipo'),
-                 'p_id_personal'=>$this->input->post('id_personal'),
-                 'p_id_solicitud'=>$this->input->post('id_solicitud'),
-                 'p_id_regimen'=>$this->input->post('id_regimen'),
-                 'p_id_denominacion'=>$this->input->post('denominacion'),
-                 'p_remuneracion'=>$this->input->post('rmu'),
-                 'p_fecha_inicio'=>$this->input->post('fecha_inicio'),
-                 'p_fecha_finaliza'=>$this->input->post('fecha_finaliza'),
-                 'p_id_titulo'=>$this->input->post('id_titulo')
-             );
-             echo json_encode($this->Contrato_Modelo->SaveContrato($datos));
+             if((!empty($this->input->post('id_contrato'))==true)){
+                 $campos=array(
+                     'id_contrato'=>$this->input->post('id_contrato'),
+                     'p_id_personal'=>$this->input->post('id_personal'),
+                     'p_id_titulo'=>$this->input->post('id_titulo'),
+                     'p_id_regimen'=>$this->input->post('id_regimen'),
+                     'p_fecha_inicio'=>$this->input->post('fecha_inicio'),
+                     'p_fecha_finaliza'=>$this->input->post('fecha_finaliza'),
+                     'p_remuneracion'=>$this->input->post('rmu'),
+                     'p_id_denominacion'=>$this->input->post('denominacion')
+                 );
+                 echo json_encode($this->Contrato_Modelo->UpdateContrato($campos));
+             }else {
+               $datos = array (
+                   'p_tipo'=>$this->input->post('tipo'),
+                   'p_id_personal'=>$this->input->post('id_personal'),
+                   'p_id_solicitud'=>$this->input->post('id_solicitud'),
+                   'p_id_regimen'=>$this->input->post('id_regimen'),
+                   'p_id_denominacion'=>$this->input->post('denominacion'),
+                   'p_remuneracion'=>$this->input->post('rmu'),
+                   'p_fecha_inicio'=>$this->input->post('fecha_inicio'),
+                   'p_fecha_finaliza'=>$this->input->post('fecha_finaliza'),
+                   'p_id_titulo'=>$this->input->post('id_titulo'),
+                   'p_id_departamento'=>$this->input->post('id_departamento'),
+                   'p_id_usuario'=>$this->idusuario
+               );
+               echo json_encode($this->Contrato_Modelo->SaveContrato($datos));
+             }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function EditarContrato(){
+        if ($this->input->is_ajax_request()){
+            if((!empty($this->input->post('id_contrato'))==true)){
+                echo json_encode($this->Contrato_Modelo->EditarContrato($this->input->post('id_contrato')));
+            }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
@@ -100,7 +126,7 @@ class cTalento_humano extends CI_Controller{
     public function ListaRemuneracionDocente(){
         if ($this->input->is_ajax_request()){
            if( (!empty($this->input->post('catetoria'))==true) && (!empty($this->input->post('nivel'))==true) && (!empty($this->input->post('dedicacion'))==true) ) {
-               echo json_encode($this->mTalento_humano->Remuneracion_Docente($this->input->post('catetoria'), $this->input->post('nivel'), $this->input->post('dedicacion')));
+               echo json_encode($this->Contrato_Modelo->Remuneracion_Docente($this->input->post('catetoria'), $this->input->post('nivel'), $this->input->post('dedicacion')));
            }else{
                echo json_encode(null);
            }
@@ -120,9 +146,51 @@ class cTalento_humano extends CI_Controller{
     public function ListaRemuneracionAdmin(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('grupo_ocupacion'))==true) && (!empty($this->input->post('puesto'))==true)){
-                echo json_encode($this->mTalento_humano->ListaRemuneracionAdmin($this->input->post('grupo_ocupacion'),$this->input->post('puesto')));
+                echo json_encode($this->Contrato_Modelo->ListaRemuneracionAdmin($this->input->post('grupo_ocupacion'),$this->input->post('puesto')));
             }else{
                 echo json_encode(null);
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ListarContratos(){
+        if ($this->input->is_ajax_request()){
+            if($this->input->post('id_dpto') === '-3' ){
+                echo json_encode($this->Contrato_Modelo->ListarContrtosAll());
+            }else{
+                echo json_encode($this->Contrato_Modelo->ListarContrtos($this->input->post('id_dpto')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ProcesosContrato(){
+        if ($this->input->is_ajax_request()){
+            if((!empty($this->input->post('id_contrato'))==true)){
+                echo json_encode($this->Contrato_Modelo->ProcesosContrato($this->input->post('id_contrato')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function DenominacionDocente(){
+        if ($this->input->is_ajax_request()){
+            if((!empty($this->input->post('id_denominacion'))==true)){
+               echo json_encode($this->Contrato_Modelo->DenominacionDocente($this->input->post('id_denominacion')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function DenominacionAdmin(){
+        if ($this->input->is_ajax_request()){
+            if((!empty($this->input->post('id_denominacion'))==true)){
+                echo json_encode($this->Contrato_Modelo->DenominacionAdmin($this->input->post('id_denominacion')));
             }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');

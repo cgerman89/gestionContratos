@@ -434,6 +434,7 @@ function Tabla_ProcesoSolicitud(id_solicitud) {
         "paging": false,
         "searching": false,
         "ordering":  false,
+        "info":false,
         "autoWidth":true,
         "orderClasses": true,
         "responsive":true,
@@ -485,12 +486,48 @@ function Tabla_ProcesoContrato(id_solicitud){
        "paging": false,
        "searching": false,
        "ordering":  false,
+       "info":false,
        "autoWidth":true,
        "orderClasses": true,
        "responsive":true,
        "language":{
            "url": 'public/locales/Spanish.json'
        },
+       "ajax":{
+           "method":"POST",
+           "url":"Aspirante/ProcesoContrato",
+           "data":{'id_solicitud':id_solicitud},
+           beforeSend:function () {
+               swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+               swal.showLoading();
+           },
+           complete:function () {
+               swal.closeModal();
+           }
+       },
+       "columns":[
+           {"data":"proceso"},
+           {"data":"usuario"},
+           {"data":"fecha"},
+           {"data":"hora"},
+           {"data":"observacion"},
+           {"data":"estado"}
+       ],
+       "columnDefs": [
+           {
+               "targets": [5],
+               "data": "p_estdo",
+               "render": function(data, type, full) {
+                   if(data === 'P'){
+                       return '<span class="label label-warning">PENDIENTE</span>';
+                   }else if(data === 'R') {
+                       return '<span class="label label-danger">RECHAZADA</span>';
+                   }else if (data === 'A'){
+                       return '<span class="label label-info">ACEPTADA</span>';
+                   }
+               }
+           }
+       ]
    });
 }
 

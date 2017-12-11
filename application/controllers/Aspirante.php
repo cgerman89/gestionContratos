@@ -8,10 +8,11 @@
 
 class Aspirante extends CI_Controller {
 
-     public function __construct(){
+    public function __construct(){
          parent::__construct();
          $this->load->model('Aspirante_Modelo');
          $this->load->model('Solicitud_Contrato_Modelo');
+         $this->load->model('Contrato_Modelo');
          $this->load->library('Carga_pdf');
     }
 
@@ -109,6 +110,17 @@ class Aspirante extends CI_Controller {
         if ($this->input->is_ajax_request()){
             $res=$this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud'));
             echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    public function ProcesoContrato(){
+        if ($this->input->is_ajax_request()){
+            $res=$this->Solicitud_Contrato_Modelo->ObtenerIdContrato($this->input->post('id_solicitud'));
+            if((!empty($res['id_contrato'])==true)){
+              echo json_encode($this->Contrato_Modelo->ProcesosContrato($res['id_contrato']));
+            }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }

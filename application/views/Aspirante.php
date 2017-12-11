@@ -186,7 +186,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
                                             <button type="button"  id="btn_cerrar_md_solicitud_asp" name="btn_cerrar_md_solicitud_asp" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Solicitud Contrato</h4>
+                                            <h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; Formulario Solicitud Contrato</h4>
                                         </div>
                                         <div class="modal-body">
                                             <div class="panel-body">

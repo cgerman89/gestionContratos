@@ -187,4 +187,13 @@ class Solicitud_Contrato_Modelo extends CI_Model {
         return $res;
     }
 
+    public function ObtenerIdContrato($id_solicitud){
+          $this->db->select(" contrato.id_contrato ")
+                   ->from(" esq_contrato.contrato")
+                   ->where(" contrato.id_solicitud ",$id_solicitud);
+          $res= $this->db->get();
+          //echo $this->db->last_query();
+          return $res->row_array();
+    }
+
 }

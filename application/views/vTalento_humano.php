@@ -23,7 +23,7 @@
                                </div>
                                <div class="col-md-4">
                                    <select id="departamento_sl_ctr_th"  class="form-control" style="width: 100%">
-                                       <option value="-1">SELECCIONE DEPARTAMENTO</option>
+                                       <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
                                    </select>
                                </div>
@@ -78,11 +78,52 @@
                 <div id="lista_contrato_th" role="tabpanel" class="tab-pane fade">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">LISTA  CONTRATOS </h4>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-muted"><span class="label label-warning">CONTRATOS EN PROCESO</span></h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="departamento_ctr_th"  class="form-control" style="width: 100%">
+                                        <option value="-2">SELECCIONE DEPARTAMENTO</option>
+                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
-
-
+                            <table id="tabla_lista_contratos" class="table small table-hover table-bordered">
+                                <thead class="bg-light-blue">
+                                    <tr>
+                                        <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
+                                            CODIGO
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
+                                            ASPIRANTE
+                                        </th>
+                                        <th>
+                                            MODALIDAD LABORAL
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
+                                            TIPO
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
+                                            DENOMINACION
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-building-o" aria-hidden="true"></i>
+                                            DPTO.SOLICITANTE
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-cog" aria-hidden="true"></i>
+                                            Accion
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -95,17 +136,25 @@
             <div class="modal-content">
                 <div class="modal-header bg-light-blue">
                     <button type="button" id="btn_cerrar_md_contrato_th"  class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" title="formulario creacion un nuevo registro de contrato"> <i class="fa fa-file-o" aria-hidden="true"></i> Nuevo Contrato</h4>
+                    <h4 class="modal-title" title="formulario creacion un nuevo registro de contrato"> <i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; Formulario Contrato</h4>
                 </div>
                 <div class="modal-body">
                     <div class="panel-body">
                         <form id="form_cabecera_ctr" class="small">
-                            <input type="text" name="personal_txt" id="personal_txt" hidden required>
-                            <input type="text" name="id_solicitud_txt" id="id_solicitud_txt" hidden required>
+                            <input type="text" name="id_contrato_txt" id="id_contrato_txt" hidden>
+                            <input type="text" name="personal_txt" id="personal_txt" hidden>
+                            <input type="text" name="id_solicitud_txt" id="id_solicitud_txt" hidden>
+                            <input type="text" name="id_departamento_txt" id="id_departamento_txt" hidden>
                             <div class="col-sm-6">
                                 <label class="control-label" for="tipo_solicitud_th_ctr">TIPO SOLICITUD</label>
                                 <div class="form-group">
                                     <input type="text" id="tipo_solicitud_th_ctr" name="tipo_solicitud_th_ctr" class="form-control" placeholder="tipo contrato" disabled required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="control-label" for="">DEPARTAMENTO / FACULTAD</label>
+                                <div class="form-group">
+                                    <input type="text" name="departamento_th_ctr" id="departamento_th_ctr" class="form-control" placeholder="departamento" disabled required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -264,7 +313,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="panel-body">
-                        <h4 class="text-muted">Proceso Solicitud</h4>
                         <table id="tabla_proceso_solicitud" class="table small table-hover table-bordered">
                             <thead class="bg-light-blue">
                             <tr>
@@ -301,7 +349,53 @@
             </div>
         </div>
     </div>
+    <!-- Modal proceso contrato -->
+    <div id="md_contrato_proceso"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                    <button type="button"  id="btn_cerrar_md_asp" name="btn_cerrar_md_asp" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Estado Contrato</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <table id="tabla_proceso_contrato" class="table small table-hover table-bordered">
+                            <thead class="bg-light-blue">
+                            <tr>
+                                <th>
+                                    <i class='fa fa-cogs'></i>
+                                    Proceso
+                                </th>
+                                <th>
+                                    <i class="fa fa-user-o" aria-hidden="true"></i>
+                                    Usuario
+                                </th>
+                                <th>
+                                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                    Fecha Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    Hora Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-commenting" aria-hidden="true"></i>
+                                    Observacion
+                                </th>
+                                <th>
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Estado
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
 </div>
-
-
