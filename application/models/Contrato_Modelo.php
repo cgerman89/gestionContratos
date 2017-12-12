@@ -22,6 +22,7 @@ class Contrato_Modelo extends CI_Model {
       //echo $this->db->last_query();
       return $res->row_array();
     }
+
     function ListarContrtos($id_dpto){
         $this->db->select(" v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo, v_contrato.tipo,  v_contrato.modalidad_laboral,  v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
                  ->from(" esq_contrato.v_contrato ")

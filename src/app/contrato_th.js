@@ -101,9 +101,9 @@ $(document).ready(function () {
               if(resp.opcion === '1'){
                   tabla_lista_solicitud_contrato_th.DataTable().ajax.reload();
                   tabla_lista_contratos.DataTable().ajax.reload();
-                  toastr.success(resp.mensaje,'Crear Contrato');
+                  toastr.success(resp.mensaje);
               }else if(resp.opcion === '2'){
-                  toastr.error(resp.mensaje,'Crear Contrato');
+                  toastr.error(resp.mensaje);
               }
            });
        }
@@ -131,9 +131,9 @@ $(document).ready(function () {
                if(resp.opcion === '1'){
                    tabla_lista_solicitud_contrato_th.DataTable().ajax.reload();
                    tabla_lista_contratos.DataTable().ajax.reload();
-                   toastr.success(resp.mensaje,'Crear Contrato');
+                   toastr.success(resp.mensaje);
                }else if(resp.opcion === '2'){
-                   toastr.error(resp.mensaje,'Crear Contrato');
+                   toastr.error(resp.mensaje);
                }
            });
        }
@@ -246,7 +246,7 @@ $(document).ready(function () {
                    tipo_regimen_ctr.val(resp.id_regimen_laboral).prop('selected','selected');
                    fecha_inicio_ctr.datepicker('update',resp.fecha_inicio);
                    fecha_fin_ctr.datepicker('update', resp.fecha_finaliza);
-                   meses_ctr.val(Meses(fecha_fin_ctr.val(),fecha_inicio_ctr.val()));
+                   meses_ctr.val(Meses(fecha_fin_ctr.val(),fecha_inicio_ctr.val()));                  
 
                }
                modal_crear_contrato_th.modal('show');
@@ -278,6 +278,12 @@ $(document).ready(function () {
            }
        })
    }
+
+   form_cabecera_ctr.on('change', '.fecha', function() {
+      console.log('form cabecera ..');
+      if((fecha_inicio_ctr.val()!=='')&& (fecha_fin_ctr.val()!==''))
+          meses_ctr.val(Meses(fecha_fin_ctr.val(),fecha_inicio_ctr.val()));          
+   });
 
    form_ctr_docente.on("change","select",function () {
        console.log('se hizo cliccc form docente');
@@ -611,6 +617,10 @@ function TablaContratos(id_dpto){
             {"data":"modalidad_laboral","width":"10%"},
             {"data":"tipo","width":"9%"},
             {"data":"deominacion","width":"20%"},
+            {"data":"remuneracion","width":"11%"},
+            {"data":"fecha_inicio","width":"11%"},
+            {"data":"fecha_finaliza","width":"11%"},
+            {"data":"titulo","width":"20%"},
             {"data":"departamento","width":"9%"},
             {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
         ],
@@ -621,7 +631,7 @@ function TablaContratos(id_dpto){
                     return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
                 }
             },
-            {   "targets": [6],
+            {   "targets": [10],
                 "render": function(data,row) {
                     return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li><li><a href="#" class="EditarContrato"><span class="text-bold"> <i class="fa fa-edit" aria-hidden="true"></i> Modificar Contrato </span></a></li>  </ul></div></span>';
                 }

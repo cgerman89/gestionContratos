@@ -114,6 +114,22 @@
                                             DENOMINACION
                                         </th>
                                         <th>
+                                            <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
+                                            RMU
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+                                            Fecha Inicio
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+                                            Fecha Final
+                                        </th>
+                                        <th>
+                                            <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;
+                                            TITULO
+                                        </th>
+                                        <th>
                                             <i class="fa fa-building-o" aria-hidden="true"></i>
                                             DPTO.SOLICITANTE
                                         </th>
@@ -199,14 +215,14 @@
                             </div>
                             <div class="col-sm-3">
                                 <label class="control-label" for="">FECHA INICIO</label>
-                                <div class="form-group">
+                                <div class="form-group fecha">
                                     <input type="text" name="fecha_inicio_ctr" id="fecha_inicio_ctr" class="form-control" placeholder="YYYY-MM-dd" required>
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <label class="control-label" for="">FECHA FIN</label>
                                 <div class="form-group">
-                                    <input type="text" name="fecha_fin_ctr" id="fecha_fin_ctr" class="form-control" placeholder="YYYY-MM-dd" required>
+                                    <input type="text" name="fecha_fin_ctr" id="fecha_fin_ctr" class="form-control fecha" placeholder="YYYY-MM-dd" required>
                                 </div>
                             </div>
                             <div class="col-sm-2">
