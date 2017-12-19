@@ -7,6 +7,7 @@
  */
 
 class Contrato_Modelo extends CI_Model {
+
     function  __construct(){
         parent::__construct();
     }
@@ -39,9 +40,73 @@ class Contrato_Modelo extends CI_Model {
         }
     }
 
-    public function ListarContrtosAll(){
+    function ListarContrtosAll(){
         $this->db->select(" v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo, v_contrato.tipo,  v_contrato.modalidad_laboral,  v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
             ->from(" esq_contrato.v_contrato ");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListarContratos_Jefe_th($id_dpto,$estado){
+        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+                 ->from(" esq_contrato.v_contrato ")
+                 ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_jefe_th",$estado)->where("v_contrato.estado <> 'R'");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListarContratos_Jefe_th_All($estado){
+        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+            ->from(" esq_contrato.v_contrato ")
+            ->where("v_contrato.estado_jefe_th",$estado)->where("v_contrato.estado <> 'R'");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListarContratos_fn($id_dpto,$estado){
+        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+            ->from(" esq_contrato.v_contrato ")
+            ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_jefe_th='A'")->where("v_contrato.estado_financiero",$estado)->where("v_contrato.estado <> 'R'");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListarContratos_fn_All($estado){
+        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+            ->from(" esq_contrato.v_contrato ")
+            ->where("v_contrato.estado_jefe_th='A'")->where("v_contrato.estado_financiero",$estado)->where("v_contrato.estado <> 'R'");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -116,12 +181,36 @@ class Contrato_Modelo extends CI_Model {
         return $res->row();
     }
 
-    function ListaRemuneracionAdmin($grupo_ocupacion,$ocupacion){
+    function ListaRemuneracionAdmin($gp_ocupacion,$ocupacion){
         $this->db->select(" d_admin.id_denominacion_admin, d_admin.rmu ")
             ->from(" esq_contrato.denominacion_administrativo as d_admin ")
-            ->where(" d_admin.id_grupo_ocupacional ",$grupo_ocupacion)->where(" d_admin.id_puesto ",$ocupacion);
+            ->where(" d_admin.id_grupo_ocupacional ",$gp_ocupacion)->where(" d_admin.id_puesto ",$ocupacion);
         $res = $this->db->get();
         return $res->row();
+    }
+
+    function AprobarProceso($datos){
+        $res=$this->db->query('SELECT opcion, mensaje FROM  esq_contrato.fnc_aprobar_proceso_contrato(?,?,?);',$datos);
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
+
+    function RechazarProceso($datos){
+        $res=$this->db->query("SELECT opcion, mensaje  FROM esq_contrato.fnc_rechazar_proceso_contrato(?,?,?,?);",$datos);
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
+
+    function AgregarItem($id_contrato,$partida){
+        $this->db->set('partida',$partida, FALSE);
+        $this->db->where('contrato.id_contrato',$id_contrato);
+        $this->db->update('esq_contrato.contrato');
+        //echo $this->db->last_query();
+        if($this->db->affected_rows()>0){
+            return 1;
+        }else{
+            return 2;
+        }
     }
 
 }

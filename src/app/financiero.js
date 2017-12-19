@@ -1,40 +1,124 @@
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
-    toastr.options = {
-        closeButton:true,
-        positionClass: "toast-top-right",
-        preventDuplicates: true
-    };
+   console.log(' financiero cargado.. ');
+   const tabla_contratos_fn=$('#tabla_contratos_fn');
+   const departamento_fn=$('#departamento_fn');
 
-    console.log('Se cargaron los aspirantes para el proceso de financiero');
-
-    //Llenar combo cbodepartamentofinan
-    $.post("cFinanciero/GetListadoDepartamentos",function(data){
-            var d = JSON.parse(data);
-            $.each(d,function(i,item){
-                $('#cbodepartamentofinan').append('<option value="'+item.iddepartamento+'">'+item.nombre+'</option>')
-            });
-        });
-
-    tbl_financiero_depto();
-
-    //LLenar tabla de acuerdo a lo que se selecciona en el combo cbodepartamentofinan
-    $('#cbodepartamentofinan').change(function () {
-        $('#tblFinanciero').DataTable().destroy();
-        if($('#cbodepartamentofinan').val()== -3){
-            tbl_financiero_all_depto();
-        }
-        else{
-            tbl_financiero_depto();
-        }
+   //funciones
+   departamento_fn.select2({theme:"bootstrap"});
+   CargaComboDepartamentos(departamento_fn);
+   TablaContratos();
+   //eventos jquery
+    departamento_fn.change(function () {
+        TablaContratos($(this).val());
+    });
+});
+//funciones
+function Mayus(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(campo).val().toUpperCase())
     });
 
-});
+}
 
-//FUNCIONES
-//Aquí se llena la tabla Lista de Aspirantes para el proceso de financiero de algún departamento en específico con datatables
-function tbl_financiero_depto() {
-    $('#tblFinanciero').DataTable({
+function CargaComboDepartamentos(combo) {
+    $.post('cTalento_humano/GetListadoDepartamentos',function (datos, estado, xhr) {
+        if (estado === 'success') $.each(datos, function (index, value) {
+            $(combo).append('<option value='+value.iddepartamento+'>'+value.nombre+'</option>');
+        });
+    },'json');
+}
+
+function Meses(fecha_final,fecha_inicial) {
+    let inicio=moment(fecha_inicial);
+    let finaliza=moment(fecha_final);
+    if((inicio!==null&&inicio!=='undefined')&& (finaliza!==null&&finaliza!=='undefined')){
+        return finaliza.diff(inicio,'month');
+    }
+}
+
+function AprobarContrato(id_contrato,aspirante){
+    swal({
+        html: 'Ingrese Item Presupuestario para: <br> <b>'+aspirante+'</b> ',
+        input: 'text',
+        type: 'info',
+        showCloseButton: true,
+        confirmButtonText: '<i style="color:white;" class="fa fa-plus"></i> Agregar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonClass: 'btn btn-danger',
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        inputAttributes: {
+            'maxlength': 20
+        },
+        inputPlaceholder: 'ingrese item',
+        onOpen: function () {
+            Mayus('.swal2-input');
+        },
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject('¡Por favor, Ingrese Item...')
+                }
+            })
+        }
+    }).then(function (item) {
+        $.post("cFinanciero/AprobarContrato",{'id_contrato':id_contrato,'item':item},function(data){
+            if (data.opcion === '1') {
+                toastr.info(data.mensaje);
+                $('#tabla_contratos_fn').DataTable().ajax.reload();
+            }else if(data.opcion === '2'){
+                toastr.error(data.mensaje);
+                $('#tabla_contratos_fn').DataTable().ajax.reload();
+            }
+        },'json');
+    });
+}
+
+
+function RechazarContrato(id_contrato,aspirante){
+    swal({
+        html: '¿Rechazar Contrato de: <br> <b>'+aspirante+'</b> ?',
+        input: 'textarea',
+        type: 'warning',
+        showCloseButton: true,
+        confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Enviar',
+        confirmButtonColor: '#d33',
+        cancelButtonClass: 'btn btn-danger',
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        inputAttributes: {
+            'maxlength': 100
+        },
+        inputPlaceholder: 'Escriba el motivo del rechazo de la solicitud',
+        onOpen: function () {
+            Mayus('.swal2-textarea');
+        },
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject('¡Por favor, escriba el motivo..')
+                }
+            })
+        }
+    }).then(function (observacion) {
+        $.post("cFinanciero/RechazarContrato",{'id_contrato':id_contrato,'observacion':observacion},function(data){
+            if (data.opcion === '1') {
+                toastr.info(data.mensaje);
+                $('#tabla_contratos_fn').DataTable().ajax.reload();
+            }else if(data.opcion === '2'){
+                toastr.error(data.mensaje);
+                $('#tabla_contratos_fn').DataTable().ajax.reload();
+            }
+        },'json');
+    })
+}
+
+function TablaContratos(id_dpto){
+    $('#tabla_contratos_fn').DataTable({
         "destroy":true,
         "autoWidth":false,
         "scrollCollapse": true,
@@ -43,185 +127,52 @@ function tbl_financiero_depto() {
         "language":{
             "url": 'public/locales/Spanish.json'
         },
-        'ajax': {
-            "url":"cFinanciero/GetListProFinanDepto",
-            "type":"POST",
-            "data":{
-                id_cbo_dpto_pro_finan:$('#cbodepartamentofinan').val()
-            },
-            "dataSrc": '',
+        "ajax":{
+            "method":"POST",
+            "url":"cFinanciero/ListaContratos",
+            "data":{'id_dpto':id_dpto},
             beforeSend:function () {
-                swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
+                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
                 swal.showLoading();
             },
             complete:function () {
                 swal.closeModal();
             }
         },
-        'columns': [
-            {data: 'apellido1','sClass':'dt-body-center'},
-            {data: 'departamento'},
-            {data: 'nom_coordinador'},
-            {data: 'fecha'},
-            {data: 't_contrato'},
-            {data: 'estado_fin'},
-            {"orderable": false, 'searchable':false,
-                render:function(data, type, row){
-                    //if (row.estado_rh == 'P') {
-                    return '<span class="pull-left">' +
-                        '<div class="dropdown">' +
-                        '  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                        '    <i class="fa fa-bars"></i>' +
-                        '  <span class="caret"></span>' +
-                        '  </button>' +
-                        '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                        '    <li><a href="#" title="Ver hoja de vida" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-eye"></i> Hoja de vida</a></li>' +
-                        '    <li><a href="#" title="Procesar solicitud" data-toggle="modal" data-target="#modalProSolRRHH" onClick="selAspProRRHH(\''+row.idcontrato+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\');"><i style="color:green;" class="fa fa-gears"></i> Procesar</a></li>' +
-                        '    </ul>' +
-                        '</div>' +
-                        '</span>';
-                    //}
-                }
-            }
+        "columns":[
+            {"data":"codigo","width":"9%"},
+            {"data":"modalidad_laboral","width":"10%"},
+            {"data":"pais"},
+            {"data":null,"width":"20%"},
+            {"data":"tipo","width":"9%"},
+            {"data":"deominacion","width":"20%"},
+            {"data":"remuneracion","width":"11%"},
+            {"data":"fecha_inicio","width":"11%"},
+            {"data":"fecha_finaliza","width":"11%"},
+            {"data":null},
+            {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
         ],
         "columnDefs": [
             {
-                "targets": [0],
-                "data": "apellido1",
-                "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-user'></i> &nbsp;"+data+" "+row.apellido2+" "+row.nombres+"</span><br>"+
-                        "<span style='color:#555;'><i class='fa fa-id-card'></i> &nbsp;"+row.cedula+"</span>";
-                }
-            },
-            {
-                "targets": [1],
-                "data": "departamento",
-                "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-institution'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
-                "targets": [2],
-                "data": "nom_coordinador",
-                "render": function(data, type, row) {
-                    return "<span style='color:#555;'><i class='fa fa-user'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
                 "targets": [3],
-                "data": "fecha",
-                "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-calendar'></i> &nbsp;"+data+"</span>";
+                "render":function(data) {
+                    return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
                 }
             },
             {
-                "targets": [5],
-                "data": "estado_fin",
-                "render": function(data, type, row) {
-                    if (data == 'P') {
-                        return "<span class='label label-warning'>Pendiente</span>";
-                    }
+                "targets": [9],
+                "render":function(data) {
+                    return " <span> "+Meses(data.fecha_finaliza,data.fecha_inicio)+" </span>";
                 }
             },
+            {   "targets": [10],
+                "render": function(data,row) {
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li> <li> <a href="#" onclick="RechazarContrato('+data.id_contrato+',\''+data.aspirante+'\')"><span class="text-bold"><i class="fa fa-close"></i>&nbsp; Rechazar Contrato</span> </a> </li>  </ul></div></span>';
+                }
+            }
         ],
         "order": [[3,"asc"]],
     });
 }
 
-//Aquí se llena la tabla Lista de Aspirantes para el proceso de financiero de todos los departamentos con datatables
-function tbl_financiero_all_depto() {
-    $('#tblFinanciero').DataTable({
-        "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
-        'paging': true,
-        'info': true,
-        'filter': true,
-        'responsive':true,
-        'stateSave': true,
-        'scrollX':true,
-        "autoWidth":false,
-        "language":{
-            "url": 'public/locales/Spanish.json'
-        },
-        'ajax': {
-            "url":"cFinanciero/GetListProFinanAllDepto",
-            "type":"POST",
-            "dataSrc": '',
-            beforeSend:function () {
-                swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
-                swal.showLoading();
-            },
-            complete:function () {
-                setTimeout(function () {
-                    swal.closeModal();
-                },1000);
-            }
-        },
-        'columns': [
-            {data: 'apellido1','sClass':'dt-body-center'},
-            {data: 'departamento'},
-            {data: 'nom_coordinador'},
-            {data: 'fecha'},
-            {data: 't_contrato'},
-            {data: 'estado_fin'},
-            {"orderable": false, 'searchable':false,
-                render:function(data, type, row){
-                    //if (row.estado_rh == 'P') {
-                    return '<span class="pull-left">' +
-                        '<div class="dropdown">' +
-                        '  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                        '    <i class="fa fa-bars"></i>' +
-                        '  <span class="caret"></span>' +
-                        '  </button>' +
-                        '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                        '    <li><a href="#" title="Ver hoja de vida" onClick="updEstadoAfiliado('+row.idaspirante+','+1+')"><i style="color:black;" class="fa fa-eye"></i> Hoja de vida</a></li>' +
-                        '    <li><a href="#" title="Procesar solicitud" data-toggle="modal" data-target="#modalProSolRRHH" onClick="selAspProRRHH(\''+row.idcontrato+'\',\''+row.apellido1+'\',\''+row.apellido2+'\',\''+row.nombres+'\',\''+row.cedula+'\');"><i style="color:green;" class="fa fa-gears"></i> Procesar</a></li>' +
-                        '    </ul>' +
-                        '</div>' +
-                        '</span>';
-                    //}
-                }
-            }
-        ],
-        "columnDefs": [
-            {
-                "targets": [0],
-                "data": "apellido1",
-                "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-user'></i> &nbsp;"+data+" "+row.apellido2+" "+row.nombres+"</span><br>"+
-                        "<span style='color:#555;'><i class='fa fa-id-card'></i> &nbsp;"+row.cedula+"</span>";
-                }
-            },
-            {
-                "targets": [1],
-                "data": "departamento",
-                "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-institution'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
-                "targets": [2],
-                "data": "nom_coordinador",
-                "render": function(data, type, row) {
-                    return "<span style='color:#555;'><i class='fa fa-user'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
-                "targets": [3],
-                "data": "fecha",
-                "render": function(data, type, row) {
-                    return "<span style='color:#006699;'><i class='fa fa-calendar'></i> &nbsp;"+data+"</span>";
-                }
-            },
-            {
-                "targets": [5],
-                "data": "estado_fin",
-                "render": function(data, type, row) {
-                    if (data == 'P') {
-                        return "<span class='label label-warning'>Pendiente</span>";
-                    }
-                }
-            },
-        ],
-        "order": [[3,"asc"]],
-    });
-}
+

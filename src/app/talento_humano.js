@@ -44,7 +44,7 @@ $(document).ready(function(){
 
     //Evento change del combo mcboCategoria
     $('#mcboCategoria').change(function () {
-        if($('#mcboCategoria').val()==''){
+        if($('#mcboCategoria').val()===''){
             LimpiarNivDedRMU();
         }
         else{
@@ -55,7 +55,7 @@ $(document).ready(function(){
 
     //Evento change del combo mcboNivel
     $('#mcboNivel').change(function () {
-        if($('#mcboNivel').val()==''){
+        if($('#mcboNivel').val()===''){
             LimpiarDedRMU();
         }
         else{

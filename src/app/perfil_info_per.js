@@ -58,7 +58,7 @@ $(document).ready(function () {
     CargaPais(pais_domi);
 
     CargaDatosInfo(function (data) {
-        console.log('documento perosna :'+data.cedula);
+        // console.log('documento perosna :'+data.cedula);
         n_documento.val(data.cedula);
         if(data.idtipo_nacionalidad > 0)nacionalidad.val(data.idtipo_nacionalidad).prop('selected','selected');
         apellido1.val(data.apellido1);
@@ -69,7 +69,7 @@ $(document).ready(function () {
         if(data.idtipo_estado_civil > 0)e_civil_per.val(data.idtipo_estado_civil).prop('selected','selected');
         if(data.idtipo_sangre > 0)t_sangre_per.val(data.idtipo_sangre).prop('selected','selected');
         if(data.idtipo_sangre > 0)etnia_per.val(data.idtipo_etnia).prop('selected','selected');
-        if(data.idtipo_pais_origen > 0)pais_per.val(data.idtipo_pais_origen).prop('selected','selected');
+        if(data.idtipo_pais_origen > 0) setTimeout(function(){ pais_per.val(data.idtipo_pais_origen).prop('selected','selected'); }, 500);
         CargaProvincia(data.idtipo_pais_origen,provincia_per,function (datos) {
             $.each(datos, function (index, value) {
                 provincia_per.append('<option value='+value.idprovincia+'>'+value.nombre +'</option>');
@@ -88,7 +88,7 @@ $(document).ready(function () {
             });
             if(data.idtipo_parroquia_origen > 0)parroquia_per.val(data.idtipo_parroquia_origen).prop('selected','selected');
         });
-        if(data.idtipo_pais_residencia > 0)pais_domi.val(data.idtipo_pais_residencia).prop('selected','selected');
+        if(data.idtipo_pais_residencia > 0) setTimeout(function(){ pais_domi.val(data.idtipo_pais_residencia).prop('selected','selected'); }, 500);
         CargaProvincia(data.idtipo_pais_residencia,provincia_domi,function (datos) {
             $.each(datos, function (index, value) {
                 provincia_domi.append('<option value='+value.idprovincia+'>'+value.nombre +'</option>');

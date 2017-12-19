@@ -181,97 +181,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="modal_solicitud_contrato_asp" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false” >
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
-                                            <button type="button"  id="btn_cerrar_md_solicitud_asp" name="btn_cerrar_md_solicitud_asp" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; Formulario Solicitud Contrato</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="panel-body">
-                                                <form id="form_solicitud_contrato_asp" role="form" class="small">
-                                                    <input type="text" id="txt_id_personal" name="txt_id_personal" hidden required>
-                                                    <div class="col-md-6">
-                                                        <label for="n_documento_sl_ctr" class="control-label">N° Documento</label>
-                                                        <div class="form-group">
-                                                            <input type="text" id="n_documento_sl_ctr" name="n_documento_sl_ctr" class="form-control" placeholder="n° documento" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="nombres_sl_ctr" class="control-label">Aspirante</label>
-                                                        <div class="form-group">
-                                                            <input type="text" id="nombres_sl_ctr" name="nombres_sl_ctr" placeholder="nombres" class="form-control" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="departamento_sl_ctr" class="control-label">Departamento</label>
-                                                        <div class="form-group">
-                                                            <input type="text" id="departamento_sl_ctr" name="departamento_sl_ctr" class="form-control" placeholder="departamento" disabled>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="fecha_sl_ctr" class="control-label">Fecha Solicitud</label>
-                                                        <div class="form-group">
-                                                            <input type="text" id="fecha_sl_ctr" name="fecha_sl_ctr" class="form-control" placeholder="YYYY-MM-DD" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="tipo_observacion_sl" class="control-label">Observacion</label>
-                                                        <div class="form-group">
-                                                            <select name="tipo_observacion_sl" id="tipo_observacion_sl" class="form-control" required>
-                                                                <option value="">seleccione</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="tipo_contrato_sl_ctr" class="control-label">Tipo Solicitud</label>
-                                                        <div class="form-group">
-                                                            <select name="tipo_contrato_sl_ctr" id="tipo_contrato_sl_ctr" class="form-control" required>
-                                                                <option value="">seleccione</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                <form id="form_tipo_docente" role="form" class="small"  hidden>
-                                                    <div class="col-md-6">
-                                                        <label for="tipo_categoria_docente" class="control-label">Dedicacion</label>
-                                                        <div class="form-group">
-                                                            <select name="tipo_dedicacion_docente" id="tipo_dedicacion_docente" class="form-control" required>
-                                                                <option value="">seleccione</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="pull-right">
-                                                                <button type="button" id="btn_enviar_docente_sl_ctr" name="btn_enviar_sl_ctr" class="btn btn-primary"><i class="fa fa-paper-plane"></i>  Enviar</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                <form id="form_administrativo" role="form" class="small"  hidden>
-                                                    <div class="col-md-6">
-                                                        <label for="puesto_admin" class="control-label">Puesto</label>
-                                                        <div class="form-group">
-                                                            <select name="puesto_admin" id="puesto_admin" class="form-control" required>
-                                                                <option value="">seleccione</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="pull-right">
-                                                                <button type="button" id="btn_enviar_admin_sl_ctr" name="btn_enviar_sl_ctr" class="btn btn-primary"><i class="fa fa-paper-plane"></i>  Enviar</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -404,6 +313,98 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal_solicitud_contrato_asp" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false” >
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                        <button type="button"  id="btn_cerrar_md_solicitud_asp" name="btn_cerrar_md_solicitud_asp" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><i class="fa fa-file-o" aria-hidden="true"></i> &nbsp; Formulario Solicitud Contrato</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="panel-body">
+                            <form id="form_solicitud_contrato_asp" role="form" class="small">
+                                <input type="text" id="txt_id_personal" name="txt_id_personal" hidden required>
+                                <input type="text" id="id_solicitud_ctr" name="id_solicitud_ctr" hidden>
+                                <div class="col-md-6">
+                                    <label for="n_documento_sl_ctr" class="control-label">N° Documento</label>
+                                    <div class="form-group">
+                                        <input type="text" id="n_documento_sl_ctr" name="n_documento_sl_ctr" class="form-control" placeholder="n° documento" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="nombres_sl_ctr" class="control-label">Aspirante</label>
+                                    <div class="form-group">
+                                        <input type="text" id="nombres_sl_ctr" name="nombres_sl_ctr" placeholder="nombres" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="departamento_sl_ctr" class="control-label">Departamento</label>
+                                    <div class="form-group">
+                                        <input type="text" id="departamento_sl_ctr" name="departamento_sl_ctr" class="form-control" placeholder="departamento" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="fecha_sl_ctr" class="control-label">Fecha Solicitud</label>
+                                    <div class="form-group">
+                                        <input type="text" id="fecha_sl_ctr" name="fecha_sl_ctr" class="form-control" placeholder="YYYY-MM-DD" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tipo_observacion_sl" class="control-label">Observacion</label>
+                                    <div class="form-group">
+                                        <select name="tipo_observacion_sl" id="tipo_observacion_sl" class="form-control" required>
+                                            <option value="">seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tipo_contrato_sl_ctr" class="control-label">Tipo Solicitud</label>
+                                    <div class="form-group">
+                                        <select name="tipo_contrato_sl_ctr" id="tipo_contrato_sl_ctr" class="form-control" required>
+                                            <option value="">seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="form_tipo_docente" role="form" class="small"  hidden>
+                                <div class="col-md-6">
+                                    <label for="tipo_categoria_docente" class="control-label">Dedicacion</label>
+                                    <div class="form-group">
+                                        <select name="tipo_dedicacion_docente" id="tipo_dedicacion_docente" class="form-control" required>
+                                            <option value="">seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="pull-right">
+                                            <button type="button" id="btn_enviar_docente_sl_ctr" name="btn_enviar_sl_ctr" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;CREAR SOLICITUD</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form id="form_administrativo" role="form" class="small"  hidden>
+                                <div class="col-md-8">
+                                    <label for="puesto_admin" class="control-label">Puesto</label>
+                                    <div class="form-group">
+                                        <select name="puesto_admin" id="puesto_admin" class="form-control" required>
+                                            <option value="">seleccione</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="pull-right">
+                                            <button type="button" id="btn_enviar_admin_sl_ctr" name="btn_enviar_sl_ctr" class="btn btn-primary"><i class="fa fa-paper-plane"></i>&nbsp;CREAR SOLICITUD</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

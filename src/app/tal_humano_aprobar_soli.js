@@ -378,55 +378,7 @@ function ProcesosSolicitudContrato(IdSolicitudContrato){
             }
         ]
     });
-    /**$('#tabla_procesos_contrato').DataTable({
-        "destroy":true,
-        "paging": false,
-        "searching": false,
-        "ordering":  false,
-        "info":false,
-        "autoWidth":true,
-        "orderClasses": true,
-        "responsive":true,
-        "language":{
-            "url": 'public/locales/Spanish.json'
-        },
-        "ajax":{
-            "method":"POST",
-            "url":"cRectorado/",
-            "dataType":'json',
-            "data":{'id_solicitud':IdSolicitudContrato},
-            beforeSend:function () {
-                swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
-                swal.showLoading();
-            },
-            complete:function () {
-                swal.closeModal();
-            }
-        },
-        "columns":[
-            {"data":"p_proceso","width": "18%"},
-            {"data":"p_usuario"},
-            {"data":"p_fecha"},
-            {"data":"p_hora"},
-            {"data":"p_observacion"},
-            {"data":"p_estado"}
-        ],
-        "columnDefs": [
-            {
-                "targets": [5],
-                "data": "p_estdo",
-                "render": function(data, type, full) {
-                    if(data === 'P'){
-                        return '<span class="label label-warning">PENDIENTE</span>';
-                    }else if(data === 'R') {
-                        return '<span class="label label-danger">RECHAZADO</span>';
-                    }else if (data === 'T'){
-                        return '<span class="label label-success">TERMINADO</span>';
-                    }
-                }
-            }
-        ]
-    });**/
+
 }
 
 

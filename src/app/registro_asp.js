@@ -15,10 +15,21 @@ $(document).ready(function () {
     const btn_save_reg_asp=$('#btn_save_reg_asp');
     const cerrar_md_reg_asp=$('#cerrar_md_reg_asp');
     const form_reg_aspirante=$('#form_reg_aspirante');
+    const tabla_solicitud=$('#tabla_solicitud');
+    const modal_solicitud_contrato_asp=$('#modal_solicitud_contrato_asp');
+    const id_solicitud_ctr=$('#id_solicitud_ctr');
+    const txt_id_personal=$('#txt_id_personal');
+    const n_documento_sl_ctr=$('#n_documento_sl_ctr');
+    const nombres_sl_ctr=$('#nombres_sl_ctr');
+    const departamento_sl_ctr=$('#departamento_sl_ctr');
+    const tipo_observacion_sl=$('#tipo_observacion_sl');
+    const tipo_contrato_sl_ctr=$('#tipo_contrato_sl_ctr');
+    const tipo_dedicacion_docente=$('#tipo_dedicacion_docente');
+    const puesto_admin=$('#puesto_admin');
 
     $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
-    fecha_sl_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
-    f_nacimiento_reg_asp.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
+    fecha_sl_ctr.datepicker({todayBtn: "linked",format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
+    f_nacimiento_reg_asp.datepicker({todayBtn: "linked",format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
 
     Mayus(apellido1_reg_asp);
     Mayus(apellido2_reg_asp);
@@ -98,6 +109,7 @@ $(document).ready(function () {
     $('#btn_cerrar_md_solicitud_asp').click(function (e) {
         e.preventDefault();
         fecha_sl_ctr.datepicker('update', '');
+        id_solicitud_ctr.val('');
         let form_docente=$('#form_tipo_docente');
         let form_admin=$('#form_administrativo');
         $('#form_solicitud_contrato_asp').smkClear();
@@ -133,12 +145,12 @@ $(document).ready(function () {
         Mostrar_tb_Solicitud($(this).val());
     });
 
-    $('#tipo_contrato_sl_ctr').change(function () {
+    tipo_contrato_sl_ctr.change(function () {
           Mostrar_Form($(this).val());
           CargaCombo_Hijo('#tipo_categoria_sl_ctr',$(this).val());
     });
 
-    $('#tabla_solicitud').on("click","a.Ver_proceso",function () {
+    tabla_solicitud.on("click","a.Ver_proceso",function () {
         let data = $('#tabla_solicitud').DataTable().row( $(this).parents("tr") ).data();
         Tabla_ProcesoSolicitud(data.id_solicitud_contrato);
         Tabla_ProcesoContrato(data.id_solicitud_contrato);
@@ -149,6 +161,7 @@ $(document).ready(function () {
        e.preventDefault();
        if( ($('#form_solicitud_contrato_asp').smkValidate() === true) && ($('#form_tipo_docente').smkValidate()=== true) ){
            let data = new Object();
+               data.id_solicitud_ctr=id_solicitud_ctr.val();
                data.id_personal=$('#txt_id_personal').val();
                data.tipo_solicitud=$('#tipo_contrato_sl_ctr').val();
                data.fecha=$('#fecha_sl_ctr').val();
@@ -157,9 +170,11 @@ $(document).ready(function () {
                data.p_caso='DOCENTE';
            EnviarSolicitud(data,function (resp) {
                if(resp.p_opcion=== '1'){
-                   toastr.info(resp.p_mensaje);
+                   Tabla_Solicitud();
+                   toastr.success(resp.p_mensaje);
                }else if(resp.p_opcion=== '2'){
-                   toastr.warning(resp.p_mensaje);
+                   tabla_solicitud.DataTable().ajax.reload();
+                   toastr.error(resp.p_mensaje);
                }
            });
        }
@@ -169,6 +184,7 @@ $(document).ready(function () {
         e.preventDefault();
         if( ($('#form_solicitud_contrato_asp').smkValidate() === true) && ($('#form_administrativo').smkValidate()=== true) ){
             let data = new Object();
+                data.id_solicitud_ctr=id_solicitud_ctr.val();
                 data.id_personal=$('#txt_id_personal').val();
                 data.tipo_solicitud=$('#tipo_contrato_sl_ctr').val();
                 data.fecha=$('#fecha_sl_ctr').val();
@@ -177,9 +193,11 @@ $(document).ready(function () {
                 data.p_caso='ADMINISTRATIVO';
                 EnviarSolicitud(data,function (resp) {
                     if(resp.p_opcion=== '1'){
-                        toastr.info(resp.p_mensaje);
+                        tabla_solicitud.DataTable().ajax.reload();
+                        toastr.success(resp.p_mensaje);
                     }else if(resp.p_opcion=== '2'){
-                        toastr.warning(resp.p_mensaje);
+                        tabla_solicitud.DataTable().ajax.reload();
+                        toastr.error(resp.p_mensaje);
                     }
                 });
         }
@@ -190,7 +208,7 @@ $(document).ready(function () {
         if($('#form_aspirante').smkValidate()){
             if(idpersonal > 0){
                 CrearUsuarioRol(function (res) {
-                    toastr.info(res.fnc_agregrar_usuario_rol,'Agregar Usuario Y Permiso');
+                    toastr.success(res.fnc_agregrar_usuario_rol);
                     $('#tabla_inscricion').DataTable().ajax.reload();
                 });
             }
@@ -201,6 +219,29 @@ $(document).ready(function () {
         let datos = $('#tabla_inscricion').DataTable().row( $(this).parents("tr") ).data();
         console.log('hoja de vida data :'+datos.p_idpersona);
         Generar_hoja_vida(datos.p_idpersona);
+    });
+
+    tabla_solicitud.on("click","a.EditarSolicitud",function () {
+        let datos=tabla_solicitud.DataTable().row($(this).parents("tr") ).data();
+        console.log(datos);
+        id_solicitud_ctr.val(datos.id_solicitud_contrato);
+        txt_id_personal.val(datos.id_personal);
+        n_documento_sl_ctr.val(datos.cedula_aspirante);
+        nombres_sl_ctr.val(datos.aspirante);
+        fecha_sl_ctr.datepicker('update', datos.fecha_solicitud);
+        departamento_sl_ctr.val(datos.departamento);
+        DatosSolicitud(datos.id_solicitud_contrato,function (resp) {
+          console.log(resp);
+            tipo_observacion_sl.val(resp.id_observacion).prop('selected','selected');
+            tipo_contrato_sl_ctr.val(resp.id_tipo_solicitud).prop('selected','selected');
+            if(datos.t_contrato==='ADMINISTRATIVO'){
+                puesto_admin.val(resp.id_puesto).prop('selected','selected');
+            }else if(datos.t_contrato==='DOCENTE'){
+                tipo_dedicacion_docente.val(resp.id_dedicacion).prop('selected','selected');
+            }
+            Mostrar_Form(resp.id_tipo_solicitud);
+        });
+        modal_solicitud_contrato_asp.modal('show');
     });
 });
 //funciones
@@ -285,6 +326,14 @@ function ClearCampos() {
     $('#claves_asp').prop('hidden',false);
 }
 
+function DatosSolicitud(id_solicitud,callback) {
+    $.post('Aspirante/DatosSolicitud',{'id_solicitud':id_solicitud},function (datos,estado) {
+       if (estado === 'success'){
+           callback(datos);
+       }
+    },'json');
+}
+
 function Mostrar_Form(tipo_solictud) {
     switch(tipo_solictud){
         case '1':
@@ -325,6 +374,55 @@ function BuscarPersona(cedula,callback) {
     });
 }
 
+function AnularSolicitud(id_solicitud,aspirante,estado_th){
+    if(estado_th === 'P' ) {
+        swal({
+            html: 'Anular Solicitud de: <br> <b>' + aspirante + '</b>',
+            input: 'textarea',
+            type: 'warning',
+            showCloseButton: true,
+            confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Anular',
+            confirmButtonColor: '#d33',
+            cancelButtonClass: 'btn btn-danger',
+            allowOutsideClick: false,
+            allowEnterKey: false,
+            inputAttributes: {
+                'maxlength': 100
+            },
+            inputPlaceholder: 'Escriba el motivo del rechazo de la solicitud',
+            onOpen: function () {
+                Mayus('.swal2-textarea');
+            },
+            inputValidator: function (value) {
+                return new Promise(function (resolve, reject) {
+                    if (value) {
+                        resolve()
+                    } else {
+                        reject('¡Por favor, escriba el motivo de Anulacion de la solicitud!')
+                    }
+                })
+            }
+        }).then(function (observacion) {
+            $.post("Aspirante/AnularSolicitud", {
+                'id_solicitud': id_solicitud,
+                'observacion': observacion
+            }, function (data, estado) {
+                if (estado === 'success') {
+                    if (data.opcion === '1') {
+                        $('#tabla_solicitud').DataTable().ajax.reload();
+                        toastr.info(data.mensaje);
+                    } else if (data.opcion === '2') {
+                        $('#tabla_solicitud').DataTable().ajax.reload();
+                        toastr.error(data.mensaje);
+                    }
+                }
+            }, 'json');
+        });
+    }else{
+        toastr.error('No Se Puede Anular');
+    }
+}
+
 function Tabla_Solicitud(){
    let tbl_solicitud=$('#tabla_solicitud').DataTable({
           "destroy":true,
@@ -348,8 +446,7 @@ function Tabla_Solicitud(){
             {"data":"fecha_solicitud","width": "7%"},
             {"data":"observacion"},
             {"data":"estado"},
-            {"defaultContent":"<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' class='Ver_proceso'><span class='text-bold'><i class='fa fa-cogs'></i>&nbsp;Ver Proceso</span></a></li><li><a href='#' class='eliminar_pre_ins'><span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp;Anular</span></a></li></ul></div></span>",'orderable': false, 'searchable': false,"width": "9%"}
-
+            {"data": null , 'searchable':false}
         ],
         "columnDefs": [
             {
@@ -379,7 +476,15 @@ function Tabla_Solicitud(){
                         return '<span class="label label-danger">RECHAZADA</span>';
                     }else if (data === 'A'){
                         return '<span class="label label-primary">ACEPTADA</span>';
+                    }else if (data === 'E'){
+                        return '<span class="label label-danger">ANULADA</span>';
                     }
+                }
+            },
+            {
+                "targets": [7],
+                "render": function(data) {
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" class="Ver_proceso"><span class="text-bold"><i class="fa fa-cogs"></i>&nbsp; Ver Proceso</span></a></li> <li><a href="#" class="EditarSolicitud"><span class="text-bold"> <i class="fa fa-edit"></i>&nbsp; Modificar Solicitud</span></a></li> <li><a href="#" onclick="AnularSolicitud('+data.id_solicitud_contrato+',\''+data.aspirante+'\',\''+data.estado_apro_rh+'\')"><span class="text-bold"> <i class="fa fa-trash-o"></i>&nbsp;  Anular</span></a></li></ul></div></span>';
                 }
             }
         ]
@@ -412,7 +517,7 @@ function Tabla_PreInscripcion() {
             {"data": null,"width":"25%"},
             {"data":"p_cedula"},
             {"data":"p_departamento"},
-            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-bars'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='hoja_vida_asp'><span class='text-bold'><i class='fa fa-file-pdf-o' aria-hidden='true'></i>&nbsp;Hoja De Vida</span></a></li><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='fa fa-paper-plane-o'></i>&nbsp;Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp;Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
+            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-bars'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='hoja_vida_asp'><span class='text-bold'><i class='fa fa-file-pdf-o' aria-hidden='true'></i>&nbsp; Hoja De Vida</span></a></li><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='fa fa-paper-plane-o'></i>&nbsp;Crear Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp; Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
         ],
         "columnDefs": [
             {
@@ -429,7 +534,7 @@ function Tabla_PreInscripcion() {
 }
 
 function Tabla_ProcesoSolicitud(id_solicitud) {
-    var tbl_proceso=$('#tabla_proceso_solicitud').DataTable({
+    let tbl_proceso=$('#tabla_proceso_solicitud').DataTable({
         "destroy":true,
         "paging": false,
         "searching": false,
@@ -536,7 +641,7 @@ function DelRegisTbl_inscripcion(tbody, table) {
         let data = table.row( $(this).parents("tr") ).data();
         swal({
             title:'Eliminar Registro!',
-            html:"Confirme para eliminar al Usuario: <br> </b> <span> <i class='fa fa-user'></i> "+ data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres+"</span>",
+            html:"Confirme para eliminar a: <br> </b> <span> <i class='fa fa-user'></i> "+ data.p_apellido1+" "+data.p_apellido2+" "+data.p_nombres+"</span>",
             type: 'warning',
             allowOutsideClick: false,
             allowEnterKey: false,
@@ -557,10 +662,10 @@ function DelRegisTbl_inscripcion(tbody, table) {
                 success:function(response){
                     let res=JSON.parse(response);
                     if(res.opcion === 1){
-                        toastr.info(res.mensaje,'Eliminar Aspirante');
+                        toastr.info(res.mensaje);
                         $('#tabla_inscricion').DataTable().ajax.reload();
                     }else{
-                        toastr.error(res.mensaje,'Eliminar Aspirante');
+                        toastr.error(res.mensaje);
                     }
                 },
                 complete:function () {
