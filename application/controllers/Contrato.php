@@ -19,7 +19,7 @@ class Contrato extends CI_Controller {
                 $this->load->view('vTalento_humano_jefe');
                 $this->load->view('template/footer');
             }else{
-                redirect('/Home');
+                redirect('/Permiso');
             }
         }else{
             redirect('/');

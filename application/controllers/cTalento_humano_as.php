@@ -26,7 +26,7 @@ class cTalento_humano_as extends CI_Controller{
                 $this->load->view('vTalento_humano_as');
                 $this->load->view('template/footer');
             }else{
-                redirect('/Home');
+                redirect('/Permiso');
             }
         }else{
             redirect('/');

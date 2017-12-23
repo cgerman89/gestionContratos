@@ -22,7 +22,7 @@ class Perfil extends CI_Controller{
             $this->load->view('Perfil');
             $this->load->view('template/footer');
         }else{
-            redirect('/Home');
+            redirect('/Permiso');
         }
      }else{
          redirect('/');

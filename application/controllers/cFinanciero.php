@@ -20,7 +20,7 @@ class cFinanciero extends CI_Controller{
                 $this->load->view('vFinanciero');
                 $this->load->view('template/footer');
             }else{
-                redirect('/Home');
+                redirect('/Permiso');
             }
         }else{
             redirect('/');

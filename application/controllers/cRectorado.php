@@ -25,7 +25,7 @@ class cRectorado extends CI_Controller{
                 $this->load->view('vRectorado');
                 $this->load->view('template/footer');
             }else{
-                redirect('/Home');
+                redirect('/Permiso');
             }
         }else{
             redirect('/');
