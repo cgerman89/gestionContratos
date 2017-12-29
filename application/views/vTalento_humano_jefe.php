@@ -4,7 +4,8 @@
 	 		<ul class="nav nav-tabs bg-gray-light">
 	 			  <li role="presentation" class="active" >
                     <a href="#lista_contratos"  data-toggle="tab">
-                        <i class="fa fa-list-alt fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-cog text-info" aria-hidden="true"></i>
                     </a>
                 </li>
 	 		</ul>
@@ -58,6 +59,10 @@
                                     <th>
                                         <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
                                         Fecha Final
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+                                       MESES
                                     </th>
                                     <th>
                                         <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;

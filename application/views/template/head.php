@@ -79,5 +79,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php if($this->uri->segment(1)=='cFinanciero') {?>
         <script src="<?php echo base_url();?>src/app/financiero.js"></script>
     <?php }?>
+    <?php if($this->uri->segment(1)=='cContratos_r') {?>
+        <script src="<?php echo base_url();?>src/app/rector_ctr.js"></script>
+    <?php }?>
 </head>
 

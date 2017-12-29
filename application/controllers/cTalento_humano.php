@@ -19,7 +19,7 @@ class cTalento_humano extends CI_Controller{
         $this->idusuario=$this->session->userdata('id_personal');
     }
 
-    public function index(){
+    function index(){
         if($this->session->userdata('login')=== TRUE){
             if($this->session->userdata('id_tipo_usuario') === '48') {
                 $this->load->view('template/head');
@@ -34,7 +34,22 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function CrearContrato(){
+    function AnularContrato(){
+        if ($this->input->is_ajax_request()){
+            if((!empty($this->input->post('id_contrato'))==true)){
+                $datos = [
+                    'id_contrato' => $this->input->post('id_contrato'),
+                    'id_personal' => $this->idusuario,
+                    'observacion' => $this->input->post('observacion'),
+                ];
+                echo json_encode($this->Contrato_Modelo->AnularContrato($datos));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Acceso Denegado');
+        }
+    }
+
+    function CrearContrato(){
         if ($this->input->is_ajax_request()){
              if((!empty($this->input->post('id_contrato'))==true)){
                  $campos=array(
@@ -69,7 +84,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function EditarContrato(){
+    function EditarContrato(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('id_contrato'))==true)){
                 echo json_encode($this->Contrato_Modelo->EditarContrato($this->input->post('id_contrato')));
@@ -79,7 +94,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function GetListadoDepartamentos(){
+    function GetListadoDepartamentos(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->mTalento_humano->getListadoDepartamentos());
         }else{
@@ -87,7 +102,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function SolicitudContrato(){
+    function SolicitudContrato(){
         if ($this->input->is_ajax_request()) {
             if($this->input->post('id_dpto') === '-3'){
               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudAceptadaAll());
@@ -99,7 +114,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ProcesoSolicitud(){
+    function ProcesoSolicitud(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud')));
         }else{
@@ -107,7 +122,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ListaNiveles(){
+    function ListaNiveles(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->mTalento_humano->Tipo(5,$this->input->post('categoria')));
         }else{
@@ -115,7 +130,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ListaDedicacion(){
+    function ListaDedicacion(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->mTalento_humano->Tipo(4,$this->input->post('dedicacion')));
         }else{
@@ -123,7 +138,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ListaRemuneracionDocente(){
+    function ListaRemuneracionDocente(){
         if ($this->input->is_ajax_request()){
            if( (!empty($this->input->post('catetoria'))==true) && (!empty($this->input->post('nivel'))==true) && (!empty($this->input->post('dedicacion'))==true) ) {
                echo json_encode($this->Contrato_Modelo->Remuneracion_Docente($this->input->post('catetoria'), $this->input->post('nivel'), $this->input->post('dedicacion')));
@@ -135,7 +150,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ListaOcupacion(){
+    function ListaOcupacion(){
         if ($this->input->is_ajax_request()){
             echo json_encode($this->mTalento_humano->Tipo(8,$this->input->post('grupo_ocupacion')));
         }else{
@@ -143,7 +158,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ListaRemuneracionAdmin(){
+    function ListaRemuneracionAdmin(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('grupo_ocupacion'))==true) && (!empty($this->input->post('puesto'))==true)){
                 echo json_encode($this->Contrato_Modelo->ListaRemuneracionAdmin($this->input->post('grupo_ocupacion'),$this->input->post('puesto')));
@@ -155,7 +170,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ListarContratos(){
+    function ListarContratos(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') === '-3' ){
                 echo json_encode($this->Contrato_Modelo->ListarContrtosAll());
@@ -167,7 +182,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function ProcesosContrato(){
+    function ProcesosContrato(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('id_contrato'))==true)){
                 echo json_encode($this->Contrato_Modelo->ProcesosContrato($this->input->post('id_contrato')));
@@ -177,7 +192,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function DenominacionDocente(){
+    function DenominacionDocente(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('id_denominacion'))==true)){
                echo json_encode($this->Contrato_Modelo->DenominacionDocente($this->input->post('id_denominacion')));
@@ -187,7 +202,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function DenominacionAdmin(){
+    function DenominacionAdmin(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('id_denominacion'))==true)){
                 echo json_encode($this->Contrato_Modelo->DenominacionAdmin($this->input->post('id_denominacion')));
@@ -197,7 +212,7 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
-    public function Hoja_Vida(){
+    function Hoja_Vida(){
         $id=$_GET['id'];
         Carga_pdf::Hoja_Vida($id);
     }

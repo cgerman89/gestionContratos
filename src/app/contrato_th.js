@@ -313,6 +313,13 @@ $(document).ready(function () {
 });
 
 //funciones
+
+function Mayus(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(campo).val().toUpperCase())
+    });
+}
+
 function SaveContrato(datos,callback){
     $.ajax({
         url:'cTalento_humano/CrearContrato',
@@ -360,6 +367,51 @@ function ListarTitulos(id_personal,combo){
            $(combo).append('<option value='+value.id_inst_formal+'>'+value.titulo+'</option>');
        });
    },'json');
+}
+
+function AnularContrato(id_contrato,aspirante) {
+    swal({
+        html: 'Anular Registro Contrato de: <br> <b>' + aspirante + '</b>',
+        input: 'textarea',
+        type: 'warning',
+        showCloseButton: true,
+        confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Anular',
+        confirmButtonColor: '#d33',
+        cancelButtonClass: 'btn btn-danger',
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        inputAttributes: {
+            'maxlength': 100
+        },
+        inputPlaceholder: 'Escriba el motivo de Anulacion',
+        onOpen: function () {
+            Mayus('.swal2-textarea');
+        },
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject('¡Por favor, escriba el motivo de Anulacion de la solicitud!')
+                }
+            })
+        }
+    }).then(function (observacion) {
+        $.post("cTalento_humano/AnularContrato", {
+            'id_contrato': id_contrato,
+            'observacion': observacion
+        }, function (data, estado) {
+            if (estado === 'success') {
+                if (data.opcion === '1') {
+                    $('#tabla_lista_contratos').DataTable().ajax.reload();
+                    toastr.info(data.mensaje);
+                } else if (data.opcion === '2') {
+                    $('#tabla_lista_contratos').DataTable().ajax.reload();
+                    toastr.error(data.mensaje);
+                }
+            }
+        }, 'json');
+    });
 }
 
 function CargaComboDepartamentos_th(combo) {
@@ -592,8 +644,9 @@ function TablaProcesoSolicitud(id_solicitud){
 function TablaContratos(id_dpto){
     $('#tabla_lista_contratos').DataTable({
         "destroy":true,
-        "autoWidth":false,
+        "autoWidth":true,
         "scrollCollapse": true,
+        "scrollX": true,
         "responsive":true,
         "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
@@ -612,16 +665,18 @@ function TablaContratos(id_dpto){
             }
         },
         "columns":[
-            {"data":"codigo","width":"9%"},
+            {"data":"codigo","width": "7%"},
             {"data":null,"width":"20%"},
             {"data":"modalidad_laboral","width":"10%"},
             {"data":"tipo","width":"9%"},
             {"data":"deominacion","width":"20%"},
-            {"data":"remuneracion","width":"11%"},
-            {"data":"fecha_inicio","width":"11%"},
-            {"data":"fecha_finaliza","width":"11%"},
+            {"data":"remuneracion","width":"5%"},
+            {"data":"fecha_inicio","width":"7%"},
+            {"data":"fecha_finaliza","width":"7%"},
+            {"data":null,"width": "5%"},
             {"data":"titulo","width":"20%"},
             {"data":"departamento","width":"9%"},
+            {"data":"codigo_solicitud"},
             {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
         ],
         "columnDefs": [
@@ -631,9 +686,15 @@ function TablaContratos(id_dpto){
                     return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
                 }
             },
-            {   "targets": [10],
+            {
+                "targets": [8],
+                "render":function(data) {
+                    return " <span> "+Meses(data.fecha_finaliza,data.fecha_inicio)+" </span>";
+                }
+            },
+            {   "targets": [12],
                 "render": function(data,row) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li><li><a href="#" class="EditarContrato"><span class="text-bold"> <i class="fa fa-edit" aria-hidden="true"></i> Modificar Contrato </span></a></li>  </ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li><li><a href="#" class="EditarContrato"><span class="text-bold"> <i class="fa fa-edit" aria-hidden="true"></i> Modificar Contrato </span></a></li> <li> <a href="#"  onclick="AnularContrato('+data.id_contrato+',\''+data.aspirante+'\')" > <span class="text-bold"> <i class="fa fa-trash" aria-hidden="true"></i>&nbsp; Anular Contrato</span> </a> </li> </ul></div></span>';
                 }
             }
         ]

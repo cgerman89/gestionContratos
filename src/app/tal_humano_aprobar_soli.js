@@ -278,8 +278,10 @@ function Aprobrar_th(idsolicitud,aspirante) {
         $.post("cTalento_humano_as/AprobarSolicitud_th",{'Id_sol_contratoTH':idsolicitud},function(data){
                if(data.fnc_aprobar_recursos_humano ==='OK'){
                    toastr.info('Solicitud de: '+aspirante+' '+data.fnc_aprobar_recursos_humano);
-                   CargarListaSolicitud_th();
-                   CargarAprobadas_th();
+                   $('#tblLisAspPorAproTH').DataTable().ajax.reload();
+                   $('#tblLisAspFluProc').DataTable().ajax.reload();
+                   //CargarListaSolicitud_th();
+                   //CargarAprobadas_th();
                }
         },'json');
     },function (dismiss){});

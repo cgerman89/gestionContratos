@@ -40,7 +40,7 @@ $(document).ready(function(){
     //Aprobar masivamente
     $('#btn_apro_mas').click(function (e) {
         e.preventDefault();
-        if($('#spNumSolApro').html()!==0){
+        if($('#spNumSolApro').html() > 0){
             swal({
                 title: 'Aprobar Solicitudes!',
                 html: "<span>¿Aprobar Las ( <b>"+$('#spNumSolApro').html()+"</b> ) Solicitudes Seleccionadas?</span>",
@@ -76,11 +76,9 @@ $(document).ready(function(){
 
                 },1000);
             },function (dismiss){});
-        }
-        else{
+        }else{
             toastr.error('No hay solicitud(es) seleccionada(s)');
         }
-
     });
 
     //Cuando den clic en algún checkbox, contabilice las solicitudes seleccionadas y las muestre

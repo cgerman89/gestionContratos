@@ -3,13 +3,22 @@
         <div class="nav-tabs-justified">
             <ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active" >
-                    <a href="#solicitudes_por_aprobar" data-toggle="tab" class="fa fa-file-text-o fa-2x" title="Solicitudes por aprobar"></a>
+                    <a href="#solicitudes_por_aprobar" data-toggle="tab" title="Solicitudes por aprobar">
+                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-refresh text-info" aria-hidden="true"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#flujo_procesos" data-toggle="tab" class="fa fa-check-square-o fa-2x" title="Solicitudes aprobadas"></a>
+                    <a href="#flujo_procesos" data-toggle="tab"  title="Solicitudes aprobadas">
+                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-check text-info" aria-hidden="true"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#Solicitudes_rechazadas" data-toggle="tab" class="fa fa-times fa-2x" title="Solicitudes rechazadas"></a>
+                    <a href="#Solicitudes_rechazadas" data-toggle="tab">
+                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-times text-info" aria-hidden="true"></i>
+                    </a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -20,12 +29,6 @@
                                 <div class="col-md-6">
                                     <h4 class="text-muted">SOLICITUDES PENDIENTES</h4>
                                 </div>
-                                <div class="col-md-4">
-                                    <select name="cbodepartamentoapro" id="cbodepartamentoapro" class="form-control" >
-                                        <option value="-2">SELECCIONE EL DEPARTAMENTO</option>
-                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
-                                    </select>
-                                </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <a name="btn_apro_mas" id="btn_apro_mas" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aprobar masivamente">
@@ -33,6 +36,12 @@
                                             <i class="fa fa-check-square-o"></i> APROBAR
                                         </a>
                                     </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="cbodepartamentoapro" id="cbodepartamentoapro" class="form-control" >
+                                        <option value="-2">SELECCIONE EL DEPARTAMENTO</option>
+                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -144,90 +153,6 @@
                                     <tbody></tbody>
                                 </table>
                             </div>
-                            <div id="md_proc_solic_y_contr"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
-                                            <button type="button"  id="btn_cerrar_md_procesos_apro" name="btn_cerrar_md_procesos_apro" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Procesos</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="panel-body">
-                                                <div class="col-sm-12">
-                                                    <span><h3 class="panel-title">Procesos solicitud</h3></span>
-                                                </div>
-                                                <br>
-                                                <table id="tabla_proceso_solicitud" class="table small table-hover table-bordered">
-                                                    <thead class="bg-light-blue">
-                                                    <tr>
-                                                        <th>
-                                                            <i class='fa fa-cogs'></i>
-                                                            Proceso
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                                            Usuario
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                                                            Fecha Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            Hora Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                            Observacion
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            Estado
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="col-sm-12">
-                                                    <span style='color:#black;'><h3 class="panel-title">Procesos contrato</h3></span>
-                                                </div>
-                                                <br>
-                                                <table id="tabla_procesos_contrato" class="table small table-hover table-bordered">
-                                                    <thead class="bg-light-blue">
-                                                    <tr>
-                                                        <th>
-                                                            <i class='fa fa-cogs'></i>
-                                                            Proceso
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                                            Usuario
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                                                            Fecha Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            Hora Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                            Observacion
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            Estado
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -292,91 +217,175 @@
                                     <tbody></tbody>
                                 </table>
                             </div>
-                            <div id="md_proc_solic_y_contr_rechazadas" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
-                                            <button type="button"  id="btn_cerrar_md_procesos_recha" name="btn_cerrar_md_procesos_recha" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Procesos</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="panel-body">
-                                                <div class="col-sm-12">
-                                                    <span style='color:#black;'><h3 class="panel-title">Procesos solicitud</h3></span>
-                                                </div>
-                                                <br>
-                                                <table id="tabla_proceso_solicitud_recha" class="table small table-hover table-bordered">
-                                                    <thead class="bg-light-blue">
-                                                    <tr>
-                                                        <th>
-                                                            <i class='fa fa-cogs'></i>
-                                                            Proceso
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                                            Usuario
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                                                            Fecha Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            Hora Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                            Observacion
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            Estado
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                            <div class="panel-body">
-                                                <div class="col-sm-12">
-                                                    <span style='color:#black;'><h3 class="panel-title">Procesos contrato</h3></span>
-                                                </div>
-                                                <br>
-                                                <table id="tabla_procesos_contrato_recha" class="table small table-hover table-bordered">
-                                                    <thead class="bg-light-blue">
-                                                    <tr>
-                                                        <th>
-                                                            <i class='fa fa-cogs'></i>
-                                                            Proceso
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
-                                                            Usuario
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
-                                                            Fecha Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
-                                                            Hora Revision
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-commenting" aria-hidden="true"></i>
-                                                            Observacion
-                                                        </th>
-                                                        <th>
-                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                            Estado
-                                                        </th>
-                                                    </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="md_proc_solic_y_contr"  class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                    <button type="button"  id="btn_cerrar_md_procesos_apro" name="btn_cerrar_md_procesos_apro" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Procesos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <div class="col-sm-12">
+                            <span><h3 class="panel-title">Procesos solicitud</h3></span>
+                        </div>
+                        <br>
+                        <table id="tabla_proceso_solicitud" class="table small table-hover table-bordered">
+                            <thead class="bg-light-blue">
+                            <tr>
+                                <th>
+                                    <i class='fa fa-cogs'></i>
+                                    Proceso
+                                </th>
+                                <th>
+                                    <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                    Usuario
+                                </th>
+                                <th>
+                                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                    Fecha Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    Hora Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-commenting" aria-hidden="true"></i>
+                                    Observacion
+                                </th>
+                                <th>
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Estado
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-12">
+                            <span ><h3 class="panel-title">Procesos contrato</h3></span>
+                        </div>
+                        <br>
+                        <table id="tabla_procesos_contrato" class="table small table-hover table-bordered">
+                            <thead class="bg-light-blue">
+                            <tr>
+                                <th>
+                                    <i class='fa fa-cogs'></i>
+                                    Proceso
+                                </th>
+                                <th>
+                                    <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                    Usuario
+                                </th>
+                                <th>
+                                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                    Fecha Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    Hora Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-commenting" aria-hidden="true"></i>
+                                    Observacion
+                                </th>
+                                <th>
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Estado
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="md_proc_solic_y_contr_rechazadas" class="modal fade" role="dialog" data-backdrop="static" data-keyboard=”false”>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                    <button type="button"  id="btn_cerrar_md_procesos_recha" name="btn_cerrar_md_procesos_recha" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Procesos</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-body">
+                        <div class="col-sm-12">
+                            <span><h3 class="panel-title">Procesos solicitud</h3></span>
+                        </div>
+                        <br>
+                        <table id="tabla_proceso_solicitud_recha" class="table small table-hover table-bordered">
+                            <thead class="bg-light-blue">
+                            <tr>
+                                <th>
+                                    <i class='fa fa-cogs'></i>
+                                    Proceso
+                                </th>
+                                <th>
+                                    <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                    Usuario
+                                </th>
+                                <th>
+                                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                    Fecha Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    Hora Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-commenting" aria-hidden="true"></i>
+                                    Observacion
+                                </th>
+                                <th>
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Estado
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-sm-12">
+                            <span ><h3 class="panel-title">Procesos contrato</h3></span>
+                        </div>
+                        <br>
+                        <table id="tabla_procesos_contrato_recha" class="table small table-hover table-bordered">
+                            <thead class="bg-light-blue">
+                            <tr>
+                                <th>
+                                    <i class='fa fa-cogs'></i>
+                                    Proceso
+                                </th>
+                                <th>
+                                    <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                                    Usuario
+                                </th>
+                                <th>
+                                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                                    Fecha Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    Hora Revision
+                                </th>
+                                <th>
+                                    <i class="fa fa-commenting" aria-hidden="true"></i>
+                                    Observacion
+                                </th>
+                                <th>
+                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    Estado
+                                </th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -76,7 +76,12 @@
                            $sub_menu=$row['submenu'];
                            foreach ($sub_menu as $item){
                         ?>
-                        <li><a href="<?=site_url($item['ruta'])?>"><?=$item['descripcion'];?></a></li>
+                        <li>
+                            <a href="<?=site_url($item['ruta'])?>">
+                                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                                <?=$item['descripcion'];?>
+                            </a>
+                        </li>
                         <?php } ?>
                     </ul>
                 </li>

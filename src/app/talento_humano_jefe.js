@@ -21,6 +21,14 @@ function CargaComboDepartamentos(combo) {
     },'json');
 }
 
+function Meses(fecha_final,fecha_inicial) {
+    let inicio=moment(fecha_inicial);
+    let finaliza=moment(fecha_final);
+    if((inicio!==null&&inicio!=='undefined')&& (finaliza!==null&&finaliza!=='undefined')){
+        return finaliza.diff(inicio,'month');
+    }
+}
+
 function Generar_hoja_vida(id_persona) {
     let html ="<div class='modal-dialog'>";
     html +=" <div class='modal-content'>";
@@ -115,8 +123,9 @@ function TablaProcesoContrato(id_contrato) {
 function TablaContratos(id_dpto){
     $('#tabla_contratos_th_jefe').DataTable({
         "destroy":true,
-        "autoWidth":false,
+        "autoWidth":true,
         "scrollCollapse": true,
+        "scrollX": true,
         "responsive":true,
         "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
@@ -135,14 +144,15 @@ function TablaContratos(id_dpto){
             }
         },
         "columns":[
-            {"data":"codigo","width":"9%"},
+            {"data":"codigo"},
             {"data":null,"width":"20%"},
             {"data":"modalidad_laboral","width":"10%"},
             {"data":"tipo","width":"9%"},
             {"data":"deominacion","width":"20%"},
-            {"data":"remuneracion","width":"11%"},
-            {"data":"fecha_inicio","width":"11%"},
-            {"data":"fecha_finaliza","width":"11%"},
+            {"data":"remuneracion","width":"5%"},
+            {"data":"fecha_inicio","width":"7%"},
+            {"data":"fecha_finaliza","width":"7%"},
+            {"data":null},
             {"data":"titulo","width":"20%"},
             {"data":"departamento","width":"9%"},
             {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
@@ -154,8 +164,14 @@ function TablaContratos(id_dpto){
                     return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
                 }
             },
-            {   "targets": [10],
-                "render": function(data,row) {
+            {
+                "targets": [8],
+                "render":function(data) {
+                    return " <span> "+Meses(data.fecha_finaliza,data.fecha_inicio)+" </span>";
+                }
+            },
+            {   "targets": [11],
+                "render": function(data) {
                     return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li>  </ul></div></span>';
                 }
             }

@@ -7,9 +7,22 @@
                         <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li role="presentation"   title="estado de contrato">
+                <li role="presentation"   title="contrato en proceso">
                     <a href="#lista_contrato_th"  data-toggle="tab">
-                        <i class="fa fa-list-alt fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-cog text-info" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li role="presentation"   title="contratos activos">
+                    <a href="#list_contratos_activos" data-toggle="tab">
+                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-check text-info" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li role="presentation"   title="contratos rechazados o anulados">
+                    <a href="#list_contratos_rechazados" data-toggle="tab">
+                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-times text-info" aria-hidden="true"></i>
                     </a>
                 </li>
             </ul>
@@ -80,7 +93,7 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <h4 class="text-muted"><span class="label label-warning">CONTRATOS EN PROCESO</span></h4>
+                                    <h4 class="text-muted">CONTRATOS EN PROCESO</h4>
                                 </div>
                                 <div class="col-md-4">
                                     <select id="departamento_ctr_th"  class="form-control" style="width: 100%">
@@ -126,12 +139,20 @@
                                             Fecha Final
                                         </th>
                                         <th>
+                                            <i class="fa fa-hashtag" aria-hidden="true"></i>
+                                            MESES
+                                        </th>
+                                        <th>
                                             <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;
                                             TITULO
                                         </th>
                                         <th>
                                             <i class="fa fa-building-o" aria-hidden="true"></i>
                                             DPTO.SOLICITANTE
+                                        </th>
+                                        <th>
+                                            <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                            COD.SOLICITUD
                                         </th>
                                         <th>
                                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -143,7 +164,49 @@
                         </div>
                     </div>
                 </div>
+                <div id="list_contratos_activos" role="tabpanel" class="tab-pane fade">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-muted">CONTRATOS ACTIVOS</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="departamento_ctr_th"  class="form-control" style="width: 100%">
+                                        <option value="-2">SELECCIONE DEPARTAMENTO</option>
+                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="panel-body">
+
+                        </div>
+                    </div>
+                <div id="list_contratos_rechazados" role="tabpanel" class="tab-pane fade">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-muted">CONTRATOS RECHAZADOS</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="departamento_ctr_th"  class="form-control" style="width: 100%">
+                                        <option value="-2">SELECCIONE DEPARTAMENTO</option>
+                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+                </div>
             </div>
+        </div>
         </div>
     </div>
     <!-- Modal crear contrato-->
