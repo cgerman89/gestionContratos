@@ -9,8 +9,9 @@
 class Contrato extends CI_Controller {
     function __construct(){
        parent::__construct();
-        $this->load->model('Contrato_Modelo');
+       $this->load->model('Contrato_Modelo');
     }
+
     function index(){
         if($this->session->userdata('login')=== TRUE){
             if($this->session->userdata('id_tipo_usuario') === '50') {
@@ -46,6 +47,20 @@ class Contrato extends CI_Controller {
                 'proceso'=>11
             );
             echo json_encode($this->Contrato_Modelo->AprobarProceso($campos));
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function RechazarContrato(){
+        if ($this->input->is_ajax_request()){
+            $campos= array(
+                'id_contrato'=>$this->input->post('id_contrato'),
+                'id_personal'=>$this->session->userdata('id_personal'),
+                'proceso'=>11,
+                'observacion'=>$this->input->post('observacion')
+            );
+            echo json_encode($this->Contrato_Modelo->RechazarProceso($campos));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }

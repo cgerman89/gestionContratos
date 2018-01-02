@@ -3,6 +3,8 @@ $(document).ready(function () {
     const departamento_ctr_rec=$('#departamento_ctr_rec');
     const departamento_rec=$('#departamento_rec');
     const tabla_contratos_apb_rec=$('#tabla_contratos_apb_rec');
+    const btn_apro_mas=$('#btn_apro_mas');
+    const spNumSolApro=$('#spNumSolApro');
 
     CargaComboDepartamentos(departamento_ctr_rec);
     CargaComboDepartamentos(departamento_rec);
@@ -15,12 +17,12 @@ $(document).ready(function () {
     TablaContratos();
     TablaContratosListos();
 
-    $('#btn_apro_mas').click(function (e) {
+    btn_apro_mas.click(function (e) {
         e.preventDefault();
-        if($('#spNumSolApro').html() > 0){
+        if(spNumSolApro.html() > 0){
             swal({
                 title: 'Aprobar Contratos!',
-                html: "<span>¿Aprobar Los ( <b>"+$('#spNumSolApro').html()+"</b> ) Registros Seleccionadas?</span>",
+                html: "<span>¿Aprobar Los ( <b>"+spNumSolApro.html()+"</b> ) Registros Seleccionadas?</span>",
                 type: 'warning',
                 allowOutsideClick: false,
                 allowEnterKey: false,
@@ -29,15 +31,19 @@ $(document).ready(function () {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Si'
             }).then(function () {
-                let cont=0;
+                let exito=0;
+                let error=0;
                 $('#tabla_contratos_apb_rec tbody tr').each(function(indiceFila) {
                     $(this).children('td').each(function(indiceColumna) {
-                        if(indiceColumna == 7){
+                        if(indiceColumna === 12){
                             if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
-                                let idAspAp = $('.idAspApro:eq('+indiceFila+')').prop('id');
-                                Aprueba_rector_masivamente(idAspAp,function (datos) {
-                                    if(datos.fnc_aprobar_rector === "OK"){
-                                        cont++;
+                                let id_ctr_apb = $('.id_ctr_apb:eq('+indiceFila+')').prop('id');
+                                 console.log("id_ctr_apb "+id_ctr_apb);
+                                AprobarContratoAll(id_ctr_apb,function (resp) {
+                                    if (resp.opcion === '1') {
+                                        exito++;
+                                    }else if (resp.opcion === '2'){
+                                        error++;
                                     }
                                 });
                             }
@@ -45,13 +51,16 @@ $(document).ready(function () {
                     });
                 });
                 setTimeout(function () {
-                    toastr.info(cont+' Contrato(s) aprobado(s) exitosamente.');
+                    if(exito > 0){
+                        toastr.info(exito+" Contrato(s)  Aprobado(s) exitosamente.");
+                    }else if(error > 0){
+                        toastr.error(error+" Contrato(s) No  Aprobado(s)");
+                    }
                     //LLenar tabla de acuerdo a lo que hay en el combo en la vista Solicitudes por aprobar
                     TablaContratos();
                     departamento_ctr_rec.val('-2').trigger('change.select2');
                     TablaContratosListos();
-
-                },1000);
+                },500);
             },function (dismiss){});
         }else{
             toastr.error('No hay contratos seleccionada(s)');
@@ -98,6 +107,14 @@ $(document).ready(function () {
    });
 });
 ///funciones
+
+function Mayus(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(campo).val().toUpperCase())
+    });
+
+}
+
 function CargaComboDepartamentos(combo) {
     $.post('cTalento_humano/GetListadoDepartamentos',function (datos, estado, xhr) {
         if (estado === 'success') $.each(datos, function (index, value) {
@@ -144,6 +161,54 @@ function AprobarContrato(id_contrato,aspirante){
             }
         },'json');
     },function (dismiss){});
+}
+
+function AprobarContratoAll(id_contrato,callback){
+    $.post("cContratos_r/AprobarContrato",{'id_contrato':id_contrato},function(data,estado){
+        if (estado === 'success') {
+            callback(data);
+        }
+    },'json');
+}
+
+function RechazarContrato(id_contrato,aspirante){
+    swal({
+        html: '¿Rechazar Contrato de: <br> <b>'+aspirante+'</b> ?',
+        input: 'textarea',
+        type: 'warning',
+        showCloseButton: true,
+        confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Enviar',
+        confirmButtonColor: '#d33',
+        cancelButtonClass: 'btn btn-danger',
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        inputAttributes: {
+            'maxlength': 100
+        },
+        inputPlaceholder: 'Escriba el motivo del rechazo de la solicitud',
+        onOpen: function () {
+            Mayus('.swal2-textarea');
+        },
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject('¡Por favor, escriba el motivo..')
+                }
+            })
+        }
+    }).then(function (observacion) {
+        $.post("cContratos_r/RechazarContrato",{'id_contrato':id_contrato,'observacion':observacion},function(data){
+            if (data.opcion === '1') {
+                toastr.info(data.mensaje);
+                $('#tabla_contratos_apb_rec').DataTable().ajax.reload();
+            }else if(data.opcion === '2'){
+                toastr.error(data.mensaje);
+                $('#tabla_contratos_apb_rec').DataTable().ajax.reload();
+            }
+        },'json');
+    },function (dismiss){})
 }
 
 function Meses(fecha_final,fecha_inicial) {
@@ -248,7 +313,7 @@ function TablaContratos(id_dpto){
             {
                 "targets": [1],
                 "render":function(data) {
-                    return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
+                    return " <div class='id_ctr_apb' id="+data.id_contrato+"></div> <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
                 }
             },
             {
@@ -266,7 +331,7 @@ function TablaContratos(id_dpto){
             },
             {   "targets": [13],
                 "render": function(data) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li>  </ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li> <li> <a href="#" onclick="RechazarContrato('+data.id_contrato+',\''+data.aspirante+'\')"><span class="text-bold"><i class="fa fa-close"></i>&nbsp; Rechazar Contrato</span> </a> </li> </ul></div></span>';
                 }
             }
         ]

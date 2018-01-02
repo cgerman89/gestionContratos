@@ -26,6 +26,7 @@ class cFinanciero extends CI_Controller{
             redirect('/');
         }
     }
+
     function ListaContratos(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') ==='-3'){
@@ -37,6 +38,7 @@ class cFinanciero extends CI_Controller{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     function AprobarContrato(){
         if ($this->input->is_ajax_request()){
             $campos= array(
@@ -54,6 +56,7 @@ class cFinanciero extends CI_Controller{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+
     function RechazarContrato(){
         if ($this->input->is_ajax_request()){
             $campos= array(

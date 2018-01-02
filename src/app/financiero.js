@@ -73,9 +73,8 @@ function AprobarContrato(id_contrato,aspirante){
                 $('#tabla_contratos_fn').DataTable().ajax.reload();
             }
         },'json');
-    });
+    },function (dismiss){});
 }
-
 
 function RechazarContrato(id_contrato,aspirante){
     swal({
@@ -114,7 +113,7 @@ function RechazarContrato(id_contrato,aspirante){
                 $('#tabla_contratos_fn').DataTable().ajax.reload();
             }
         },'json');
-    })
+    },function (dismiss){});
 }
 
 function TablaContratos(id_dpto){

@@ -26,6 +26,7 @@ class Perfil_model extends CI_Model{
         return $res->row();
     }
     public function SavePdf($data){
+        $this->db->db_set_charset('UTF-8');
         $res=$this->db->query('SELECT esq_contrato.crear_archivo(?,?,?,?,?,?,?);',$data);
         //echo $this->db->last_query();
         return $res->row();

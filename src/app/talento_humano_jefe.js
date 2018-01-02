@@ -13,6 +13,13 @@ $(document).ready(function () {
 
 });
 //funciones
+function Mayus(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(campo).val().toUpperCase())
+    });
+
+}
+
 function CargaComboDepartamentos(combo) {
     $.post('cTalento_humano/GetListadoDepartamentos',function (datos, estado, xhr) {
         if (estado === 'success') $.each(datos, function (index, value) {
@@ -62,6 +69,46 @@ function AprobarContrato(id_contrato,aspirante){
                 toastr.info(data.mensaje);
                 $('#tabla_contratos_th_jefe').DataTable().ajax.reload();
             }else if (data.opcion === '2'){
+                toastr.error(data.mensaje);
+                $('#tabla_contratos_th_jefe').DataTable().ajax.reload();
+            }
+        },'json');
+    },function (dismiss){});
+}
+
+function RechazarContrato(id_contrato,aspirante){
+    swal({
+        html: '¿Rechazar Contrato de: <br> <b>'+aspirante+'</b> ?',
+        input: 'textarea',
+        type: 'warning',
+        showCloseButton: true,
+        confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Enviar',
+        confirmButtonColor: '#d33',
+        cancelButtonClass: 'btn btn-danger',
+        allowOutsideClick: false,
+        allowEnterKey: false,
+        inputAttributes: {
+            'maxlength': 100
+        },
+        inputPlaceholder: 'Escriba el motivo del rechazo de la solicitud',
+        onOpen: function () {
+            Mayus('.swal2-textarea');
+        },
+        inputValidator: function (value) {
+            return new Promise(function (resolve, reject) {
+                if (value) {
+                    resolve()
+                } else {
+                    reject('¡Por favor, escriba el motivo..')
+                }
+            })
+        }
+    }).then(function (observacion) {
+        $.post("Contrato/RechazarContrato",{'id_contrato':id_contrato,'observacion':observacion},function(data){
+            if (data.opcion === '1') {
+                toastr.info(data.mensaje);
+                $('#tabla_contratos_th_jefe').DataTable().ajax.reload();
+            }else if(data.opcion === '2'){
                 toastr.error(data.mensaje);
                 $('#tabla_contratos_th_jefe').DataTable().ajax.reload();
             }
@@ -124,10 +171,10 @@ function TablaContratos(id_dpto){
     $('#tabla_contratos_th_jefe').DataTable({
         "destroy":true,
         "autoWidth":true,
-        "scrollCollapse": true,
         "scrollX": true,
         "responsive":true,
-        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+        "scrollCollapse": true,
+        "paging":false,
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -172,7 +219,7 @@ function TablaContratos(id_dpto){
             },
             {   "targets": [11],
                 "render": function(data) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li>  </ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li> <li> <a href="#" onclick="RechazarContrato('+data.id_contrato+',\''+data.aspirante+'\')"><span class="text-bold"><i class="fa fa-close"></i>&nbsp; Rechazar Contrato</span> </a> </li> </ul></div></span>';
                 }
             }
         ]

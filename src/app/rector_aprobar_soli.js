@@ -55,9 +55,10 @@ $(document).ready(function(){
                 let cont=0;
                 $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
                     $(this).children('td').each(function(indiceColumna) {
-                        if(indiceColumna == 7){
+                        if(indiceColumna === 7){
                             if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                                 let idAspAp = $('.idAspApro:eq('+indiceFila+')').prop('id');
+                                console.log("idaspap "+idAspAp);
                                 Aprueba_rector_masivamente(idAspAp,function (datos) {
                                     if(datos.fnc_aprobar_rector === "OK"){
                                         cont++;
