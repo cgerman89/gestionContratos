@@ -4,7 +4,7 @@ new Vue({
         console.log('login listo');
         toastr.options = {
             closeButton:true,
-            positionClass: "toast-top-right",
+            positionClass: "toast-top-center",
             preventDuplicates: true
         };
     },
@@ -16,10 +16,10 @@ new Vue({
        Valida:function () {
            if(this.usuario === ''){
                $('#txt_usuario').focus();
-               toastr.error('campo usuario obligatorio','Session');
+               toastr.error('campo usuario obligatorio');
            }else if (this.password === ''){
                $('#txt_clave').focus();
-               toastr.error('campo contraseña obligatorio','Session');
+               toastr.error('campo contraseña obligatorio');
            }else{
                this.Login(function (data) {
                    if (data.p_opcion === '1') {

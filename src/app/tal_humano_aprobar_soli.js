@@ -24,6 +24,7 @@ $(document).ready(function () {
     cbodepartamentoaproth.change(function () {
         CargarListaSolicitud_th($(this).val());
     });
+
     cbodepartamentoflu.change(function () {
         CargarAprobadas_th($(this).val());
     });
@@ -31,6 +32,7 @@ $(document).ready(function () {
     cbodetoSolicitudesRechazadas.change(function () {
         CargaRechazadas_th($(this).val());
     });
+
     tblSolicitudesRechazadas.on("click","a.info_rechazada",function () {
         let regis = tblSolicitudesRechazadas.DataTable().row( $(this).parents("tr") ).data();
         $.post("cTalento_humano_as/InfoSolicitudRechazada",{'id_solicitud':regis.id_solicitud_contrato},function (data) {
@@ -63,7 +65,7 @@ function Mayus(campo) {
 }
 
 function Generar_hoja_vida(idpersonal) {
-    var html ="<div class='modal-dialog'>";
+    let html ="<div class='modal-dialog'>";
     html +=" <div class='modal-content'>";
     html +=" <div class='modal-header'>";
     html +=" <button type='button'  id='btn_cerrar_md_banco' name='btn_cerrar_md_banco' class='close' data-dismiss='modal'>&times;</button>";
@@ -135,7 +137,6 @@ function CargarListaSolicitud_th(id_dpto) {
                 }
             }
         ],
-        "order": [[3,"asc"]],
     });
 
 }

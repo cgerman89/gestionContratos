@@ -43,8 +43,13 @@ class Aspirante_Modelo extends CI_Model {
     }
 
     public function EliminarRol($idpersona,$idrol){
-        $reg_solicitud=$this->db->query("SELECT count(solicitud_contrato.id_solicitud_contrato) as num_reg FROM esq_contrato.solicitud_contrato WHERE solicitud_contrato.id_personal=? AND solicitud_contrato.estado='P';",$idpersona);
-        if($reg_solicitud->row('num_reg')== 0) {
+        $this->db->select(" count(solicitud_contrato.id_solicitud_contrato) as num ")
+                 ->from(" esq_contrato.solicitud_contrato ")
+                 ->where(" solicitud_contrato.id_personal ",$idpersona)
+                 ->where(" (solicitud_contrato.estado='P' OR  solicitud_contrato.estado='A') ")
+                 ->where_not_in(" solicitud_contrato.id_personal "," SELECT contrato.id_contrato FROM esq_contrato.contrato WHERE contrato.estado='P' OR  contrato.estado='A' ",false);
+        $reg_solicitud= $this->db->get();
+        if($reg_solicitud->row('num') == 0) {
             $this->db_user->where('tbl_personal_rol.id_rol', $idrol)
                 ->where('tbl_personal_rol.id_personal', $idpersona)
                 ->delete('esq_roles.tbl_personal_rol');
@@ -59,7 +64,7 @@ class Aspirante_Modelo extends CI_Model {
               return $resp;
             }
         }else{
-            $resp['mensaje']='Error: Tiene Solicitudes En Proceso';
+            $resp['mensaje']='Error: Tiene Solicitud o Contrato en proceso o Activo';
             $resp['opcion']=2;
             return $resp;
         }

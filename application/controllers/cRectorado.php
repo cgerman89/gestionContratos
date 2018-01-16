@@ -9,10 +9,12 @@
 class cRectorado extends CI_Controller{
 
     private $idusuario=0;
+
     function __construct(){
         parent::__construct();
         $this->load->model('mRectorado');
         $this->load->model('Solicitud_Contrato_Modelo');
+        $this->load->model('Contrato_Modelo');
         $this->load->library('Carga_pdf');
         $this->idusuario=$this->session->userdata('id_personal');
     }
@@ -100,10 +102,14 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function ListarProcesosContrato(){
+    function ProcesoContrato(){
         if ($this->input->is_ajax_request()){
-            $res=$this->mRectorado->RegistrosProcesosContrato($this->input->post('id_solicitud'));
-            echo json_encode($res);
+            $res=$this->Solicitud_Contrato_Modelo->ObtenerIdContrato($this->input->post('id_solicitud'));
+            if((!empty($res['id_contrato'])==true)){
+                echo json_encode($this->Contrato_Modelo->ProcesosContrato($res['id_contrato']));
+            }else{
+                echo json_encode(array('data'=>''));
+            }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }

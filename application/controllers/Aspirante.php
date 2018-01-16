@@ -18,7 +18,7 @@ class Aspirante extends CI_Controller {
 
     function index(){
         if($this->session->userdata('login')=== TRUE){
-            if(($this->session->userdata('id_tipo_usuario') === '19')||($this->session->userdata('id_tipo_usuario') === '12')) {
+            if(($this->session->userdata('id_tipo_usuario') === '19')||($this->session->userdata('id_tipo_usuario') === '12') ||($this->session->userdata('id_tipo_usuario') === '50') ) {
                 $this->load->view('template/head');
                 $this->load->view('template/nav');
                 $this->load->view('Aspirante');

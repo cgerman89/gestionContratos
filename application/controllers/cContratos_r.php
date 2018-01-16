@@ -52,6 +52,18 @@ class cContratos_r extends CI_Controller {
           }
       }
 
+      function ListaContratosRdz(){
+        if($this->input->is_ajax_request()){
+            if($this->input->post('id_dpto') ==='-3'){
+                echo json_encode($this->Contrato_Modelo->ListarContratos_redz_All('v_contrato.estado_rector','R'));
+            }else{
+                echo json_encode($this->Contrato_Modelo->ListarContratos_redz($this->input->post('id_dpto'),'v_contrato.estado_rector','R'));
+            }
+        }else{
+            echo show_error("No tiene permiso para esta url","403","Error de Acceso");
+        }
+    }
+
       function AprobarContrato(){
           if ($this->input->is_ajax_request()){
               $campos= array(

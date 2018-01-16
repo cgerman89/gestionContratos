@@ -222,26 +222,30 @@ $(document).ready(function () {
     });
 
     tabla_solicitud.on("click","a.EditarSolicitud",function () {
-        let datos=tabla_solicitud.DataTable().row($(this).parents("tr") ).data();
+        let datos = tabla_solicitud.DataTable().row($(this).parents("tr")).data();
         console.log(datos);
-        id_solicitud_ctr.val(datos.id_solicitud_contrato);
-        txt_id_personal.val(datos.id_personal);
-        n_documento_sl_ctr.val(datos.cedula_aspirante);
-        nombres_sl_ctr.val(datos.aspirante);
-        fecha_sl_ctr.datepicker('update', datos.fecha_solicitud);
-        departamento_sl_ctr.val(datos.departamento);
-        DatosSolicitud(datos.id_solicitud_contrato,function (resp) {
-          console.log(resp);
-            tipo_observacion_sl.val(resp.id_observacion).prop('selected','selected');
-            tipo_contrato_sl_ctr.val(resp.id_tipo_solicitud).prop('selected','selected');
-            if(datos.t_contrato==='ADMINISTRATIVO'){
-                puesto_admin.val(resp.id_puesto).prop('selected','selected');
-            }else if(datos.t_contrato==='DOCENTE'){
-                tipo_dedicacion_docente.val(resp.id_dedicacion).prop('selected','selected');
-            }
-            Mostrar_Form(resp.id_tipo_solicitud);
-        });
-        modal_solicitud_contrato_asp.modal('show');
+        if ((datos.estado !== 'R') && (datos.estado !== 'E') && (datos.estado !== 'A')) {
+            id_solicitud_ctr.val(datos.id_solicitud_contrato);
+            txt_id_personal.val(datos.id_personal);
+            n_documento_sl_ctr.val(datos.cedula_aspirante);
+            nombres_sl_ctr.val(datos.aspirante);
+            fecha_sl_ctr.datepicker('update', datos.fecha_solicitud);
+            departamento_sl_ctr.val(datos.departamento);
+            DatosSolicitud(datos.id_solicitud_contrato, function (resp) {
+                console.log(resp);
+                tipo_observacion_sl.val(resp.id_observacion).prop('selected', 'selected');
+                tipo_contrato_sl_ctr.val(resp.id_tipo_solicitud).prop('selected', 'selected');
+                if (datos.t_contrato === 'ADMINISTRATIVO') {
+                    puesto_admin.val(resp.id_puesto).prop('selected', 'selected');
+                } else if (datos.t_contrato === 'DOCENTE') {
+                    tipo_dedicacion_docente.val(resp.id_dedicacion).prop('selected', 'selected');
+                }
+                Mostrar_Form(resp.id_tipo_solicitud);
+            });
+            modal_solicitud_contrato_asp.modal('show');
+        }else{
+          toastr.error('Error No Se Puede Modificar Registro');
+        }
     });
 });
 //funciones
@@ -374,53 +378,54 @@ function BuscarPersona(cedula,callback) {
     });
 }
 
-function AnularSolicitud(id_solicitud,aspirante,estado_th){
-    if(estado_th === 'P' ) {
-        swal({
-            html: 'Anular Solicitud de: <br> <b>' + aspirante + '</b>',
-            input: 'textarea',
-            type: 'warning',
-            showCloseButton: true,
-            confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Anular',
-            confirmButtonColor: '#d33',
-            cancelButtonClass: 'btn btn-danger',
-            allowOutsideClick: false,
-            allowEnterKey: false,
-            inputAttributes: {
-                'maxlength': 100
-            },
-            inputPlaceholder: 'Escriba el motivo del rechazo de la solicitud',
-            onOpen: function () {
-                Mayus('.swal2-textarea');
-            },
-            inputValidator: function (value) {
-                return new Promise(function (resolve, reject) {
-                    if (value) {
-                        resolve()
-                    } else {
-                        reject('¡Por favor, escriba el motivo de Anulacion de la solicitud!')
-                    }
-                })
-            }
-        }).then(function (observacion) {
-            $.post("Aspirante/AnularSolicitud", {
-                'id_solicitud': id_solicitud,
-                'observacion': observacion
-            }, function (data, estado) {
-                if (estado === 'success') {
-                    if (data.opcion === '1') {
-                        $('#tabla_solicitud').DataTable().ajax.reload();
-                        toastr.info(data.mensaje);
-                    } else if (data.opcion === '2') {
-                        $('#tabla_solicitud').DataTable().ajax.reload();
-                        toastr.error(data.mensaje);
-                    }
-                }
-            }, 'json');
-        });
-    }else{
-        toastr.error('No Se Puede Anular');
-    }
+function AnularSolicitud(id_solicitud,aspirante,estado){
+     if((estado !== 'R')&&(estado !== 'E') &&(estado !== 'A')) {
+         swal({
+             html: 'Anular Solicitud de: <br> <b>' + aspirante + '</b>',
+             input: 'textarea',
+             type: 'warning',
+             showCloseButton: true,
+             confirmButtonText: '<i style="color:white;" class="glyphicon glyphicon-remove"></i> Anular',
+             confirmButtonColor: '#d33',
+             cancelButtonClass: 'btn btn-danger',
+             allowOutsideClick: false,
+             allowEnterKey: false,
+             inputAttributes: {
+                 'maxlength': 100
+             },
+             inputPlaceholder: 'Escriba el motivo del rechazo de la solicitud',
+             onOpen: function () {
+                 Mayus('.swal2-textarea');
+             },
+             inputValidator: function (value) {
+                 return new Promise(function (resolve, reject) {
+                     if (value) {
+                         resolve()
+                     } else {
+                         reject('¡Por favor, escriba el motivo de Anulacion de la solicitud!')
+                     }
+                 })
+             }
+         }).then(function (observacion) {
+             $.post("Aspirante/AnularSolicitud", {
+                 'id_solicitud': id_solicitud,
+                 'observacion': observacion
+             }, function (data, estado) {
+                 if (estado === 'success') {
+                     if (data.opcion === '1') {
+                         $('#tabla_solicitud').DataTable().ajax.reload();
+                         toastr.info(data.mensaje);
+                     } else if (data.opcion === '2') {
+                         $('#tabla_solicitud').DataTable().ajax.reload();
+                         toastr.error(data.mensaje);
+                     }
+                 }
+             }, 'json');
+         });
+     }else{
+        toastr.error('Error No se Puede Anular Registro');
+     }
+
 }
 
 function Tabla_Solicitud(){
@@ -478,13 +483,15 @@ function Tabla_Solicitud(){
                         return '<span class="label label-primary">ACEPTADA</span>';
                     }else if (data === 'E'){
                         return '<span class="label label-danger">ANULADA</span>';
+                    }else if (data === 'T'){
+                        return '<span class="label label-success">TERMINADA</span>';
                     }
                 }
             },
             {
                 "targets": [7],
                 "render": function(data) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" class="Ver_proceso"><span class="text-bold"><i class="fa fa-cogs"></i>&nbsp; Ver Proceso</span></a></li> <li><a href="#" class="EditarSolicitud"><span class="text-bold"> <i class="fa fa-edit"></i>&nbsp; Modificar Solicitud</span></a></li> <li><a href="#" onclick="AnularSolicitud('+data.id_solicitud_contrato+',\''+data.aspirante+'\',\''+data.estado_apro_rh+'\')"><span class="text-bold"> <i class="fa fa-trash-o"></i>&nbsp;  Anular</span></a></li></ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" class="Ver_proceso"><span class="text-bold"><i class="fa fa-cogs"></i>&nbsp; Ver Proceso</span></a></li> <li><a href="#" class="EditarSolicitud"><span class="text-bold"> <i class="fa fa-edit"></i>&nbsp; Modificar Solicitud</span></a></li> <li><a href="#" onclick="AnularSolicitud('+data.id_solicitud_contrato+',\''+data.aspirante+'\',\''+data.estado+'\')"><span class="text-bold"> <i class="fa fa-trash-o"></i>&nbsp;  Anular</span></a></li></ul></div></span>';
                 }
             }
         ]

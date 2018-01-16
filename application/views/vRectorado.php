@@ -109,7 +109,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="col-sm-12">
-                                <table id="tblLisAspFluProc" class="table small table-hover table-bordered">
+                                <table id="tblLisAspFluProc" class="table small table-hover table-bordered" cellspacing="0" width="100%">
                                     <thead class="bg-light-blue">
                                     <tr>
                                         <th>

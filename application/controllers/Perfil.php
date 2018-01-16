@@ -8,6 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Perfil extends CI_Controller{
     private $cedula='';
+
     function __construct(){
         parent::__construct();
         $this->load->model('Perfil_model');
@@ -54,6 +55,7 @@ class Perfil extends CI_Controller{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
+
     public function Domicilio(){
         if ($this->input->is_ajax_request()) {
             $campos = array(
@@ -78,6 +80,7 @@ class Perfil extends CI_Controller{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
+
     public function InstFormal(){
         if ($this->input->is_ajax_request()) {
             $campos = array(
@@ -196,6 +199,7 @@ class Perfil extends CI_Controller{
            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso'); 
         }
     }
+
     public function Discapacidad(){
         if ($this->input->is_ajax_request()) {
             $campos = array(
@@ -324,6 +328,7 @@ class Perfil extends CI_Controller{
                  echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
+
     public function EliminarPublicacion(){
         if ($this->input->is_ajax_request()){
               $fichero1=$this->input->post('fichero1');
@@ -370,6 +375,7 @@ class Perfil extends CI_Controller{
              echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
           }
     }
+
     public function EliminarExpProfesional(){
           if ($this->input->is_ajax_request()){
              $tabla='esq_datos_personales.p_trayectoria_laboral';

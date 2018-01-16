@@ -153,7 +153,8 @@ class Solicitud_Contrato_Modelo extends CI_Model {
 
     function SolicitudAceptada($id_dpto){
        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo, v_sc.id_personal,v_sc.id_departamento,v_sc.aspirante,v_sc.cedula_aspirante,v_sc.departamento,v_sc.cordinador, v_sc.fecha_solicitud,v_sc.t_contrato,v_sc.dedicacion,  v_sc.puesto,v_sc.observacion")
-                ->from(" esq_contrato.v_solicitud_contrato as v_sc ")->where(" v_sc.id_departamento ",$id_dpto)->where(" v_sc.estado_apro_rec='A' ")->where(" v_sc.estado_apro_rh='A' ")->where(" v_sc.estado<>'E' ");
+                ->from(" esq_contrato.v_solicitud_contrato as v_sc ")->where(" v_sc.id_departamento ",$id_dpto)->where(" v_sc.estado_apro_rec='A' ")->where(" v_sc.estado_apro_rh='A' ")->where(" v_sc.estado<>'E' ")
+                ->where_not_in('v_sc.id_solicitud_contrato',"SELECT contrato.id_solicitud  FROM  esq_contrato.contrato",false);
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -172,7 +173,7 @@ class Solicitud_Contrato_Modelo extends CI_Model {
                  ->where(" v_sc.estado_apro_rec='A' ")
                  ->where(" v_sc.estado_apro_rh='A' ")
                  ->where(" v_sc.estado<>'E' ")
-                 ->where_not_in('v_sc.id_solicitud_contrato',"SELECT contrato.id_solicitud  FROM  esq_contrato.contrato WHERE contrato.estado='P' OR contrato.estado='A' ",false);
+                 ->where_not_in('v_sc.id_solicitud_contrato',"SELECT contrato.id_solicitud  FROM  esq_contrato.contrato ",false);
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){

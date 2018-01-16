@@ -155,7 +155,7 @@ function tbl_aprobar_rector_depto(id_dpto) {
             }
         },
         'columns': [
-            {"data":"codigo"},
+            {"data":"codigo","width": "8%"},
             {"data": null,"width": "13%"},
             {"data": 'departamento'},
             {"data": 'cordinador'},
@@ -210,7 +210,6 @@ function tbl_aprobar_rector_depto(id_dpto) {
                 }
             },
         ],
-        "order": [[3,"asc"]],
     });
 }
 
@@ -238,14 +237,14 @@ function tbl_flujo_procesos_depto(id_dpto) {
             }
         },
         'columns': [
-            {"data":"codigo"},
+            {"data":"codigo","width": "8%"},
             {"data": null,"width": "13%"},
-            {"data": 'departamento'},
-            {"data": 'cordinador'},
-            {"data": 'fecha_solicitud'},
-            {"data": 't_contrato'},
-            {"data":  null},
-            {"data": 'observacion'},
+            {"data": 'departamento',"width": "13%"},
+            {"data": 'cordinador',"width": "13%"},
+            {"data": 'fecha_solicitud',"width": "9%"},
+            {"data": 't_contrato',"width": "9%"},
+            {"data":  null,"width": "13%"},
+            {"data": 'observacion',"width": "18%"},
             {"orderable": false, 'searchable':false,
                 render:function(data, type, row){
                     return '<span class="pull-left">' +
@@ -283,7 +282,6 @@ function tbl_flujo_procesos_depto(id_dpto) {
                 }
             }
         ],
-        "order": [[3,"asc"]],
     });
 }
 
@@ -311,7 +309,7 @@ function tbl_flujo_procesos_solicitudes_rechazadas(id_dpto) {
             }
         },
         'columns': [
-            {"data":"codigo"},
+            {"data":"codigo","width": "8%"},
             {"data": null,"width": "13%"},
             {"data":'departamento'},
             {"data":'cordinador'},
@@ -346,7 +344,6 @@ function tbl_flujo_procesos_solicitudes_rechazadas(id_dpto) {
                 }
             }
         ],
-        "order": [[3,"asc"]],
     });
 }
 
@@ -415,7 +412,7 @@ ProcesosSolicitudContrato = function(IdSolicitudContrato){
         },
         "ajax":{
             "method":"POST",
-            "url":"cRectorado/ListarProcesosContrato",
+            "url":"cRectorado/ProcesoContrato",
             "dataType":'json',
             "data":{'id_solicitud':IdSolicitudContrato},
             beforeSend:function () {
@@ -427,17 +424,17 @@ ProcesosSolicitudContrato = function(IdSolicitudContrato){
             }
         },
         "columns":[
-            {"data":"p_proceso","width": "18%"},
-            {"data":"p_usuario"},
-            {"data":"p_fecha"},
-            {"data":"p_hora"},
-            {"data":"p_observacion"},
-            {"data":"p_estado"}
+            {"data":"proceso"},
+            {"data":"usuario"},
+            {"data":"fecha"},
+            {"data":"hora"},
+            {"data":"observacion"},
+            {"data":"estado"}
         ],
         "columnDefs": [
             {
                 "targets": [5],
-                "data": "p_estdo",
+                "data": "estado",
                 "render": function(data, type, full) {
                     if(data === 'P'){
                         return '<span class="label label-warning">PENDIENTE</span>';
@@ -445,6 +442,8 @@ ProcesosSolicitudContrato = function(IdSolicitudContrato){
                         return '<span class="label label-danger">RECHAZADO</span>';
                     }else if (data === 'T'){
                         return '<span class="label label-success">TERMINADO</span>';
+                    }else if (data === 'A'){
+                        return '<span class="label label-info">ACEPTADA</span>';
                     }
                 }
             }
@@ -533,7 +532,7 @@ function Mayus(campo) {
 }
 
 function Generar_hoja_vida(idpersonal) {
-    var html ="<div class='modal-dialog'>";
+    let html ="<div class='modal-dialog'>";
     html +=" <div class='modal-content'>";
     html +=" <div class='modal-header'>";
     html +=" <button type='button'  id='btn_cerrar_md_banco' name='btn_cerrar_md_banco' class='close' data-dismiss='modal'>&times;</button>";

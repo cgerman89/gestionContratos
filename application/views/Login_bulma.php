@@ -15,7 +15,6 @@
 <section class="hero  is-fullheight">
     <div class="hero-body" id="app_login">
         <div class="container has-text-centered">
-
             <div class="column is-4 is-offset-4">
                 <div class="box">
                     <figure class="avatar">

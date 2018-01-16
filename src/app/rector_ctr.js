@@ -5,17 +5,20 @@ $(document).ready(function () {
     const tabla_contratos_apb_rec=$('#tabla_contratos_apb_rec');
     const btn_apro_mas=$('#btn_apro_mas');
     const spNumSolApro=$('#spNumSolApro');
+    const departamento_redz=$('#departamento_redz');
 
     CargaComboDepartamentos(departamento_ctr_rec);
     CargaComboDepartamentos(departamento_rec);
+    CargaComboDepartamentos(departamento_redz);
 
     $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
 
     departamento_ctr_rec.select2({theme:"bootstrap"});
     departamento_rec.select2({theme:"bootstrap"});
-   
+    departamento_redz.select2({theme:"bootstrap"});
     TablaContratos();
     TablaContratosListos();
+    TablaContratosRedz();
 
     btn_apro_mas.click(function (e) {
         e.preventDefault();
@@ -105,6 +108,10 @@ $(document).ready(function () {
     departamento_rec.change(function () {
        TablaContratosListos($(this).val());
    });
+
+    departamento_redz.change(function () {
+        TablaContratosRedz($(this).val());
+    });
 });
 ///funciones
 
@@ -352,6 +359,66 @@ function TablaContratosListos(id_dpto){
         "ajax":{
             "method":"POST",
             "url":"cContratos_r/ListaContratosApb",
+            "data":{'id_dpto':id_dpto},
+            beforeSend:function () {
+                swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                swal.showLoading();
+            },
+            complete:function () {
+                swal.closeModal();
+            }
+        },
+        "columns":[
+            {"data":"codigo","width":"7%"},
+            {"data":null,"width":"20%"},
+            {"data":"modalidad_laboral","width":"10%"},
+            {"data":"tipo","width":"9%"},
+            {"data":"deominacion","width":"20%"},
+            {"data":"remuneracion","width":"5%"},
+            {"data":"fecha_inicio","width":"9%"},
+            {"data":"fecha_finaliza","width":"9%"},
+            {"data":null},
+            {"data":"partida"},
+            {"data":"titulo","width":"20%"},
+            {"data":"departamento","width":"9%"},
+            {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
+        ],
+        "columnDefs": [
+            {
+                "targets": [1],
+                "render":function(data) {
+                    return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
+                }
+            },
+            {
+                "targets": [8],
+                "render":function(data) {
+                    return " <span> "+Meses(data.fecha_finaliza,data.fecha_inicio)+" </span>";
+                }
+            },
+            {   "targets": [12],
+                "render": function(data) {
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li>  </ul></div></span>';
+                }
+            }
+        ]
+    });
+}
+
+function TablaContratosRedz(id_dpto){
+    $('#tabla_contratos_redz').DataTable({
+        "destroy":true,
+        "autoWidth":true,
+        "scrollCollapse": true,
+        "scrollX": true,
+        "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+        "language":{
+            "url": 'public/locales/Spanish.json'
+        },
+        "ajax":{
+            "method":"POST",
+            "url":"cContratos_r/ListaContratosRdz",
             "data":{'id_dpto':id_dpto},
             beforeSend:function () {
                 swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
