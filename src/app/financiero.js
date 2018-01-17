@@ -28,6 +28,11 @@ $(document).ready(function(){
     departamento_ctr_re.change(function () {
         TablaContratosRe($(this).val());
     });
+
+    tabla_contratos_fn.on( 'draw.dt', function () {
+          console.log( 'Table redibujada' );
+    } );
+
 });
 //funciones
 function Mayus(campo) {
@@ -133,18 +138,45 @@ function RechazarContrato(id_contrato,aspirante){
     },function (dismiss){});
 }
 
-function TablaContratos(id_dpto){
-    $('#tabla_contratos_fn').DataTable({
+function TablaContratos(id_dpto){ 
+ var printCounter = 0;  
+ $('#tabla_contratos_fn').DataTable({
         "destroy":true,
         "autoWidth":true,
         "scrollY": 200,
         "scrollCollapse":false,
         "scrollX": true,
         "responsive":true,
+        "paging": false,
         "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
+        dom: 'Bfrtip',
+        buttons: [
+                {
+                    text: 'EXCEL',
+                    extend: 'excelHtml5',                   
+                    className: 'xlsExportButton hideButton',
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] //Aca puedo definir cuales columnas incluir y cuales no.
+                    },
+                    title: 'Contratos_por_aprobar_financiero',
+                    extension: '.xls',
+                    footer: true
+                },
+                {
+                    text: 'PDF',    
+                    extend: 'print',
+                    footer: true,
+                    messageTop:'COSTO DE LA MASA SALARIAL DE NUEVO INGRESO DE PERSONAL AL DISTRIBUTIVO',
+                    messageBottom:'impreso desde sistema talento humano ',
+                    exportOptions: {
+                            columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15] //Aca puedo definir cuales columnas incluir y cuales no.
+                    }                     
+                
+               }             
+        ],    
         "ajax":{
             "method":"POST",
             "url":"cFinanciero/ListaContratos",
@@ -156,7 +188,7 @@ function TablaContratos(id_dpto){
             complete:function () {
                 swal.closeModal();
             }
-        },
+        },   
         "columns":[
             {"data":"codigo","width":"9%"},
             {"data":"modalidad_laboral","width":"10%"},
@@ -173,7 +205,7 @@ function TablaContratos(id_dpto){
             {"data":"p_510204"},
             {"data":"p_510601"},
             {"data":"p_510602"},
-            {"data":"total_masa_salarial"},
+            {"data":"total_masa_salarial","width": "9%"},
             {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
         ],
         "columnDefs": [
@@ -189,7 +221,44 @@ function TablaContratos(id_dpto){
                 }
             }
         ],
-        "order": [[3,"asc"]],
+        "footerCallback": function ( row, data, start, end, display ) {
+             var api = this.api(), data; 
+            // converting to interger to find total
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+            // computing column Total the complete result
+            var total_510510 = api.column(10).data().reduce( function (a, b) {
+                    return numeral(intVal(a) + intVal(b)).format('$0,0.00');
+                },0);
+            var total_510203 = api.column(11).data().reduce( function (a, b) {
+                    return numeral(intVal(a) + intVal(b)).format('$0,0.00');
+                },0);
+            var total_510204 = api.column(12).data().reduce( function (a, b) {
+                    return numeral(intVal(a) + intVal(b)).format('$0,0.00');
+                },0); 
+            var total_510601 = api.column(13).data().reduce( function (a, b) {
+                    return numeral(intVal(a) + intVal(b)).format('$0,0.00');
+                },0); 
+            var total_510602 = api.column(14).data().reduce( function (a, b) {
+                    return numeral(intVal(a) + intVal(b)).format('$0,0.00');
+                },0);
+            var total_m_salarial = api.column(15).data().reduce( function (a, b) {
+                    return numeral(intVal(a) + intVal(b)).format('$0,0.00');
+                },0);
+              // Update footer by showing the total with the reference of the column index 
+            $( api.column(9).footer() ).html('TOTAL');
+            $( api.column(10).footer() ).html(total_510510);
+            $( api.column(11).footer() ).html(total_510203);
+            $( api.column(12).footer() ).html(total_510204);
+            $( api.column(13).footer() ).html(total_510601);
+            $( api.column(14).footer() ).html(total_510602);   
+            $( api.column(15).footer() ).html(total_m_salarial);    
+        },      
+
     });
 }
 

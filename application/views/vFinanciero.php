@@ -37,8 +37,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-body">                      
-                            <table id="tabla_contratos_fn" class="table small table-hover table-bordered">                          
+                        <div class="panel-body">                                         
+                            <table id="tabla_contratos_fn" class="table small table-hover table-bordered">                        
                                 <thead class="bg-light-blue">
                                 <tr>
                                     <th>
@@ -97,23 +97,34 @@
                                     </th>
                                     <th>
                                         TOTAL MASA SALARIAL 
-                                    </th>
+                                    </th>                                    
                                     <th>
                                         <i class="fa fa-cog" aria-hidden="true"></i>
                                         Accion
                                     </th>
                                 </tr>
                                 </thead>
-                            </table>                                                   
-                            <div class="col-sm-12">
-                                 <span></
-                                <label class="col-sm-2" >Total 510510 : </label>
-                                <label class="col-sm-2">Total 510203 : </label>
-                                <label class="col-sm-2">Total 510204 : </label>
-                                <label class="col-sm-2">Total 510601 : </label>
-                                <label class="col-sm-2">Total 510602: </label>
-                                <label class="col-sm-2">TOTAL MASA: </label>
-                            </div>
+                                <tfoot> 
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>
+                                   <th></th>                                                                                                                  
+                                </tfoot>                               
+                            </table>                                                 
+                    
                         </div>
                     </div>
                 </div>

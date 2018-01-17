@@ -19,6 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php base_url()?>public/css/bootstrap-toggle.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/font-awesome.css">
     <link rel="stylesheet" href="<?php base_url()?>public/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="<?php base_url()?>public/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/dist/css/skins/skin-green.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/sweetalert2.css">
@@ -31,9 +32,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php base_url()?>public/js/bootstrap.min.js"></script>
     <script src="<?php base_url()?>public/plugins/datatables/jquery.dataTables.js"></script>
     <script src="<?php base_url()?>public/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <script src="<?php base_url()?>public/js/dataTables.buttons.min.js"></script>
+    <script src="<?php base_url()?>public/js/buttons.html5.min.js"></script>
+    <script src="<?php base_url()?>public/js/buttons.print.min.js"></script>
+    <script src="<?php base_url()?>public/js/jszip.min.js"></script>
+    <script src="<?php base_url()?>public/js/pdfmake.min.js"></script>
+    <script src="<?php base_url()?>public/js/vfs_fonts.js"></script>
     <script src="<?php base_url()?>public/js/bootstrap-datepicker.js"></script>
     <script src="<?php base_url()?>public/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="<?php base_url()?>public/js/numeral.min.js"></script>
     <script src="<?php base_url()?>src/js/cedula.js"></script>
+
     <!-- Bootstrap 3.3.6 -->
     <script src="<?php base_url()?>public/js/smoke.js"></script>
     <script src="<?php base_url()?>public/locales/es.js"></script>
