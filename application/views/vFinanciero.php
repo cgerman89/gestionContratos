@@ -26,8 +26,16 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <h4 class="text-muted">APROBAR CONTRATOS</h4>
+                                </div>
+                                 <div class="col-md-2">
+                                    <div class="form-group">
+                                        <a name="btn_apro_masivo_fn" id="btn_apro_masivo_fn" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Aprobar todos los contratos seleccionados">
+                                            <span class="badge" id="spNumSolApro"></span>
+                                            <i class="fa fa-check-square-o"></i> APROBAR
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <select id="departamento_fn"  class="form-control" style="width: 100%">
@@ -97,6 +105,9 @@
                                     </th>
                                     <th>
                                         TOTAL MASA SALARIAL 
+                                    </th>
+                                    <th class="text-center">
+                                        <i class="fa fa-check-square-o"></i>
                                     </th>                                    
                                     <th>
                                         <i class="fa fa-cog" aria-hidden="true"></i>
@@ -105,6 +116,7 @@
                                 </tr>
                                 </thead>
                                 <tfoot> 
+                                   <th class=''></th>
                                    <th></th>
                                    <th></th>
                                    <th></th>
@@ -113,15 +125,15 @@
                                    <th></th>
                                    <th></th>
                                    <th></th>
+                                   <th class="text-center label-primary"></th>
+                                   <th class="text-center" id="p_10"></th>
+                                   <th class="text-center" id="p_11"></th>
+                                   <th class="text-center" id="p_12"></th>
+                                   <th class="text-center" id="p_13"></th>
+                                   <th class="text-center" id="p_14"></th>
+                                   <th class="text-center" id="p_15"></th>
                                    <th></th>
-                                   <th></th>
-                                   <th></th>
-                                   <th></th>
-                                   <th></th>
-                                   <th></th>
-                                   <th></th>
-                                   <th></th>
-                                   <th></th>                                                                                                                  
+                                   <th></th>                                 
                                 </tfoot>                               
                             </table>                                                 
                     

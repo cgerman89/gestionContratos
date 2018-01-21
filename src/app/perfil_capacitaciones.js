@@ -11,12 +11,8 @@ var Id_Archivo_cp=0;
         Mayus('#certificado_cp');
         Tabla_cp();
 
-
-        CargaPais(function (pais) {
-            for(var n in pais){
-                $('#pais_cp').append('<option value='+pais[n].idpais+'>'+pais[n].nombre+'</option>');
-            }
-        });
+        CargaPais($('#pais_cp'));
+     
         $('#fecha_final_cp').datepicker().on('changeDate',function (e) {
             console.log($('#fecha_final_cp').datepicker('getEndDate'));
         });
@@ -211,6 +207,7 @@ function EliminarFile_cp(callback) {
             }
         });   
 }
+
 function SaveCapacitacion(callback) {
     var form_cp  = $('#form_capacitacion')[0];
     var datos_cp =  new FormData(form_cp);

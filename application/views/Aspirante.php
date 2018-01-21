@@ -6,11 +6,17 @@
                     <a href="#reg_aspirante" data-toggle="tab" class="fa fa-user-plus fa-2x" aria-hidden="true" title="per-inscripcion persona"></a>
                 </li>
                 <li  role="presentation">
-                    <a href="#usuario_rol" id="tab_solicitud" data-toggle="tab" class="fa fa-list-alt fa-2x" aria-hidden="true" title="Solicitud contrato"></a>
+                    <a href="#lista_solicitud_p" id="tab_solicitud" data-toggle="tab" aria-hidden="true" title="Solicitud contrato">
+                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="fa fa-check text-info" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li  role="presentation">
+                    <a href="#lista_solicitud_anu" id="tab_solicitud_anu" data-toggle="tab" class="fa fa-list-alt fa-2x" aria-hidden="true" title="Solicitud contrato"></a>
                 </li>
             </ul>
             <div class="tab-content">
-                <div id="reg_aspirante"  class="tab-pane bg-gray-light active">
+                <div id="reg_aspirante"  class="tab-pane active">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
@@ -184,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="usuario_rol" role="tabpanel" class="tab-pane fade in">
+                <div id="lista_solicitud_p" role="tab-pane" class="tab-pane fade in">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                            <div class="row">
@@ -315,6 +321,16 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="lista_solicitud_anu" role="tab-pane" class="tab-pane fade in">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            
+                        </div>
+                        <div class="panel-body">
+                            
+                        </div>                        
+                    </div> 
                 </div>
             </div>
         </div>

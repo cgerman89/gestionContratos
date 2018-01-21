@@ -41,7 +41,7 @@ $(document).ready(function () {
                         if(indiceColumna === 12){
                             if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                                 let id_ctr_apb = $('.id_ctr_apb:eq('+indiceFila+')').prop('id');
-                                 console.log("id_ctr_apb "+id_ctr_apb);
+                                console.log("id_ctr_apb "+id_ctr_apb);
                                 AprobarContratoAll(id_ctr_apb,function (resp) {
                                     if (resp.opcion === '1') {
                                         exito++;
@@ -279,12 +279,14 @@ function TablaProcesoContrato(id_contrato) {
 
 function TablaContratos(id_dpto){
     $('#tabla_contratos_apb_rec').DataTable({
-        "destroy":true,
+       "destroy":true,
         "autoWidth":true,
-        "scrollCollapse": true,
+        "scrollY": 200,
+        "scrollCollapse":false,
         "scrollX": true,
         "responsive":true,
-        "lengthMenu": [[-1], ["Todos"]],
+        "paging": false,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
@@ -349,9 +351,11 @@ function TablaContratosListos(id_dpto){
     $('#tabla_contratos_listo').DataTable({
         "destroy":true,
         "autoWidth":true,
-        "scrollCollapse": true,
+        "scrollY": 200,
+        "scrollCollapse":false,
         "scrollX": true,
         "responsive":true,
+        "paging": false,
         "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
@@ -409,9 +413,11 @@ function TablaContratosRedz(id_dpto){
     $('#tabla_contratos_redz').DataTable({
         "destroy":true,
         "autoWidth":true,
-        "scrollCollapse": true,
+        "scrollY": 200,
+        "scrollCollapse":false,
         "scrollX": true,
         "responsive":true,
+        "paging": false,
         "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'

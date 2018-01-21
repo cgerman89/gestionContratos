@@ -12,12 +12,8 @@ $(document).ready(function() {
         Mayus('#instruccion_exp_pro');
         Mayus('#uni_admin_exp_pro');
         Mayus('#cargo_exp_pro');
-
-        CargaPais(function (paises) {
-          for(var n in paises){
-              $('#pais_exp_pro').append('<option value='+paises[n].idpais+'>'+paises[n].nombre+'</option>');
-          }
-        });
+        CargaPais($('#pais_exp_pro'));
+    
 
         $('#area_exp_pro').change(function () {
            CargaCombo_Hijo('#sub_area_exp_pro',$('#area_exp_pro').val());

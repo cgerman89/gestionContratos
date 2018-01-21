@@ -4,6 +4,9 @@ $(document).ready(function(){
    const departamento_fn=$('#departamento_fn');
    const departamento_ctr_apb=$('#departamento_ctr_apb');
    const departamento_ctr_re=$('#departamento_ctr_re');
+   const btn_apro_masivo_fn=$('#btn_apro_masivo_fn');
+   const p_10=$('#p_10');
+   const spNumSolApro=$('#spNumSolApro');
 
    //funciones
    departamento_fn.select2({theme:"bootstrap"});
@@ -17,6 +20,73 @@ $(document).ready(function(){
    TablaContratosApb();
    TablaContratosRe();
    //eventos jquery
+
+    btn_apro_masivo_fn.click(function(e) {
+       e.preventDefault();
+      if(spNumSolApro.html() > 0){
+        swal({
+            html: '<span>¿Aprobar Los ( <b>'+spNumSolApro.html()+'</b> ) Registros Seleccionadas?</span>',
+            input: 'text',
+            type: 'info',
+            showCloseButton: true,
+            confirmButtonText: '<i style="color:white;" class="fa fa-plus"></i> Agregar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonClass: 'btn btn-danger',
+            allowOutsideClick: false,
+            allowEnterKey: false,
+            inputAttributes: {
+                'maxlength': 20
+            },
+            inputPlaceholder: 'ingrese item',
+            onOpen: function () {
+                Mayus('.swal2-input');
+            },
+            inputValidator: function (value) {
+                return new Promise(function (resolve, reject) {
+                    if (value) {
+                        resolve()
+                    } else {
+                        reject('¡Por favor, Ingrese Item...')
+                    }
+                })
+            }
+        }).then(function (item) {
+            let exito=0;
+            let error=0;
+            $('#tabla_contratos_fn tbody tr').each(function(indiceFila) {
+                $(this).children('td').each(function(indiceColumna) {
+                    if(indiceColumna === 12){
+                        if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
+                                let id_ctr_apb = $('.id_ctr_apb:eq('+indiceFila+')').prop('id');
+                                console.log("id_ctr_apb "+id_ctr_apb);
+                                AprobarContratoAll(id_ctr_apb,item,function (resp) {
+                                    if (resp.opcion === '1') {
+                                        exito++;
+                                    }else if (resp.opcion === '2'){
+                                        error++;
+                                    }
+                                });
+                                setTimeout(function () {
+                                    if(exito > 0){
+                                        toastr.info(exito+" Contrato(s)  Aprobado(s) exitosamente.");
+                                    }else if(error > 0){
+                                        toastr.error(error+" Contrato(s) No  Aprobado(s)");
+                                    }
+                                    //LLenar tabla de acuerdo a lo que hay en el combo en la vista Solicitudes por aprobar
+                                    TablaContratos();
+                                    departamento_fn.val('-2').trigger('change.select2');                                    
+                               },500);                           
+                        }
+                    }
+                });
+            });
+        },function (dismiss){});
+   }else{
+            toastr.error('No hay registros seleccionada(s)');
+        } 
+
+   });
+
     departamento_fn.change(function () {
         TablaContratos($(this).val());
     });
@@ -28,10 +98,37 @@ $(document).ready(function(){
     departamento_ctr_re.change(function () {
         TablaContratosRe($(this).val());
     });
+    
+    tabla_contratos_fn.on('search.dt',function() {
+        $('#tabla_contratos_fn').on('draw.dt', function() {
+            let cont=0;
+            $('#tabla_contratos_fn tbody tr').each(function(indiceFila) {
+                $(this).children('td').each(function(indiceColumna) {
+                    if(indiceColumna === 16){
+                        if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
+                            cont++;
+                        }
+                    }
+                });
+            });
+            $('#spNumSolApro').html(cont);
+        });
+    });  
 
-    tabla_contratos_fn.on( 'draw.dt', function () {
-          console.log( 'Table redibujada' );
-    } );
+    tabla_contratos_fn.on('click', 'input[type="checkbox"]', function() { 
+        let cont=0;
+        $('#tabla_contratos_fn tbody tr').each(function(indiceFila) {
+            $(this).children('td').each(function(indiceColumna) {
+                if(indiceColumna === 16){
+                    if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
+                        cont++;
+                    }
+                }
+            });
+        });
+        $('#spNumSolApro').html(cont);  
+      
+    });
 
 });
 //funciones
@@ -98,6 +195,14 @@ function AprobarContrato(id_contrato,aspirante){
     },function (dismiss){});
 }
 
+function AprobarContratoAll(id_contrato,item,callback){
+    $.post("cFinanciero/AprobarContrato",{'id_contrato':id_contrato,'item':item},function(estado,data){
+         if (estado === 'success') {
+            callback(data);
+        }
+    },'json');
+}
+
 function RechazarContrato(id_contrato,aspirante){
     swal({
         html: '¿Rechazar Contrato de: <br> <b>'+aspirante+'</b> ?',
@@ -138,8 +243,7 @@ function RechazarContrato(id_contrato,aspirante){
     },function (dismiss){});
 }
 
-function TablaContratos(id_dpto){ 
- var printCounter = 0;  
+function TablaContratos(id_dpto){    
  $('#tabla_contratos_fn').DataTable({
         "destroy":true,
         "autoWidth":true,
@@ -205,22 +309,31 @@ function TablaContratos(id_dpto){
             {"data":"p_510204"},
             {"data":"p_510601"},
             {"data":"p_510602"},
-            {"data":"total_masa_salarial","width": "9%"},
+            {"data":"total_masa_salarial"},
+            {"data":null},
             {"data":null,'orderable': false, 'searchable': false,"width": "9%"}
         ],
         "columnDefs": [
             {
                 "targets": [3],
                 "render":function(data) {
-                    return " <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
+                    return " <div class='id_ctr_apb' id="+data.id_contrato+"></div>  <span> <i class='fa fa-user'></i>  &nbsp;"+ data.aspirante+" <br><i class='fa fa-id-card'></i> &nbsp;"+data.cedula_aspirante+ "  </span>";
+                }
+            },
+            {
+                'targets': [16],
+                'orderable': false, 
+                'searchable': false,
+                "render": function(data) {
+                   return "<input class='checkboxstabla' id='check_regis' name='check_regis' type='checkbox' checked>";                    
                 }
             },        
-            {   "targets": [16],
+            {   "targets": [17],
                 "render": function(data,row) {
                     return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fa fa-check-square-o"></i> &nbsp; Aprobar Contrato </span> </a> </li> <li> <a href="#" onclick="RechazarContrato('+data.id_contrato+',\''+data.aspirante+'\')"><span class="text-bold"><i class="fa fa-close"></i>&nbsp; Rechazar Contrato</span> </a> </li>  </ul></div></span>';
                 }
             }
-        ],
+        ],      
         "footerCallback": function ( row, data, start, end, display ) {
              var api = this.api(), data; 
             // converting to interger to find total
@@ -231,22 +344,22 @@ function TablaContratos(id_dpto){
                         i : 0;
             };
             // computing column Total the complete result
-            var total_510510 = api.column(10).data().reduce( function (a, b) {
+            var total_510510 = api.column(10, { page: 'current'} ).data().reduce( function (a, b) {
                     return numeral(intVal(a) + intVal(b)).format('$0,0.00');
                 },0);
-            var total_510203 = api.column(11).data().reduce( function (a, b) {
+            var total_510203 = api.column(11, { page: 'current'} ).data().reduce( function (a, b) {
                     return numeral(intVal(a) + intVal(b)).format('$0,0.00');
                 },0);
-            var total_510204 = api.column(12).data().reduce( function (a, b) {
+            var total_510204 = api.column(12, { page: 'current'} ).data().reduce( function (a, b) {
                     return numeral(intVal(a) + intVal(b)).format('$0,0.00');
                 },0); 
-            var total_510601 = api.column(13).data().reduce( function (a, b) {
+            var total_510601 = api.column(13, { page: 'current'} ).data().reduce( function (a, b) {
                     return numeral(intVal(a) + intVal(b)).format('$0,0.00');
                 },0); 
-            var total_510602 = api.column(14).data().reduce( function (a, b) {
+            var total_510602 = api.column(14, { page: 'current'} ).data().reduce( function (a, b) {
                     return numeral(intVal(a) + intVal(b)).format('$0,0.00');
                 },0);
-            var total_m_salarial = api.column(15).data().reduce( function (a, b) {
+            var total_m_salarial = api.column(15, { page: 'current'} ).data().reduce( function (a, b) {
                     return numeral(intVal(a) + intVal(b)).format('$0,0.00');
                 },0);
               // Update footer by showing the total with the reference of the column index 

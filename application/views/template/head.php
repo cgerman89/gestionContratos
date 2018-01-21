@@ -20,6 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php base_url()?>public/css/font-awesome.css">
     <link rel="stylesheet" href="<?php base_url()?>public/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="<?php base_url()?>public/css/dataTables.checkboxes.css">
     <link rel="stylesheet" href="<?php base_url()?>public/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/dist/css/skins/skin-green.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/sweetalert2.css">
@@ -33,6 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php base_url()?>public/plugins/datatables/jquery.dataTables.js"></script>
     <script src="<?php base_url()?>public/plugins/datatables/dataTables.bootstrap.min.js"></script>
     <script src="<?php base_url()?>public/js/dataTables.buttons.min.js"></script>
+    <script src="<?php base_url()?>public/js/dataTables.checkboxes.min.js"></script>
     <script src="<?php base_url()?>public/js/buttons.html5.min.js"></script>
     <script src="<?php base_url()?>public/js/buttons.print.min.js"></script>
     <script src="<?php base_url()?>public/js/jszip.min.js"></script>
