@@ -4,31 +4,31 @@
 	 		<ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active" >
                     <a href="#lista_contratos"  data-toggle="tab">
-                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
-                        <i class="glyphicon glyphicon-random text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
+                        <i class="fas fa-cogs"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos aprobados">
                     <a href="#list_contratos_activos" data-toggle="tab">
-                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="fa fa-check text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos terminados">
                     <a href="#lista_contratos_terminados" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="glyphicon glyphicon-floppy-saved text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos rechazados">
                     <a href="#list_contratos_rechazados" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="fa fa-times text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos eliminados">
                     <a href="#lista_contratos_eliminados" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="glyphicon glyphicon-trash text-info" aria-hidden="true"></i>
                     </a>
                 </li>

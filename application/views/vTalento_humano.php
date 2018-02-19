@@ -4,36 +4,37 @@
             <ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active"  title="lista solicitudes aprobadas">
                     <a href="#lista_solicitud_sl_ctr_th"  data-toggle="tab">
-                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-file-alt fa-2x"></i>
+                        <i class="fas fa-check-circle"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contrato en proceso">
                     <a href="#lista_contrato_th"  data-toggle="tab">
-                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
-                        <i class="fa fa-cog text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
+                        <i class="fas fa-cogs"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos aprobados">
                     <a href="#list_contratos_activos" data-toggle="tab">
-                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="fa fa-check text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos terminados">
                     <a href="#lista_contratos_terminados" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="glyphicon glyphicon-floppy-saved text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos rechazados">
                     <a href="#list_contratos_rechazados" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="fa fa-times text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos eliminados">
                     <a href="#list_contratos_anulados" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="glyphicon glyphicon-trash text-info" aria-hidden="true"></i>
                     </a>
                 </li>
@@ -44,7 +45,7 @@
                         <div class="panel-heading">
                            <div class="row">
                                <div class="col-md-8">
-                                   <h4 class="text-muted">LISTAR SOLICITUDES</h4>
+                                   <h4 class="text-muted">SOLICITUDES APROBADAS</h4>
                                </div>
                                <div class="col-md-4">
                                    <select id="departamento_sl_ctr_th"  class="form-control" style="width: 100%">
@@ -760,4 +761,18 @@
     </div>
     <!-- Modal hoja de vida -->
     <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
+    <div id="pdf_contrato" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
+                <button type="button"  id="btn_cerrar_md_solicitud_asp" name="btn_cerrar_md_solicitud_asp" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"> <i class="fas fa-file-pdf"></i> &nbsp; CONTRATO PDF</h4>
+            </div>
+            <div class="modal-body">
+                <div id="contenedor_pdf_ctr"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>

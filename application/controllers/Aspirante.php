@@ -139,6 +139,15 @@ class Aspirante extends CI_Controller {
         }
     }
 
+    function ListarSolicitudAnulada(){
+        if ($this->input->is_ajax_request()){
+            $res=$this->Solicitud_Contrato_Modelo->RegistrosSolicitudAnuladaDpto($this->session->userdata('id_dpto'));
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
     function ListarProceso(){
         if ($this->input->is_ajax_request()){
             $res=$this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud'));
@@ -158,6 +167,14 @@ class Aspirante extends CI_Controller {
             }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function InformacionAnulada(){
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->Solicitud_Contrato_Modelo->InfoSolicitudAnulada($this->input->post('id_solicitud'))); 
+        }else{
+           echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
@@ -183,5 +200,13 @@ class Aspirante extends CI_Controller {
     function Hoja_Vida(){
         $id=$_GET['id'];
         Carga_pdf::Hoja_Vida($id);
+    }
+
+    function Grafico(){
+        if ($this->input->is_ajax_request()) {
+            echo json_encode($this->Solicitud_Contrato_Modelo->DatosGrafico($this->session->userdata('id_dpto')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
     }
 }

@@ -4,19 +4,19 @@
             <ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active"  title="contratos por aprobar">
                     <a href="#contratos_r" data-toggle="tab">
-                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
-                        <i class="glyphicon glyphicon-random text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
+                        <i class="fas fa-cogs"></i>
                     </a>
                 </li>
                 <li role="presentation" title="contratos por aprobar">
                     <a href="#contratos_r_apb" data-toggle="tab">
-                        <i class="fa fa-folder-open-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="fa fa-check text-info" aria-hidden="true"></i>
                     </a>
                 </li>
                 <li role="presentation" title="contratos por aprobar">
                     <a href="#contratos_r_redz" data-toggle="tab">
-                        <i class="fa fa-folder-o fa-2x text-info" aria-hidden="true"></i>
+                        <i class="far fa-folder fa-2x"></i>
                         <i class="fa fa-times text-info" aria-hidden="true"></i>
                     </a>
                 </li>

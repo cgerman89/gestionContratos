@@ -42,7 +42,23 @@ class Solicitud_Contrato_Modelo extends CI_Model {
     function RegistrosSolicitudDpto($dpto){
         $this->db->select("v_sc.id_solicitud_contrato,v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento ,v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion,v_sc.estado_apro_rec,v_sc.estado_apro_rh, v_sc.estado")
                  ->from("esq_contrato.v_solicitud_contrato as v_sc")
-                 ->where("v_sc.id_departamento",$dpto);
+                 ->where("v_sc.id_departamento",$dpto)->where(" v_sc.estado <> 'E' ");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function RegistrosSolicitudAnuladaDpto($dpto){
+        $this->db->select("v_sc.id_solicitud_contrato,v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento ,v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion,v_sc.estado_apro_rec,v_sc.estado_apro_rh, v_sc.estado")
+                 ->from("esq_contrato.v_solicitud_contrato as v_sc")
+                 ->where("v_sc.id_departamento",$dpto)->where(" v_sc.estado='E'");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -186,6 +202,19 @@ class Solicitud_Contrato_Modelo extends CI_Model {
         }
     }
 
+    function InfoSolicitudAnulada($id_solicitud){
+        $this->db->select("solicitud_anulada.id_solicitud_anulada,
+                           solicitud_anulada.id_solicitud,
+                           ( SELECT personal.correo_personal_institucional FROM esq_datos_personales.personal WHERE (personal.idpersonal = solicitud_anulada.id_personal)) as persona,
+                           solicitud_anulada.fecha,
+                           solicitud_anulada.hora,
+                           solicitud_anulada.observacion")
+                 ->from(" esq_contrato.solicitud_anulada ")->where(" solicitud_anulada.id_solicitud ",$id_solicitud);
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->row();             
+    }
+    
     function InfoSolicitudRechazada($id_solicitud){
         $this->db->select(" v_ps.idproceso_solicitud, v_ps.proceso, v_ps.usuario, v_ps.fecha, v_ps.hora, v_ps.observacion, v_ps.estado")
             ->from(" esq_contrato.v_proceso_solicitud as v_ps ")
@@ -217,6 +246,28 @@ class Solicitud_Contrato_Modelo extends CI_Model {
           $res= $this->db->get();
           //echo $this->db->last_query();
           return $res->row_array();
+    }
+
+    function DatosGrafico($id_dpto){
+       $this->db->select("(SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND t_contrato='DOCENTE') AS docentes,
+                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND t_contrato='ADMINISTRATIVO') AS administrativos,
+                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND estado='A') AS aprobadas,
+                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND estado='R') AS rechazadas,
+                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND estado='E') AS anuladas,
+                          count(sc.id_solicitud_contrato) AS total ")->from(" esq_contrato.v_solicitud_contrato as sc ")->where("  sc.id_departamento ",$id_dpto)->group_by(" id_departamento ");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
+
+    function DatosGraficoAll(){
+        $this->db->select(" sc.departamento, 
+                            (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND t_contrato='DOCENTE') AS docentes,
+                            (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND t_contrato='ADMINISTRATIVO') AS administrativos
+                          ")->from(" esq_contrato.v_solicitud_contrato as sc ")->group_by(" id_departamento, departamento ");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->result_array();
     }
 
 }

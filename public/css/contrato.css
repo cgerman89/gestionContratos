@@ -1,0 +1,2 @@
+.footer { position: fixed; bottom: 40px; }
+.pagenum:before { content: counter(page); }

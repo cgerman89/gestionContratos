@@ -46,6 +46,8 @@ $(document).ready(function () {
    const departamento_ctr_rechazados=$('#departamento_ctr_rechazados');
    const departamento_terminados=$('#departamento_terminados');
    const departamento_ctr_anulados=$('#departamento_ctr_anulados');
+   const pdf_contrato=$('#pdf_contrato');
+   const contenedor_pdf_ctr=$('#contenedor_pdf_ctr');
 
 
    //funciones
@@ -348,6 +350,10 @@ $(document).ready(function () {
 });
 
 //funciones
+function ContratoPdf(id_ctr) {
+   $('#contenedor_pdf_ctr').html("<iframe id='frame' height='650' width='100%' src='Contrato_Text/Pdf/?id="+id_ctr+"'  frameborder='0'></iframe>");
+   $('#pdf_contrato').modal('show');
+}
 
 function Mayus(campo) {
     $(campo).keyup(function () {
@@ -618,7 +624,7 @@ function TablaSolicitudes_th(id_dpto) {
             },
             {   "targets": [8],
                 "render": function(data,row) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><span class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"><span class="text-bold"><i  class="fa fa-file-pdf-o" aria-hidden="true"></i> &nbsp; Hoja de vida</span> </a></li><li><a href="#" onclick="TablaProcesoSolicitud('+data.id_solicitud_contrato+')" data-toggle="modal" data-target="#md_solicitud_proceso" ><span class="text-bold"><i class="fa fa-gears"></i>&nbsp; Ver Proceso </span> </a></li><li><a href="#" class="CrearContrato"><span class="text-bold"><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Crear Contrato </span> </a> </li></ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><span class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="far fa-file-pdf"></i> &nbsp; Hoja De Vida </span>  </a></li><li><a href="#" onclick="TablaProcesoSolicitud('+data.id_solicitud_contrato+')" data-toggle="modal" data-target="#md_solicitud_proceso" ><span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li><li><a href="#" class="CrearContrato"><span class="text-bold"><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp; Crear Contrato </span> </a> </li></ul></div></span>';
                 }
             }
         ]
@@ -730,7 +736,7 @@ function TablaContratos(id_dpto){
             },
             {   "targets": [12],
                 "render": function(data,row) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li><li><a href="#" class="EditarContrato"><span class="text-bold"> <i class="fa fa-edit" aria-hidden="true"></i> Modificar Contrato </span></a></li> <li> <a href="#"  onclick="AnularContrato('+data.id_contrato+',\''+data.aspirante+'\')" > <span class="text-bold"> <i class="fa fa-trash" aria-hidden="true"></i>&nbsp; Anular Contrato</span> </a> </li> </ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="far fa-file-pdf"></i> &nbsp; Hoja De Vida </span> </a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso"><span class="text-bold"><i class="fas fa-eye"></i> &nbsp; Ver Proceso </span></a></li><li><a href="#" class="EditarContrato"><span class="text-bold"> <i class="far fa-edit"></i> &nbsp; Modificar Contrato </span></a></li> <li> <a href="#"  onclick="AnularContrato('+data.id_contrato+',\''+data.aspirante+'\')" > <span class="text-bold"> <i class="far fa-trash-alt"></i> &nbsp; Anular Contrato</span> </a> </li> </ul></div></span>';
                 }
             }
         ]
@@ -791,7 +797,7 @@ function TablaContratosApb(id_dpto) {
           },
           {   "targets": [12],
               "render": function(data,row) {
-                  return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-gears"></i> Ver Proceso </span></a></li> <li> <a href="#"  onclick="AnularContrato('+data.id_contrato+',\''+data.aspirante+'\')" > <span class="text-bold"> <i class="fa fa-trash" aria-hidden="true"></i>&nbsp; Anular Contrato</span> </a> </li> </ul></div></span>';
+                  return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i  class="fa fa-file-pdf" ></i> &nbsp; Hoja de vida </span></a></li><li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso" ><span class="text-bold"> <i class="fa fa-eye"></i>&nbsp; Ver Proceso </span></a></li>  <li> <a href="#" onclick="ContratoPdf('+data.id_contrato+')" ><span class="text-bold"> <i class="fa fa-file-pdf"></i> &nbsp; Contrato PDF</span> </a></li>   <li> <a href="#"  onclick="AnularContrato('+data.id_contrato+',\''+data.aspirante+'\')" > <span class="text-bold"> <i class="fa fa-trash" aria-hidden="true"></i>&nbsp; Anular Contrato</span> </a> </li> </ul></div></span>';
               }
           }
       ]

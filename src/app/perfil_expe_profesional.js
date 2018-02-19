@@ -211,7 +211,7 @@ function Tabla_exp_pro() {
                    {"data":"p_fecha_final"},
                    {"data":"p_actividad_docente"},
                    {"data":"p_actividad_gestion"},
-                   {"defaultContent":"<button type='button' class='eliminar_exp_pro btn btn-danger'><i class='fa fa-trash'></i></button>"}
+                   {"defaultContent":"<button type='button' class='eliminar_exp_pro btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
                 ],
                 "columnDefs": [
                     {

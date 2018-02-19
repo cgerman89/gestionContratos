@@ -172,9 +172,9 @@ function tbl_aprobar_rector_depto(id_dpto) {
                             '  <span class="caret"></span>' +
                             '  </button>' +
                             '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                            '    <li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"><i style="color:black;" class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li>' +
-                            '    <li><a href="#" onClick="Aprueba_rector('+row.id_solicitud_contrato+',\''+row.aspirante+'\')"><i style="color:green;" class="glyphicon glyphicon-ok"></i> Aprobar</a></li>' +
-                            '    <li><a href="#" onClick="rechazar_rector('+row.id_solicitud_contrato+',\''+row.aspirante+'\')"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Rechazar</a></li>' +
+                            '    <li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"> <span class="text-bold"> <i  class="far fa-file-pdf"></i> &nbsp; Hoja De Vida </span> </a></li>' +
+                            '    <li><a href="#" onClick="Aprueba_rector('+row.id_solicitud_contrato+',\''+row.aspirante+'\')"> <span  class="text-bold"> <i class="fas fa-check"></i> &nbsp; Aprobar </span> </a></li>' +
+                            '    <li><a href="#" onClick="rechazar_rector('+row.id_solicitud_contrato+',\''+row.aspirante+'\')"> <span class="text-bold"> <i class="fas fa-times"></i> &nbsp; Rechazar </span> </a></li>' +
                             '    </ul>' +
                             '</div>' +
                             '</span>';
@@ -254,8 +254,8 @@ function tbl_flujo_procesos_depto(id_dpto) {
                         '  <span class="caret"></span>' +
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
-                        '    <li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"><i style="color:black;" class="fa fa-file-pdf-o" aria-hidden="true"></i> Hoja de vida</a></li>' +
-                        '    <li><a href="#" data-toggle="modal" data-target="#md_proc_solic_y_contr" onClick="ProcesosSolicitudContrato(\''+row.id_solicitud_contrato+'\');"><i class="fa fa-gears"></i> Ver Procesos</a></li>' +
+                        '    <li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"> <span class="text-bold"> <i class="far fa-file-pdf"></i>&nbsp; Hoja de Vida</span> </a></li>' +
+                        '    <li><a href="#" data-toggle="modal" data-target="#md_proc_solic_y_contr" onClick="ProcesosSolicitudContrato(\''+row.id_solicitud_contrato+'\');"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -340,7 +340,7 @@ function tbl_flujo_procesos_solicitudes_rechazadas(id_dpto) {
             },
             {   "targets": [8],
                 "render": function(data) {
-                    return "<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' onClick='Generar_hoja_vida("+data.id_personal+")'><i style='color:black;' class='fa fa-file-pdf-o' aria-hidden='true'></i> Hoja de vida</a></li><li><a href='#' class='info_rechazada'><i class='fa fa-info'></i> info</a></li></ul></div></span>"
+                    return "<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' onClick='Generar_hoja_vida("+data.id_personal+")'> <span class='text-bold'> <i class='far fa-file-pdf'></i>&nbsp; Hoja de Vida</span> </a></li><li><a href='#' class='info_rechazada'>  <span class='text-bold'> <i class='fa fa-info'></i> &nbsp; info </span> </a></li></ul></div></span>"
                 }
             }
         ],

@@ -464,7 +464,7 @@ function Tabla_Libro(tipo) {
             {"data":"p_cuidad_evento"},
             {"data":"p_participacion"},
             {"data":"p_fecha"},
-            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='fa fa-trash'></i></button>"}
+            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
         ]
     });
     EliminarRegisTabla('#table_libro tbody', tabla_libro,'#table_libro');
@@ -497,7 +497,7 @@ function Tabla_CpLibro(tipo) {
             {"data":"p_participacion"},
             {"data":"p_rango_paginas"},
             {"data":"p_fecha"},
-            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='fa fa-trash'></i></button>"}
+            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
         ]
     });
     EliminarRegisTabla('#table_Cap_libro tbody', tabla_cpLibro,'#table_Cap_libro');
@@ -531,7 +531,7 @@ function Tabla_Art_Revista(tipo){
             {"data":"p_revista_volumen"},
             {"data":"p_rango_paginas"},
             {"data":"p_fecha"},
-            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='fa fa-trash'></i></button>"}
+            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
         ]
     });
     EliminarRegisTabla('#table_Art_Revista tbody', tabla_art_revista,'#table_Art_Revista');
@@ -562,7 +562,7 @@ function Tabla_Art_Memoria(tipo) {
             {"data":"p_cuidad_evento"},
             {"data":"p_participacion"},
             {"data":"p_fecha"},
-            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='fa fa-trash'></i></button>"}
+            {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
         ]
     });
     EliminarRegisTabla('#table_Art_Memoria tbody', tabla_art_memoria,'#table_Art_Memoria');

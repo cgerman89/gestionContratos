@@ -83,5 +83,9 @@ class cFinanciero extends CI_Controller{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
     }
+    
+    function Deshacer(){
+        
+    }
 
 }

@@ -286,4 +286,34 @@ class Contrato_Modelo extends CI_Model {
         }
     }
 
+    function DatosTextoContrato($id_contrato){
+        $this->db->db_set_charset('UTF-8');
+        $this->db->select(" contrato.codigo, 
+                            contrato.id_tipo,
+                            contrato.id_tipo_denominacion,
+                            (SELECT concat(personal.apellido1, ' ', personal.apellido2, ' ', personal.nombres) AS concat FROM esq_datos_personales.personal  WHERE personal.idpersonal = contrato.id_personal) AS aspirante,
+                            (SELECT personal.cedula FROM esq_datos_personales.personal WHERE personal.idpersonal = contrato.id_personal) AS cedula_aspirante,
+                            (SELECT departamento.nombre  FROM esq_distributivos.departamento WHERE departamento.iddepartamento=contrato.id_departamento) as departamento,
+                            (SELECT concat(personal.nombres,' ',personal.apellido1,' ',personal.apellido2) FROM esq_datos_personales.personal, esq_contrato.solicitud_contrato WHERE personal.idpersonal=solicitud_contrato.id_cordinador AND solicitud_contrato.id_solicitud_contrato=contrato.id_solicitud) as cordinador,
+                            (SELECT  f_profecional.titulo_obtenido FROM esq_datos_personales.p_formacion_profesional as f_profecional WHERE f_profecional.idformacion_profesional=contrato.id_titulo_profesional) as titulo,
+                            contrato.fecha_inicio,
+                            contrato.fecha_finaliza,
+                            (SELECT solicitud_contrato.codigo  FROM esq_contrato.solicitud_contrato WHERE solicitud_contrato.id_solicitud_contrato=contrato.id_solicitud) as codigo_solicitud,
+                            (SELECT solicitud_contrato.fecha_solicitud  FROM esq_contrato.solicitud_contrato WHERE solicitud_contrato.id_solicitud_contrato=contrato.id_solicitud) as fecha_solicitud,
+                            (SELECT esq_contrato.fnc_obtiene_denominacion((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion)) as denominacion,
+                            (SELECT p_rmu FROM esq_contrato.fnc_obtiene_denominacion_2((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion)),
+                            (SELECT p_rmu_letra FROM esq_contrato.fnc_obtiene_denominacion_2((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion)),
+                            (SELECT p_horas FROM esq_contrato.fnc_obtiene_denominacion_2((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion)),
+                            (SELECT p_abrevia FROM esq_contrato.fnc_obtiene_denominacion_2((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion))")
+                    ->from(" esq_contrato.contrato ")
+                    ->where(" contrato.id_contrato ",$id_contrato)->where(" contrato.estado='A' ");
+        $res = $this->db->get();
+        //echo $this->db->last_query();
+        return $res->result_array();
+    }
+
+    function DeshacerProceso(){
+        $this->db->update("");
+    }
+
 }

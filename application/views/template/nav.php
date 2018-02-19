@@ -12,6 +12,7 @@
         <nav class="navbar navbar-static-top">
             <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <i class="fas fa-bookmark"></i>
                 <span class="sr-only">Toggle navigation</span>
             </a>
             <!-- Navbar Right Menu -->
@@ -40,7 +41,7 @@
                            </li>
                            <!-- Menu Footer-->
                            <li class="user-footer">
-                               <a href="#" id="btn_cerrar_session" name="btn_cerrar_session" class="btn btn-default"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Session</a>
+                               <a href="#" id="btn_cerrar_session" name="btn_cerrar_session" class="btn btn-default"><i class="fas fa-sign-out-alt"></i>&nbsp; Cerrar Session</a>
                            </li>
                        </ul>
                    </li>
@@ -65,7 +66,8 @@
                 ?>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-folder" aria-hidden="true"></i>
+                        <i class="fas fa-folder"></i>
+                        &nbsp;
                         <span><?=$row['descripcion'];?> </span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -78,7 +80,8 @@
                         ?>
                         <li>
                             <a href="<?=site_url($item['ruta'])?>">
-                                <i class="fa fa-circle-o" aria-hidden="true"></i>
+                                <i class="fas fa-chevron-circle-right"></i>
+                                &nbsp;
                                 <?=$item['descripcion'];?>
                             </a>
                         </li>

@@ -233,7 +233,7 @@ function Tabla_ins_formal(){
                 {"data":"p_numero_periodos"},
                 {"data":"p_tipo_periodos"},
                 {"data":"p_tipo_beca"},
-                {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='fa fa-trash'></i></button>"}
+                {"defaultContent":"<button type='button' class='eliminar btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
             ]
                     
         }); 

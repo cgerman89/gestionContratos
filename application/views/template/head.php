@@ -17,16 +17,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php base_url()?>public/css/smoke.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/bootstrap-datepicker3.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/bootstrap-toggle.min.css">
-    <link rel="stylesheet" href="<?php base_url()?>public/css/font-awesome.css">
+    <link rel="stylesheet" href="<?php base_url()?>public/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/plugins/datatables/dataTables.bootstrap.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/dataTables.checkboxes.css">
-    <link rel="stylesheet" href="<?php base_url()?>public/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?php base_url()?>public/dist/css/AdminLTE.css">
     <link rel="stylesheet" href="<?php base_url()?>public/dist/css/skins/skin-green.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/sweetalert2.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/alertify.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/toastr.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/bootstrapA.css">
+    <link rel="stylesheet" href="<?php base_url()?>public/css/bootstrap-wysihtml5-0.0.2.css">
 
     <!-- jQuery 3.2.1 -->
     <script src="<?php base_url()?>src/js/jquery-3.2.1.js"></script>
@@ -43,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php base_url()?>public/js/bootstrap-datepicker.js"></script>
     <script src="<?php base_url()?>public/locales/bootstrap-datepicker.es.min.js"></script>
     <script src="<?php base_url()?>public/js/numeral.min.js"></script>
+    <script src="<?php base_url()?>public/js/Chart.min.js"></script>
     <script src="<?php base_url()?>src/js/cedula.js"></script>
 
     <!-- Bootstrap 3.3.6 -->
@@ -56,6 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php base_url()?>public/js/select2.js"></script>
     <script src="<?php base_url()?>public/js/moment.js"></script>
     <script src="<?php base_url()?>public/js/moment-with-locales.js"></script>
+    <script src="<?php base_url()?>public/js/bootstrap3-wysihtml5.all.min.js"></script>
     <!-- mis js de la app -->
     <script src="<?php base_url()?>src/app/home.js"></script>
 
@@ -92,6 +95,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php }?>
     <?php if($this->uri->segment(1)=='cContratos_r') {?>
         <script src="<?php echo base_url();?>src/app/rector_ctr.js"></script>
+    <?php }?>
+    <?php if($this->uri->segment(1)=='Grafico') {?>
+        <script src="<?php echo base_url();?>src/app/graficos.js"></script>
+    <?php }?>
+    <?php if($this->uri->segment(1)=='Contrato_Text') {?>
+        <script src="<?php echo base_url();?>src/app/Contrato_Text.js"></script>
     <?php }?>
 </head>
 

@@ -3,28 +3,44 @@
         <div class="nav-tabs-justified">
             <ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active" >
-                    <a href="#info_personal" data-toggle="tab" class="fa fa-address-card fa-2x" title="Informacion Personal"></a>
+                    <a href="#info_personal" data-toggle="tab" title="Informacion Personal">
+                        <i class="fas fa-address-card fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#info_domicilio" data-toggle="tab" class="fa fa-home fa-2x" title="Domicilio"></a>
+                    <a href="#info_domicilio" data-toggle="tab"  title="Domicilio">
+                        <i class="fas fa-home fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#inst_formal" data-toggle="tab" class="fa  fa-mortar-board fa-2x" title="Instruccion Formal"></a>
+                    <a href="#inst_formal" data-toggle="tab"  title="Instruccion Formal">
+                        <i class="fas fa-graduation-cap fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#Capacitacion" data-toggle="tab" class="fa fa-book fa-2x" title="Capacitaciones"></a>
+                    <a href="#Capacitacion" data-toggle="tab" title="Capacitaciones">
+                        <i class="fas fa-book fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#exp_profesional" data-toggle="tab" class="fa fa-briefcase fa-2x" title="experiencia profesional"></a>
+                    <a href="#exp_profesional" data-toggle="tab" title="experiencia profesional">
+                        <i class="fas fa-suitcase fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#publicacion" data-toggle="tab" class="fa fa-file-text fa-2x" title="publicaciones"></a>
+                    <a href="#publicacion" data-toggle="tab"  title="publicaciones">
+                        <i class="far fa-copy fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#banco" data-toggle="tab" class="fa fa-bank fa-2x" title="cuenta bancaria"></a>
+                    <a href="#banco" data-toggle="tab"  title="cuenta bancaria">
+                        <i class="far fa-credit-card fa-2x"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#discapacidad" data-toggle="tab" class="fa fa-wheelchair fa-2x" title="Discapacidad"></a>
+                    <a href="#discapacidad" data-toggle="tab"  title="Discapacidad">
+                        <i class="fab fa-accessible-icon fa-2x"></i>
+                    </a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -33,7 +49,7 @@
                         <div class="panel-heading">
                             <div class="pull-right">
                                 <div class="col-md-3">
-                                    <button type="submit" name="btn_save_per" id="btn_save_per" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                    <button type="submit" name="btn_save_per" id="btn_save_per" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                 </div>
                             </div>
                             <h4 class="text-muted">INFORMACION PERSONAL</h4>
@@ -151,7 +167,7 @@
                         <div class="panel-heading">
                             <div class="pull-right">
                                 <div class="col-md-3">
-                                    <button type="submit" name="btn_save_domi" id="btn_save_domi" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button>
+                                    <button type="submit" name="btn_save_domi" id="btn_save_domi" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                 </div>
                             </div>
                             <h4 class="text-muted">INFORMACION DOMICILIAR</h4>
@@ -253,7 +269,7 @@
                         <div class="panel-heading">
                             <div class="pull-right">
                                 <div class="col-md-3">
-                                    <button type="button" id="btn_modal_abrir" name="btn_modal_abrir" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                    <button type="button" id="btn_modal_abrir" name="btn_modal_abrir" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i> &nbsp; Nuevo </button>
                                 </div>
                             </div>
                             <h4 class="text-muted">INSTRUCCIÓN FORMAL</h4>
@@ -407,7 +423,7 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="pull-right">
-                                                        <button type="button" id="btn_save_formal" name="btn_save_formal" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                        <button type="button" id="btn_save_formal" name="btn_save_formal" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                     </div>
                                                 </div>                                            
                                             </div>                                            
@@ -423,7 +439,7 @@
                          <div class="panel-heading">
                              <div class="pull-right">
                                  <div class="col-md-3">
-                                     <button type="button" id="btn_nuevo_capaci" name="btn_nuevo_capaci" class="btn btn-primary" data-toggle="modal" data-target="#modal_capacitacion"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                     <button type="button" id="btn_nuevo_capaci" name="btn_nuevo_capaci" class="btn btn-primary" data-toggle="modal" data-target="#modal_capacitacion"><i class="fas fa-plus"></i> &nbsp; Nuevo</button>
                                  </div>
                              </div>
                              <h4 class="text-muted">CAPACITACIONES</h4>
@@ -541,7 +557,7 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="pull-right">
-                                                        <button type="button" id="btn_save_cp" name="btn_save_cp" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                        <button type="button" id="btn_save_cp" name="btn_save_cp" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                     </div>
                                                 </div>                                                     
                                             </div>                                                                                                                                     
@@ -557,7 +573,7 @@
                             <div class="panel-heading">
                                 <div class="pull-right">
                                     <div class="col-md-3">
-                                        <button type="button" id="btn_nuevo_exp_pro" class="btn btn-primary" data-toggle="modal" data-target="#modal_experiencia_pro"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                        <button type="button" id="btn_nuevo_exp_pro" class="btn btn-primary" data-toggle="modal" data-target="#modal_experiencia_pro"><i class="fas fa-plus"></i> &nbsp; Nuevo</button>
                                     </div>
                                 </div>
                                 <h4 class="text-muted">EXPERIENCIA PROFESIONAL</h4>
@@ -736,7 +752,7 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="pull-right">
-                                                        <button type="button" id="btn_save_exp_pro" name="btn_save_btn_save_exp_pro" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                        <button type="button" id="btn_save_exp_pro" name="btn_save_btn_save_exp_pro" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                     </div>                                                    
                                                 </div>
                                             </div>
@@ -758,7 +774,7 @@
 
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="button" id="btn_nuevo_publicacion" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                    <button type="button" id="btn_nuevo_publicacion" class="btn btn-primary"><i class="fas fa-plus"></i> &nbsp; Nuevo</button>
                                 </div>
                             </div>
                             <h4 class="text-muted">PUBLICACIONES</h4>
@@ -922,7 +938,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class="pull-right">
-                                                                    <button type="button" id="btn_save_libro" name="btn_save_libro" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                                    <button type="button" id="btn_save_libro" name="btn_save_libro" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -983,7 +999,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class="pull-right">
-                                                                    <button type="button" id="btn_save_Capitulo_L" name="btn_save_Capitulo_L" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                                    <button type="button" id="btn_save_Capitulo_L" name="btn_save_Capitulo_L" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1050,7 +1066,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class="pull-right">
-                                                                    <button type="button" id="btn_save_Art_rev" name="btn_save_Art_rev" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                                    <button type="button" id="btn_save_Art_rev" name="btn_save_Art_rev" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1117,7 +1133,7 @@
                                                         <div class="row">
                                                             <div class="col-sm-12">
                                                                 <div class="pull-right">
-                                                                    <button type="button" id="btn_save_art_memoria" name="btn_save_art_memoria" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                                    <button type="button" id="btn_save_art_memoria" name="btn_save_art_memoria" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1136,7 +1152,7 @@
                         <div class="panel-heading">
                             <div class="pull-right">
                                 <div class="col-md-3">
-                                    <button type="button" id="btn_nuevo_banco" class="btn btn-primary" data-toggle="modal" data-target="#modal_banco"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+                                    <button type="button" id="btn_nuevo_banco" class="btn btn-primary" data-toggle="modal" data-target="#modal_banco"><i class="fas fa-plus"></i> &nbsp; Nuevo</button>
                                 </div>
                             </div>
                             <h4 class="text-muted">CUENTA BANCARIA</h4>
@@ -1197,7 +1213,7 @@
                                               <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="pull-right">
-                                                        <button type="button" id="btn_save_banco" name="btn_save_banco" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                                        <button type="button" id="btn_save_banco" name="btn_save_banco" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                                     </div>                                                    
                                                 </div>
                                             </div> 
@@ -1213,7 +1229,7 @@
                          <div class="panel-heading">
                              <div class="pull-right">
                                  <div class="col-md-3">
-                                     <button type="button" id="btn_save_discapacidad" name="btn_save_discapacidad" class="btn btn-primary"><i class="fa fa-save"></i> Guardar</button>
+                                     <button type="button" id="btn_save_discapacidad" name="btn_save_discapacidad" class="btn btn-primary"><i class="far fa-save"></i> &nbsp; Guardar</button>
                                  </div>
                              </div>
                              <h4 class="text-muted">DISCAPACIDAD</h4>

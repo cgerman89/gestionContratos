@@ -112,7 +112,7 @@ function Tabla_cp() {
                    {"data":"p_tipo_certificado"},
                    {"data":"p_fecha_inicio"},
                    {"data":"p_fecha_fin"},
-                   {"defaultContent":"<button type='button' class='eliminar_cp btn btn-danger'><i class='fa fa-trash'></i></button>"}
+                   {"defaultContent":"<button type='button' class='eliminar_cp btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
 
                 ]
 	     });

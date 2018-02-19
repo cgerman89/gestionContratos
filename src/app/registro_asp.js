@@ -26,6 +26,8 @@ $(document).ready(function () {
     const tipo_contrato_sl_ctr=$('#tipo_contrato_sl_ctr');
     const tipo_dedicacion_docente=$('#tipo_dedicacion_docente');
     const puesto_admin=$('#puesto_admin');
+    const tabla_solicitud_anu=$('#tabla_solicitud_anu');
+    const btn_reporte=$('#btn_reporte');
 
     $('[data-toggle="tooltip"]').tooltip(); //Para los tooltips
     fecha_sl_ctr.datepicker({todayBtn: "linked",format: 'yyyy-mm-dd',language:'es',autoclose:true,endDate:"0d"});
@@ -44,13 +46,62 @@ $(document).ready(function () {
     CargaCombo_asp('#tipo_solicitud_tabla',1);
     Tabla_PreInscripcion();
     Tabla_Solicitud();
+    Tabla_Solicitud_Anulada();
     toastr.options = {
         closeButton:true,
         positionClass:"toast-top-right",
         preventDuplicates:true
     };
 
-    //eventos jquery
+    btn_reporte.click(function (e) {
+        e.preventDefault();
+        DatosGrafico(function (data) {
+            var barras = document.getElementById("barras").getContext('2d');
+            var mybar = new Chart(barras, {
+                type: 'bar',
+                data: {
+                    labels: ["TOTAL","DOCENTES", "ADMINISTRATIVOS", "APROBADAS", "RECHAZADAS", "ANULADAS"],
+                    datasets: [{
+                        label: 'SOLICITUDES DE CONTRATOS',
+                        data: [data.total,data.docentes,data.administrativos,data.aprobadas,data.rechazadas,data.anuladas],
+                        backgroundColor: [
+                            'rgba(99, 149, 236, 0.5)',
+                            'rgba(111, 227, 82, 0.5)',
+                            'rgba(243, 246, 71, 0.5)',
+                            'rgba(14, 208, 238 , 0.5)',
+                            'rgba(237, 26, 16 , 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(99, 149, 236,1)',
+                            'rgba(111, 227, 82,1)',
+                            'rgba(243, 246, 71,1)',
+                            'rgba(14, 208, 238 ,1)',
+                            'rgba(237, 26, 16 ,1)',
+                            'rgba(255, 159, 64,1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                   scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                autoSkip: false
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+
+    });
+
     btn_save_reg_asp.click(function (e) {
         e.preventDefault();
         if(form_reg_aspirante.smkValidate() === true){
@@ -95,9 +146,14 @@ $(document).ready(function () {
         }
     });
 
-    $('#tab_solicitud').click(function (e) {
+   $('#tab_solicitud').click(function (e) {
        e.preventDefault();
        Tabla_Solicitud();
+   });
+
+   $('#tab_solicitud_anu').click(function(e) {       
+       e.preventDefault();
+       Tabla_Solicitud_Anulada(); 
    });
 
     $('#btn_cerrar_md_asp').click(function (e) {
@@ -217,13 +273,13 @@ $(document).ready(function () {
 
     $('#tabla_inscricion').on("click","a.hoja_vida_asp",function () {
         let datos = $('#tabla_inscricion').DataTable().row( $(this).parents("tr") ).data();
-        console.log('hoja de vida data :'+datos.p_idpersona);
+        //console.log('hoja de vida data :'+datos.p_idpersona);
         Generar_hoja_vida(datos.p_idpersona);
     });
 
     tabla_solicitud.on("click","a.EditarSolicitud",function () {
         let datos = tabla_solicitud.DataTable().row($(this).parents("tr")).data();
-        console.log(datos);
+        //console.log(datos);
         if ((datos.estado !== 'R') && (datos.estado !== 'E') && (datos.estado !== 'A')) {
             id_solicitud_ctr.val(datos.id_solicitud_contrato);
             txt_id_personal.val(datos.id_personal);
@@ -330,6 +386,12 @@ function ClearCampos() {
     $('#claves_asp').prop('hidden',false);
 }
 
+function DatosGrafico(callback) {
+    $.post('Aspirante/Grafico',function (data) {
+         callback(data);
+    },'json');
+}
+
 function DatosSolicitud(id_solicitud,callback) {
     $.post('Aspirante/DatosSolicitud',{'id_solicitud':id_solicitud},function (datos,estado) {
        if (estado === 'success'){
@@ -425,11 +487,11 @@ function AnularSolicitud(id_solicitud,aspirante,estado){
      }else{
         toastr.error('Error No se Puede Anular Registro');
      }
-
 }
 
 function Tabla_Solicitud(){
-   let tbl_solicitud=$('#tabla_solicitud').DataTable({
+   let
+       tbl_solicitud=$('#tabla_solicitud').DataTable({
           "destroy":true,
           "autoWidth":false,
           "scrollCollapse": true,
@@ -491,12 +553,76 @@ function Tabla_Solicitud(){
             {
                 "targets": [7],
                 "render": function(data) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" class="Ver_proceso"><span class="text-bold"><i class="fa fa-cogs"></i>&nbsp; Ver Proceso</span></a></li> <li><a href="#" class="EditarSolicitud"><span class="text-bold"> <i class="fa fa-edit"></i>&nbsp; Modificar Solicitud</span></a></li> <li><a href="#" onclick="AnularSolicitud('+data.id_solicitud_contrato+',\''+data.aspirante+'\',\''+data.estado+'\')"><span class="text-bold"> <i class="fa fa-trash-o"></i>&nbsp;  Anular</span></a></li></ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" class="Ver_proceso"><span class="text-bold"><i class="fa fa-eye"></i>&nbsp; Ver Proceso</span></a></li> <li><a href="#" class="EditarSolicitud"><span class="text-bold"> <i class="fa fa-edit"></i>&nbsp; Modificar Solicitud</span></a></li> <li><a href="#" onclick="AnularSolicitud('+data.id_solicitud_contrato+',\''+data.aspirante+'\',\''+data.estado+'\')"><span class="text-bold">  <i class="fas fa-trash-alt"></i> &nbsp;  Anular</span></a></li></ul></div></span>';
                 }
             }
         ]
     });
+}
 
+function Tabla_Solicitud_Anulada(){
+    $('#tabla_solicitud_anu').DataTable({
+        "destroy":true,
+        "autoWidth":false,
+        "scrollCollapse": true,
+        "responsive":true,
+        "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+        "language":{
+            "url": 'public/locales/Spanish.json'
+        },
+        "ajax":{
+            method:"POST",
+            url:"Aspirante/ListarSolicitudAnulada",
+            dataType:'json'
+        },
+        "columns":[
+            {"data":"codigo"},
+            {"data":null,"width": "23%"},
+            {"data":"t_contrato"},
+            {"data":null},
+            {"data":"fecha_solicitud","width": "7%"},
+            {"data":"observacion"},          
+            {"data": null , 'searchable':false}
+        ],
+                "columnDefs": [
+            {
+                "targets": [1],
+                "render":function(data) {
+                    return " <span class='text-center'> <i class='fa fa-user'></i> "+ data.aspirante+" <br><i class='fa fa-id-card'></i> "+ data.cedula_aspirante+"</span>";
+                }
+            },
+            {
+                "targets": [3],
+                "render":function(data) {
+                    if(data.t_contrato === 'ADMINISTRATIVO'){
+                        return " <span>"+ data.puesto+"</span>";
+                    }else if(data.t_contrato === 'DOCENTE'){
+                        return " <span>"+ data.dedicacion+"</span>";
+                    }
+
+                }
+            },   
+            {
+                "targets": [6],
+                "render": function(data) {
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" onclick="InfoAnulada('+data.id_solicitud_contrato+')"><span class="text-bold"><i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp; Info Anulada</span></a></li></ul></div></span>';
+                }
+            }
+        ]
+    });
+}
+
+function InfoAnulada(id_solicitud){   
+    $.post("Aspirante/InformacionAnulada",{'id_solicitud':id_solicitud},function (data) {
+        //console.log(data);
+        swal({
+            type: 'info',
+            html:"<div class='text-center'><span class='small'><p><i class='fa fa-user' aria-hidden='true'></i> USUARIO : "+data.persona+"</p>  <p> <i class='fa fa-calendar' aria-hidden='true'></i> FECHA: "+data.fecha+"  <i class='fa fa-clock-o' aria-hidden='true'></i> HORA:"+data.hora+" </p> <span class='text-center'> <p><i class='fa fa-commenting' aria-hidden='true'></i> OBSERVACION: <label> "+data.observacion+" </label> </p> </span> </span></div>",
+            showCloseButton: true,
+            allowOutsideClick: false,
+            allowEnterKey: false
+        });
+    },'json');  
 }
 
 function Tabla_PreInscripcion() {
@@ -524,7 +650,7 @@ function Tabla_PreInscripcion() {
             {"data": null,"width":"25%"},
             {"data":"p_cedula"},
             {"data":"p_departamento"},
-            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-bars'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='hoja_vida_asp'><span class='text-bold'><i class='fa fa-file-pdf-o' aria-hidden='true'></i>&nbsp; Hoja De Vida</span></a></li><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='fa fa-paper-plane-o'></i>&nbsp;Crear Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fa fa-trash-o'></i>&nbsp; Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
+            {"defaultContent":"<div class='pull-left'><div class='btn-group'><button type='button' class='btn btn-default'><i class='fa fa-bars'></i></button><button type='button' class='btn btn-default dropdown-toggle' data-toggle='dropdown' aria-expanded='false'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button><ul class='dropdown-menu' role='menu'><li><a href='#' class='hoja_vida_asp'><span class='text-bold'><i class='fas fa-file-pdf' aria-hidden='true'></i>&nbsp; Hoja De Vida</span></a></li><li><a href='#' class='Solicitud_asp'><span class='text-bold'> <i class='far fa-paper-plane'></i>  &nbsp;Crear Solicitud</span></a></li><li><a href='#' class='eliminar_pre_ins'> <span class='text-bold'> <i class='fas fa-trash-alt'></i>  &nbsp; Eliminar </span> </a></li></ul></div></div>",'orderable': false, 'searchable': false}
         ],
         "columnDefs": [
             {
@@ -684,7 +810,6 @@ function DelRegisTbl_inscripcion(tbody, table) {
             });
         },function (dismiss){});
     });
-
 }
 
 function SolicitudAspirante(tbody, table) {

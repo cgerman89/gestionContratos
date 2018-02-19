@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>UTM - STH || Login</title>
     <link rel="stylesheet" href="<?php base_url()?>public/css/bulma.css">
-    <link rel="stylesheet" href="<?php base_url()?>public/css/font-awesome.css">
+    <link rel="stylesheet" href="<?php base_url()?>public/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/sweetalert2.css">
     <link rel="stylesheet" href="<?php base_url()?>public/css/toastr.css">
 </head>
@@ -41,7 +41,7 @@
                         </div>
                         <button type="button" class="button is-info is-medium"  id="btn_session" name="btn_session"  @click="Valida">
                             <span class="icon is-small is-left">
-                                <i class="fa fa-sign-in"></i>
+                                <i class="fas fa-sign-in-alt"></i>
                             </span> &nbsp; Iniciar Session
                         </button>
                     </form>

@@ -1,18 +1,29 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="nav-tabs-justified">
-            <ul class="nav nav-tabs bg-gray-light">
-                <li  role="presentation" class="active" >
-                    <a href="#reg_aspirante" data-toggle="tab" class="fa fa-user-plus fa-2x" aria-hidden="true" title="per-inscripcion persona"></a>
-                </li>
-                <li  role="presentation">
-                    <a href="#lista_solicitud_p" id="tab_solicitud" data-toggle="tab" aria-hidden="true" title="Solicitud contrato">
-                        <i class="fa fa-file-text-o fa-2x text-info" aria-hidden="true"></i>
-                        <i class="fa fa-check text-info" aria-hidden="true"></i>
+            <ul class="nav nav-tabs bg-gray-light">              
+                <li role="presentation" class="active">
+                    <a href="#reg_aspirante" data-toggle="tab" title="per-inscripcion persona">
+                        <i class="far fa-address-card fa-2x"></i>
+                        <i class="fa fa-plus text-info" aria-hidden="true"></i>                      
+                    </a>
+                </li>          
+                <li role="presentation" id="tab_solicitud">
+                    <a href="#lista_solicitud_p" data-toggle="tab" title="Solicitud contrato">
+                        <i class="far fa-file-alt fa-2x"></i>
+                        <i class="fas fa-check-circle"></i>
                     </a>
                 </li>
-                <li  role="presentation">
-                    <a href="#lista_solicitud_anu" id="tab_solicitud_anu" data-toggle="tab" class="fa fa-list-alt fa-2x" aria-hidden="true" title="Solicitud contrato"></a>
+                <li role="presentation" id="tab_solicitud_anu">
+                    <a href="#lista_solicitud_anu" data-toggle="tab" title="Solicitudes anuladas">
+                        <i class="far fa-file-alt fa-2x"></i>
+                        <i class="fas fa-times"></i>
+                    </a>
+                </li>
+                <li role="presentation" id="tab_solicitud_anu">
+                    <a href="#grafico_solicitudes" data-toggle="tab" title="Solicitudes anuladas">
+                        <i class="far fa-chart-bar fa-2x"></i>
+                    </a>
                 </li>
             </ul>
             <div class="tab-content">
@@ -190,7 +201,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="lista_solicitud_p" role="tab-pane" class="tab-pane fade in">
+                <div id="lista_solicitud_p"  class="tab-pane fade in">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                            <div class="row">
@@ -217,7 +228,7 @@
                                                 Solicitud
                                             </th>
                                             <th>
-                                                <i class="fa fa-black-tie" aria-hidden="true"></i>
+
                                                 Puesto / Dedicacion
                                             </th>
                                             <th>
@@ -322,15 +333,71 @@
                         </div>
                     </div>
                 </div>
-                <div class="lista_solicitud_anu" role="tab-pane" class="tab-pane fade in">
+                <div id="lista_solicitud_anu" class="tab-pane fade in">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            
+                            <h4 class="text-muted">ANULADAS</h4>
                         </div>
                         <div class="panel-body">
-                            
+                            <table id="tabla_solicitud_anu" class="table small table-hover table-bordered">
+                                    <thead class="bg-light-blue">
+                                        <tr>
+                                            <th>
+                                                <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                                Codigo
+                                            </th>
+                                            <th class="text-center">
+                                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                                Aspirante
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-file-text" aria-hidden="true"></i>
+                                                Solicitud
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-black-tie" aria-hidden="true"></i>
+                                                Puesto / Dedicacion
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                                Fecha
+                                            </th>
+                                            <th>
+                                                <i class="fa fa-commenting" aria-hidden="true"></i>
+                                                Observacion
+                                            </th>                                         
+                                            <th>
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                                Accion
+                                            </th>
+                                        </tr>
+                                    </thead>
+                            </table>                            
                         </div>                        
                     </div> 
+                </div>
+                <div id="grafico_solicitudes" class="tab-pane fade in">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                           <div class="row">
+                               <div class="col-sm-8">
+                                   <h4 class="text-muted"> REPORTES </h4>
+                               </div>
+                               <div class="col-sm-4">
+                                   <div class="pull-right">
+                                       <button type="button" class="btn btn-primary" id="btn_reporte"><i class="far fa-chart-bar"></i> &nbsp; Generar</button>
+                                   </div>
+                               </div>
+                           </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-10 col-xs-offset-1">
+                                    <canvas id="barras" width="500" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -425,9 +492,10 @@
                     </div>
                 </div>
             </div>
+        </div>  
+        <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”>
+
         </div>
-        <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
-    </div>
-  
+    </div>    
 </div>
 <script src="<?php base_url()?>src/app/registro_asp.js"></script>

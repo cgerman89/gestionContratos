@@ -3,13 +3,22 @@
         <div class="nav-tabs-justified">
             <ul class="nav nav-tabs bg-gray-light">
                 <li role="presentation" class="active" >
-                    <a href="#solicitudes_por_aprobarTH" data-toggle="tab" class="fa fa-file-text-o fa-2x" title="Solicitudes por aprobar"></a>
+                    <a href="#solicitudes_por_aprobarTH" data-toggle="tab"  title="Solicitudes por aprobar">
+                        <i class="far fa-file-alt fa-2x"></i>
+                        <i class="fas fa-sync-alt"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#flujo_procesos" data-toggle="tab" class="fa fa-check-square-o fa-2x" title="Solicitudes aprobadas"></a>
+                    <a href="#flujo_procesos" data-toggle="tab"  title="Solicitudes aprobadas">
+                        <i class="far fa-file-alt fa-2x"></i>
+                        <i class="fas fa-check-circle"></i>
+                    </a>
                 </li>
                 <li role="presentation">
-                    <a href="#Solicitudes_rechazadas" data-toggle="tab" class="fa fa-times fa-2x" title="Solicitudes rechazadas"></a>
+                    <a href="#Solicitudes_rechazadas" data-toggle="tab" title="Solicitudes rechazadas">
+                        <i class="far fa-file-alt fa-2x"></i>
+                        <i class="fas fa-times"></i>
+                    </a>
                 </li>
             </ul>
             <div class="tab-content">

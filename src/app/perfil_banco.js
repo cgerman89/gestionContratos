@@ -60,7 +60,7 @@ function Tabla_banco() {
                     {"data":"p_institucion_banco"},
                     {"data":"p_tipo_cuenta"},
                     {"data":"p_numero_cuenta"},
-                    {"defaultContent":"<button type='button' class='eliminar_exp_pro btn btn-danger'><i class='fa fa-trash'></i></button>"}
+                    {"defaultContent":"<button type='button' class='eliminar_exp_pro btn btn-danger'><i class='far fa-trash-alt'></i></button>"}
                 ]
          });
 DelRegisTbl_bc("#tabla_banco tbody", tbl_banco);
@@ -82,7 +82,7 @@ function DelRegisTbl_bc(tbody, table) {
                         success:function(response){
                              var res=JSON.parse(response);
                              $('#tabla_banco').DataTable().ajax.reload();
-                            toastr.info(res.respuesta);
+                             toastr.info(res.respuesta);
                         },
                         complete:function () {
                             swal.closeModal();
