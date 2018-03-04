@@ -173,9 +173,9 @@ class cTalento_humano extends CI_Controller{
     function ListarContratos(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') === '-3' ){
-                echo json_encode($this->Contrato_Modelo->ListarContrtosAll($this->input->post('estado')));
+                echo json_encode($this->Contrato_Modelo->ListarContrtosAll('v_contrato.estado',$this->input->post('estado')));
             }else{
-                echo json_encode($this->Contrato_Modelo->ListarContrtos($this->input->post('id_dpto'),$this->input->post('estado')));
+                echo json_encode($this->Contrato_Modelo->ListarContrtos($this->input->post('id_dpto'),'v_contrato.estado',$this->input->post('estado')));
             }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');

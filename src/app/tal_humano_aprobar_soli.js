@@ -173,7 +173,7 @@ function CargarAprobadas_th(id_dpto){
             {"data":  null},
             {"data": 'observacion'},
             {"data":  null,render:function(row){
-                return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"> <span class="text-bold"> <i class="far fa-file-pdf"></i>&nbsp; Hoja de Vida</span> </a></li><li><a href="#" data-toggle="modal" data-target="#md_proc_solic_y_contr" onClick="ProcesosSolicitudContrato('+row.id_solicitud_contrato+');"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span>  </a></li>  </ul></div></span>';
+                return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"> <span class="text-bold"> <i class="far fa-file-pdf"></i>&nbsp; Hoja de Vida</span> </a></li><li><a href="#" data-toggle="modal" data-target="#md_proc_solic_y_contr" onClick="ProcesosSolicitudContrato('+row.id_solicitud_contrato+');"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span>  </a></li> <li> <a href="#"  onclick="DeshacerProceso('+row.id_solicitud_contrato+',\''+row.aspirante+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
             }
             }
         ],
@@ -255,12 +255,44 @@ function CargaRechazadas_th(id_dpto) {
             },
             {   "targets": [8],
                 "render": function(data) {
-                    return "<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' onClick='Generar_hoja_vida("+data.id_personal+")'>  <span class='text-bold'> <i class='far fa-file-pdf'></i>&nbsp; Hoja de Vida</span>  </a></li><li><a href='#' class='info_rechazada'> <span class='text-bold'> <i class='fa fa-info'></i> &nbsp; info </span> </a></li></ul></div></span>"
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')">  <span class="text-bold"> <i class="far fa-file-pdf"></i>&nbsp; Hoja de Vida</span>  </a></li><li><a href="#" class="info_rechazada"> <span class="text-bold"> <i class="fa fa-info"></i> &nbsp; info </span> </a></li>  <li> <a href="#"  onclick="DeshacerProceso('+data.id_solicitud_contrato+',\''+data.aspirante+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
 
                 }
             }
         ]
     });
+}
+
+function DeshacerProceso(id_solicitud,aspirante) {
+    $.post("cTalento_humano_as/Verifica",{'id_solicitud':id_solicitud},function (res) {
+        if( res.count ==='0'){
+            swal({
+                title: 'Deshacer Proceso!',
+                html: "El PROCESO <span> DE: <b>"+aspirante+" </b></span> VOLVERA A PENDIENTE",
+                type: 'warning',
+                allowOutsideClick: false,
+                allowEnterKey: false,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si'
+            }).then(function () {
+                $.post("cTalento_humano_as/Deshacer",{'id_solicitud':id_solicitud},function(data){
+                    if(data == 1){
+                        $('#tblLisAspFluProc').DataTable().ajax.reload();
+                        $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
+                        toastr.info('Se Realizo Correctamente !!!');
+                    }else if( data == 0){
+                        toastr.error('No Se Realizo Correctamente !!!');
+                    }
+
+                },'json');
+            },function (dismiss){});
+        }else{
+            toastr.error('OPERACION NO DISPONIBLE');
+        }
+    },'json');
+
 }
 
 //Con esta función aprobamos la solicitud (Cambiar el estado de la solicitud - talento humano)

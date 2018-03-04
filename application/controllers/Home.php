@@ -7,8 +7,10 @@
  * Time: 9:41
  */
 class Home extends CI_Controller{
+
     public function __construct(){
         parent::__construct();
+        $this->load->model('Login_model');
     }
 
     public function index(){
@@ -20,6 +22,15 @@ class Home extends CI_Controller{
         }else{
             redirect('/');
         }
+    }
+
+    public function FotoUser(){
+        if(!empty($_GET['id_personal'])==true)
+             $res  = $this->Login_model->GetFotoUser($_GET['id_personal']);
+             $foto = pg_unescape_bytea($res['foto']);
+             header("Content-type: image/jpeg");
+             echo $foto;
+
     }
 
 

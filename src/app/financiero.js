@@ -195,22 +195,33 @@ function AprobarContrato(id_contrato,aspirante){
     },function (dismiss){});
 }
 
-function DeshacerProceso(id_contrato,aspirante) {
-    swal({
-        title: 'Deshacer Proceso!',
-        html: "El PROCESO <span> DE: <b>"+aspirante+" </b></span> VOLVERA A PENDIENTE",
-        type: 'warning',
-        allowOutsideClick: false,
-        allowEnterKey: false,
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si'
-    }).then(function () {
-        $.post("",{'Id_sol_contratoTH':idsolicitud},function(data){
+function DeshacerProceso(id_contrato,aspirante,estado_firma) {
+     if(estado_firma === 'P'){
+         swal({
+             title: 'Deshacer Proceso!',
+             html: "El PROCESO <span> DE: <b>"+aspirante+" </b></span> VOLVERA A PENDIENTE",
+             type: 'warning',
+             allowOutsideClick: false,
+             allowEnterKey: false,
+             showCancelButton: true,
+             confirmButtonColor: '#3085d6',
+             cancelButtonColor: '#d33',
+             confirmButtonText: 'Si'
+         }).then(function () {
+             $.post("cFinanciero/Deshacer",{'id_contrato':id_contrato},function(data){
+                 if(data == 1){
+                     $('#tabla_contratos_apb').DataTable().ajax.reload();
+                     $('#tabla_contratos_fn_re').DataTable().ajax.reload();
+                     toastr.info('Se Realizo Correctamente !!!');
+                 }else if( data == 0){
+                     toastr.info('Se Realizo Correctamente !!!');
+                 }
 
-        },'json');
-    },function (dismiss){});
+             },'json');
+         },function (dismiss){});
+     }else {
+         toastr.error('OPCION NO DISPONIBLE');
+     }
 }
 
 function AprobarContratoAll(id_contrato,item,callback){
@@ -264,8 +275,8 @@ function RechazarContrato(id_contrato,aspirante){
 function TablaContratos(id_dpto){    
  $('#tabla_contratos_fn').DataTable({
         "destroy":true,
-        "autoWidth":false,
-        "scrollY": 200,
+        "autoWidth":true,
+        "scrollY": 300,
         "scrollCollapse":false,
         "scrollX": true,
         "responsive":true,
@@ -446,7 +457,7 @@ function TablaContratosApb(id_dpto){
         },  
         {   "targets": [17],
             "render": function(data,row) {
-                return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li> <li> <a href="#"  onclick="DeshacerProceso('+data.id_contrato+',\''+data.aspirante+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
+                return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li> <li> <a href="#"  onclick="DeshacerProceso('+data.id_contrato+',\''+data.aspirante+'\',\''+data.estado_firma+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
             }
         }
     ]    

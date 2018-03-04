@@ -282,7 +282,7 @@ function TablaContratos(id_dpto){
        "destroy":true,
         "autoWidth":true,
         "scrollY": 200,
-        "scrollCollapse":false,
+        "scrollCollapse":true,
         "scrollX": true,
         "responsive":true,
         "paging": false,

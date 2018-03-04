@@ -48,6 +48,8 @@ $(document).ready(function () {
    const departamento_ctr_anulados=$('#departamento_ctr_anulados');
    const pdf_contrato=$('#pdf_contrato');
    const contenedor_pdf_ctr=$('#contenedor_pdf_ctr');
+   const departamento_ctr_firma_th=$('#departamento_ctr_firma_th');
+   const tabla_lista_contratos_firma=$('#tabla_lista_contratos_firma');
 
 
    //funciones
@@ -57,12 +59,13 @@ $(document).ready(function () {
      departamento_ctr_rechazados.select2({theme:"bootstrap"});
      departamento_terminados.select2({theme:"bootstrap"});
      departamento_ctr_anulados.select2({theme:"bootstrap"});
-
+     departamento_ctr_firma_th.select2({theme:"bootstrap"});
      fecha_inicio_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true});
      fecha_fin_ctr.datepicker({format: 'yyyy-mm-dd',language:'es',autoclose:true});
 
      CargaComboDepartamentos_th(departamento_sl_ctr_th);
      CargaComboDepartamentos_th(departamento_ctr_th);
+     CargaComboDepartamentos_th(departamento_ctr_firma_th);
      CargaComboDepartamentos_th(departamento_ctr_apb);
      CargaComboDepartamentos_th(departamento_ctr_rechazados);
      CargaComboDepartamentos_th(departamento_terminados);
@@ -74,6 +77,7 @@ $(document).ready(function () {
 
    TablaSolicitudes_th();
    TablaContratos();
+   TablaContratoFirma(-1);
    TablaContratosApb();
    TablasContratosRe();
    TablaContratosTrd();
@@ -347,6 +351,34 @@ $(document).ready(function () {
         fecha_ini=null;
         fecha_fin=null;
    }
+
+   function TablaContratoFirma(id_dpto){
+       tabla_lista_contratos_firma.DataTable({
+           "destroy":true,
+           "autoWidth":true,
+           "scrollY": 200,
+           "scrollCollapse":false,
+           "scrollX": true,
+           "responsive":true,
+           "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
+           "language":{
+               "url": 'public/locales/Spanish.json'
+           },
+           "ajax":{
+               "method":"POST",
+               "url":"cTalento_humano/",
+               "data":{'id_dpto':id_dpto,'estado':'A'},
+               beforeSend:function () {
+                   swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
+                   swal.showLoading();
+               },
+               complete:function () {
+                   swal.closeModal();
+               }
+           },
+       });
+   }
+
 });
 
 //funciones
@@ -1055,3 +1087,5 @@ function TablaProcesoContrato(id_contrato) {
         ]
     });
 }
+
+

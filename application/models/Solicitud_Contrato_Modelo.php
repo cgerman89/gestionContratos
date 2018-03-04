@@ -72,9 +72,9 @@ class Solicitud_Contrato_Modelo extends CI_Model {
     }
 
     function SolicitudRector($dpto,$estado_rect){
-        $this->db->select("v_sc.id_solicitud_contrato,v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion, v_sc.estado_apro_rec")
+        $this->db->select("v_sc.id_solicitud_contrato,v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion, v_sc.estado_apro_rec,v_sc.estado_apro_rh")
             ->from("esq_contrato.v_solicitud_contrato as v_sc")
-            ->where("v_sc.id_departamento",$dpto)->where(" v_sc.estado_apro_rec",$estado_rect)->where(" v_sc.estado<>'R' ")->where(" v_sc.estado<>'E' ");
+            ->where("v_sc.id_departamento",$dpto)->where(" v_sc.estado_apro_rec",$estado_rect);
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -88,9 +88,9 @@ class Solicitud_Contrato_Modelo extends CI_Model {
     }
 
     function SolicitudRectorAll($estado_rect){
-        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion,v_sc.estado_apro_rec")
+        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion,v_sc.estado_apro_rec,v_sc.estado_apro_rh")
             ->from("esq_contrato.v_solicitud_contrato as v_sc")
-            ->where(" v_sc.estado_apro_rec",$estado_rect)->where(" v_sc.estado<>'R' ")->where(" v_sc.estado<>'E' ");
+            ->where(" v_sc.estado_apro_rec",$estado_rect);
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -135,10 +135,10 @@ class Solicitud_Contrato_Modelo extends CI_Model {
         }
     }
 
-    function SolicitudRechazadas($id_dpto){
-        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo,v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion, v_sc.estado")
+    function SolicitudRechazadas($id_dpto,$proceso){
+        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo,v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion, v_sc.estado_apro_rh")
             ->from("esq_contrato.v_solicitud_contrato as v_sc")
-            ->where("v_sc.id_departamento",$id_dpto)->where(" v_sc.estado='R' ")->where(" v_sc.estado<>'E' ");
+            ->where("v_sc.id_departamento",$id_dpto)->where($proceso,"R");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -151,10 +151,10 @@ class Solicitud_Contrato_Modelo extends CI_Model {
         }
     }
 
-    function SolicitudRechazadasAll(){
-        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion, v_sc.estado")
+    function SolicitudRechazadasAll($proceso){
+        $this->db->select("v_sc.id_solicitud_contrato, v_sc.codigo, v_sc.id_personal, v_sc.aspirante, v_sc.cedula_aspirante, v_sc.departamento, v_sc.cordinador, v_sc.fecha_solicitud, v_sc.t_contrato, v_sc.dedicacion, v_sc.puesto, v_sc.observacion, v_sc.estado_apro_rh")
             ->from("esq_contrato.v_solicitud_contrato as v_sc")
-            ->where(" v_sc.estado='R' ")->where(" v_sc.estado<>'E' ");
+            ->where($proceso,"R");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -270,4 +270,16 @@ class Solicitud_Contrato_Modelo extends CI_Model {
         return $res->result_array();
     }
 
+    function DeshacerProceso($id_solicitud,$id_rpoceso){
+        $this->db->where(" id_solicitud ",$id_solicitud)->where(" id_tipo_aprobacion",$id_rpoceso);
+        $this->db->update(" esq_contrato.proceso_solicitud",['id_personal'=> -1 ,'fecha'=> null, 'hora' => null, 'observacion' => null , 'estado' => 'P' ]);
+        //echo $this->db->last_query();
+        return $this->db->affected_rows();
+    }
+
+    function VerificaContrato($id_solicitud){
+        $this->db->select(" count(id_solicitud) ")->from(" esq_contrato.contrato ")->where(" contrato.id_solicitud ", $id_solicitud);
+        $res= $this->db->get();
+        return $res->row_array();
+    }
 }

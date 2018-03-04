@@ -177,6 +177,82 @@
                         </div>
                     </div>
                 </div>
+                <div id="list_contratos_firmar" role="tabpanel" class="tab-pane fade">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h4 class="text-muted">CONTRATOS POR FIRMAR</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select id="departamento_ctr_firma_th"  class="form-control" style="width: 100%">
+                                        <option value="-2">SELECCIONE DEPARTAMENTO</option>
+                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <table id="tabla_lista_contratos_firma" class="table small table-hover table-bordered">
+                                <thead class="bg-light-blue">
+                                <tr>
+                                    <th>
+                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
+                                        CODIGO
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
+                                        ASPIRANTE
+                                    </th>
+                                    <th>
+                                        MODALIDAD LABORAL
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
+                                        TIPO
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
+                                        DENOMINACION
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
+                                        RMU
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+                                        Fecha Inicio
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
+                                        Fecha Final
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+                                        MESES
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;
+                                        TITULO
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-building-o" aria-hidden="true"></i>
+                                        DPTO.SOLICITANTE
+                                    </th>
+                                    <th>
+                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>
+                                        COD.SOLICITUD
+                                    </th>
+                                    <th>
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                        Accion
+                                    </th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <div id="list_contratos_activos" role="tabpanel" class="tab-pane fade">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -493,7 +569,6 @@
             </div>
         </div>
         </div>
-    </div>
     <!-- Modal crear contrato-->
     <div class="modal fade" id="modal_crear_contrato_th" role="dialog" data-backdrop="static" data-keyboard=”false”>
         <div class="modal-dialog modal-lg">
@@ -762,7 +837,7 @@
     <!-- Modal hoja de vida -->
     <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”></div>
     <div id="pdf_contrato" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”>
-    <div class="modal-dialog">
+       <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
                 <button type="button"  id="btn_cerrar_md_solicitud_asp" name="btn_cerrar_md_solicitud_asp" class="close" data-dismiss="modal">&times;</button>
@@ -773,6 +848,5 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-</div>

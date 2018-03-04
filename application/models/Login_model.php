@@ -80,4 +80,10 @@ class Login_model extends CI_Model {
         //echo $this->db_user->last_query();
         return $res->row_array();
     }
+
+    public function GetFotoUser($id_personal){
+       $res = $this->db->query("select esq_ficheros.fichero_hoja_vida.archivo_bin  as foto FROM esq_ficheros.fichero_hoja_vida WHERE esq_ficheros.fichero_hoja_vida.idpersonal_propietario = ? AND esq_ficheros.fichero_hoja_vida.idtipo_documento=3",$id_personal);
+       //echo $this->db_user->last_query();
+       return $res->row_array();
+    }
 }

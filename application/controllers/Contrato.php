@@ -7,6 +7,7 @@
  */
 
 class Contrato extends CI_Controller {
+
     function __construct(){
        parent::__construct();
        $this->load->model('Contrato_Modelo');
@@ -27,6 +28,15 @@ class Contrato extends CI_Controller {
         }
     }
 
+    function Deshacer(){
+        if ($this->input->is_ajax_request()){
+            if(!empty($this->input->post('id_contrato')) == true)
+                echo json_encode($this->Contrato_Modelo->DeshacerProceso($this->input->post('id_contrato'),11));
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
     function ListaContratos(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') ==='-3'){
@@ -34,6 +44,30 @@ class Contrato extends CI_Controller {
             }else{
                 echo json_encode($this->Contrato_Modelo->ListarContratos_Jefe_th($this->input->post('id_dpto'),'P'));
             }
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function ListarContratos_proceso_Jefe(){
+        if ($this->input->is_ajax_request()){
+            if (!empty($this->input->post('id_dpto'))==true)
+                 if($this->input->post('id_dpto') == '-3')
+                     echo json_encode($this->Contrato_Modelo->ListarContrtosAll('v_contrato.estado_jefe_th',$this->input->post('estado')));
+                 else
+                     echo json_encode($this->Contrato_Modelo->ListarContrtos($this->input->post('id_dpto'),'v_contrato.estado_jefe_th',$this->input->post('estado')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function ListarContratos_all(){
+        if ($this->input->is_ajax_request()){
+            if (!empty($this->input->post('id_dpto'))==true)
+                if($this->input->post('id_dpto') == '-3')
+                    echo json_encode($this->Contrato_Modelo->ListarContrtosAll('v_contrato.estado',$this->input->post('estado')));
+                else
+                    echo json_encode($this->Contrato_Modelo->ListarContrtos($this->input->post('id_dpto'),'v_contrato.estado',$this->input->post('estado')));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }

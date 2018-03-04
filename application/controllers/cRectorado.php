@@ -118,10 +118,19 @@ class cRectorado extends CI_Controller{
     public function SolicitudesRechazadas(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') ==='-3'){
-               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadasAll());
+               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadasAll('v_sc.estado_apro_rec'));
             }else{
-               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadas($this->input->post('id_dpto')));
+               echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadas($this->input->post('id_dpto'),'v_sc.estado_apro_rec'));
             }
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function Deshacer(){
+        if ($this->input->is_ajax_request()){
+            if(!empty($this->input->post('id_solicitud')) == true)
+                echo json_encode($this->Solicitud_Contrato_Modelo->DeshacerProceso($this->input->post('id_solicitud'), 8));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }

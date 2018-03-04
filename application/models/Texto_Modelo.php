@@ -28,6 +28,7 @@ class Texto_Modelo extends CI_Model{
         $this->db->db_set_charset('UTF-8');
         $this->db->where(" texto_contrato.id_texto ",$id);
         $this->db->update(" esq_contrato.texto_contrato ",$data);
+        //echo $this->db->last_query();
         return $this->db->affected_rows();
     }
 

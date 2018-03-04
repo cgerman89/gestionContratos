@@ -60,9 +60,9 @@ class cTalento_humano_as extends CI_Controller{
     public function RechazadasTalentoHumano(){
         if ($this->input->is_ajax_request()) {
             if($this->input->post('id_dpto')==='-3'){
-                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadasAll());
+                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadasAll('v_sc.estado_apro_rh'));
             }else{
-                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadas($this->input->post('id_dpto')));
+                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadas($this->input->post('id_dpto'),'v_sc.estado_apro_rh'));
             }
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
@@ -116,5 +116,23 @@ class cTalento_humano_as extends CI_Controller{
     public function Hoja_Vida(){
         $id=$_GET['id'];
         Carga_pdf::Hoja_Vida($id);
+    }
+
+    function Deshacer(){
+        if ($this->input->is_ajax_request()){
+            if(!empty($this->input->post('id_solicitud')) == true)
+                echo json_encode($this->Solicitud_Contrato_Modelo->DeshacerProceso($this->input->post('id_solicitud'), 9));
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function Verifica(){
+        if ($this->input->is_ajax_request()) {
+            if(!empty($this->input->post('id_solicitud') == true))
+                echo json_encode($this->Solicitud_Contrato_Modelo->VerificaContrato($this->input->post('id_solicitud')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
     }
 }

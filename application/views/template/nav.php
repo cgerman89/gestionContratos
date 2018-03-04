@@ -25,8 +25,8 @@
                        </a>
                        <ul class="dropdown-menu">
                            <!-- User image -->
-                           <li class="user-header">
-                               <img src="<?php base_url()?>public/img/avatar5.png" class="img-circle" alt="User Image">
+                           <li class="user-header center-block">
+                               <img src="<?php base_url()?>Home/FotoUser?id_personal=<?=$this->session->userdata('id_personal')?>" class="img-rounded" alt="User Image">
                            </li>
                            <li class="user-body">
                                <div class="text-center">

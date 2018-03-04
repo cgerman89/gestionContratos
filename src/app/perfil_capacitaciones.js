@@ -184,7 +184,6 @@ function SaveArchivo_cp(callback) {
     });
 }
 
-
 function EliminarFile_cp(callback) {
         $.ajax({
             url:'Perfil/EliminarArchivo',
@@ -235,6 +234,7 @@ function SaveCapacitacion(callback) {
         });
         
 }
+
 function BorrarIds_cp() {
     if(Id_Archivo_cp > 0){
         $('#archivo_cp').prop('disabled',false);

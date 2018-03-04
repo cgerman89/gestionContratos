@@ -87,7 +87,7 @@ $(document).ready(function(){
         let cont=0;
         $('#tblLisAspPorApro tbody tr').each(function(indiceFila) {
             $(this).children('td').each(function(indiceColumna) {
-                if(indiceColumna === 9){
+                if(indiceColumna === 7){
                     if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                         cont++;
                     }
@@ -131,6 +131,37 @@ $(document).ready(function(){
 });
 
 //FUNCIONES
+
+function DeshacerProceso(id_solicitud,aspirante,estado_apro_rh){
+    if(estado_apro_rh === 'P'){
+        swal({
+            title: 'Deshacer Proceso!',
+            html: "El PROCESO <span> DE: <b>"+aspirante+" </b></span> VOLVERA A PENDIENTE",
+            type: 'warning',
+            allowOutsideClick: false,
+            allowEnterKey: false,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si'
+        }).then(function () {
+            $.post("cRectorado/Deshacer",{'id_solicitud':id_solicitud},function(data){
+                if(data == 1){
+                    $('#tblLisAspFluProc').DataTable().ajax.reload();
+                    $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
+                    toastr.info('Se Realizo Correctamente !!!');
+                }else if( data == 0){
+                    toastr.info('Se Realizo Correctamente !!!');
+                }
+
+            },'json');
+        },function (dismiss){});
+    }else{
+       toastr.error('OPERACION NO PERMITIDA');
+    }
+
+}
+
 //Aquí se llena la tabla Lista de Aspirantes por aprobar de algún departamento en específico con datatables
 function tbl_aprobar_rector_depto(id_dpto) {
     $('#tblLisAspPorApro').DataTable({
@@ -256,6 +287,7 @@ function tbl_flujo_procesos_depto(id_dpto) {
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5">' +
                         '    <li><a href="#" onClick="Generar_hoja_vida('+row.id_personal+')"> <span class="text-bold"> <i class="far fa-file-pdf"></i>&nbsp; Hoja de Vida</span> </a></li>' +
                         '    <li><a href="#" data-toggle="modal" data-target="#md_proc_solic_y_contr" onClick="ProcesosSolicitudContrato(\''+row.id_solicitud_contrato+'\');"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li>' +
+                        '    <li> <a href="#"  onclick="DeshacerProceso('+row.id_solicitud_contrato+',\''+row.aspirante+'\',\''+row.estado_apro_rh+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>'+
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -340,7 +372,7 @@ function tbl_flujo_procesos_solicitudes_rechazadas(id_dpto) {
             },
             {   "targets": [8],
                 "render": function(data) {
-                    return "<span class='pull-left'><div class='dropdown'><button class='btn btn-default btn-xs dropdown-toggle' type='button' id='dropdownMenu1' data-toggle='dropdown' aria-haspopup='true' aria-expanded='true'><i class='fa fa-list'></i><span class='caret'></span></button><ul class='dropdown-menu pull-right' aria-labelledby='dropdownMenu1' style='background-color: #F5F5F5'><li><a href='#' onClick='Generar_hoja_vida("+data.id_personal+")'> <span class='text-bold'> <i class='far fa-file-pdf'></i>&nbsp; Hoja de Vida</span> </a></li><li><a href='#' class='info_rechazada'>  <span class='text-bold'> <i class='fa fa-info'></i> &nbsp; info </span> </a></li></ul></div></span>"
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1" style="background-color: #F5F5F5"><li><a href="#" onClick="Generar_hoja_vida('+data.id_personal+')"> <span class="text-bold"> <i class="far fa-file-pdf"></i>&nbsp; Hoja de Vida</span> </a></li><li><a href="#" class="info_rechazada">  <span class="text-bold"> <i class="fa fa-info"></i> &nbsp; info </span> </a></li>  <li> <a href="#"  onclick="DeshacerProceso('+data.id_solicitud_contrato+',\''+data.aspirante+'\',\''+data.estado_apro_rh+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
                 }
             }
         ],
@@ -467,7 +499,7 @@ Aprueba_rector = function(IdSolContrato,aspirante){
         $.post("cRectorado/AprobarSolicitud",{Id_sol_contrato:IdSolContrato},function(data){
                 var res=JSON.parse(data);
                 if (res.fnc_aprobar_rector === 'OK') {
-                    toastr.info('Solicitud de: '+aspirante+' aprobada correctamente.');
+                    toastr.info('Aprobada correctamente !!!');
                     $('#tblLisAspPorApro').DataTable().ajax.reload();
                     $('#tblLisAspFluProc').DataTable().ajax.reload();
                 }
@@ -516,7 +548,7 @@ rechazar_rector = function(IdSolContrato, aspirante){
         $.post("cRectorado/RechazarSolicitud",{Id_sol_contrato:IdSolContrato,observa:observacion},function(data){
              let res=JSON.parse(data);
              if (res.fnc_rechazar_solicitud_rector === 'OK') {
-                toastr.error('Solicitud de: '+aspirante+' rechazada correctamente.');
+                toastr.info('Solicitud de: '+aspirante+' rechazada correctamente.');
                 $('#tblLisAspPorApro').DataTable().ajax.reload();
                 $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
              }

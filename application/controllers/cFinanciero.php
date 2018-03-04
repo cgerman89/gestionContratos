@@ -53,22 +53,22 @@ class cFinanciero extends CI_Controller{
     }
 
     function AprobarContrato(){
-        if ($this->input->is_ajax_request()){
-            $campos= array(
-                'id_contrato'=>$this->input->post('id_contrato'),
-                'id_personal'=>$this->session->userdata('id_personal'),
-                'proceso'=>12
-            );
-            if( $this->Contrato_Modelo->AgregarItem($this->input->post('id_contrato'),$this->input->post('item')) == 1){
-                 echo json_encode($this->Contrato_Modelo->AprobarProceso($campos));
-            }else{
-                 $resp=array('opcion'=>'2','mensaje'=>'Error al agregar partida');
-                 echo json_encode($resp);
-            }
+    if ($this->input->is_ajax_request()){
+        $campos= array(
+            'id_contrato'=>$this->input->post('id_contrato'),
+            'id_personal'=>$this->session->userdata('id_personal'),
+            'proceso'=>12
+        );
+        if( $this->Contrato_Modelo->AgregarItem($this->input->post('id_contrato'),$this->input->post('item')) == 1){
+            echo json_encode($this->Contrato_Modelo->AprobarProceso($campos));
         }else{
-            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+            $resp=array('opcion'=>'2','mensaje'=>'Error al agregar partida');
+            echo json_encode($resp);
         }
+    }else{
+        echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
     }
+}
 
     function RechazarContrato(){
         if ($this->input->is_ajax_request()){
@@ -85,7 +85,12 @@ class cFinanciero extends CI_Controller{
     }
     
     function Deshacer(){
-        
+        if ($this->input->is_ajax_request()){
+            if(!empty($this->input->post('id_contrato')) == true)
+               echo json_encode($this->Contrato_Modelo->DeshacerProceso($this->input->post('id_contrato'), 12));
+        }else{
+            echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
+        }
     }
 
 }
