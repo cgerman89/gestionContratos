@@ -75,6 +75,7 @@ class cTalento_humano extends CI_Controller{
                    'p_fecha_finaliza'=>$this->input->post('fecha_finaliza'),
                    'p_id_titulo'=>$this->input->post('id_titulo'),
                    'p_id_departamento'=>$this->input->post('id_departamento'),
+                   'p_id_facultad'=> -10,
                    'p_id_usuario'=>$this->idusuario
                );
                echo json_encode($this->Contrato_Modelo->SaveContrato($datos));

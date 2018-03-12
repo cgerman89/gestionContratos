@@ -19,7 +19,7 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function SaveContrato($datos){
-       $res=$this->db->query('SELECT opcion, mensaje FROM esq_contrato.fnc_crear_contrato(?,?,?,?,?,?,?,?,?,?,?);',$datos);
+       $res=$this->db->query('SELECT opcion, mensaje FROM esq_contrato.fnc_crear_contrato(?,?,?,?,?,?,?,?,?,?,?,?);',$datos);
        //echo $this->db->last_query();
        return $res->row_array();
     }
@@ -194,7 +194,7 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ProcesosContrato($id_contrato){
-        $this->db->select(" v_procesos_contrato.idproceso, v_procesos_contrato.proceso, v_procesos_contrato.usuario, v_procesos_contrato.fecha, v_procesos_contrato.hora, v_procesos_contrato.observacion, v_procesos_contrato.estado ")
+        $this->db->select(" v_procesos_contrato.idproceso, v_procesos_contrato.codigo ,v_procesos_contrato.proceso, v_procesos_contrato.usuario, v_procesos_contrato.fecha, v_procesos_contrato.hora, v_procesos_contrato.observacion, v_procesos_contrato.estado ")
                  ->from(" esq_contrato.v_procesos_contrato ")
                  ->where(" v_procesos_contrato.idcontrato",$id_contrato)->order_by('v_procesos_contrato.idproceso');
         $res= $this->db->get();
@@ -264,13 +264,13 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function AprobarProceso($datos){
-        $res=$this->db->query('SELECT opcion, mensaje FROM  esq_contrato.fnc_aprobar_proceso_contrato(?,?,?);',$datos);
+        $res=$this->db->query('SELECT opcion, mensaje FROM  esq_contrato.fnc_aprobar_proceso_contrato(?,?,?,?,?);',$datos);
         //echo $this->db->last_query();
         return $res->row_array();
     }
 
     function RechazarProceso($datos){
-        $res=$this->db->query("SELECT opcion, mensaje  FROM esq_contrato.fnc_rechazar_proceso_contrato(?,?,?,?);",$datos);
+        $res=$this->db->query("SELECT opcion, mensaje  FROM esq_contrato.fnc_rechazar_proceso_contrato(?,?,?,?,?,?);",$datos);
         //echo $this->db->last_query();
         return $res->row_array();
     }
@@ -313,11 +313,10 @@ class Contrato_Modelo extends CI_Model {
         return $res->result_array();
     }
 
-    function DeshacerProceso($id_contrato,$id_rpoceso){
-        $this->db->where(" idcontrato ",$id_contrato)->where(" idtipo_proceso",$id_rpoceso);
-        $this->db->update(" esq_contrato.proceso_contrato",['idpersonal'=> -1 ,'fecha'=> null, 'hora' => null, 'observacion' => null , 'estado' => 'P' ]);
-        //echo $this->db->last_query();
-        return $this->db->affected_rows();
+    function DeshacerProceso($datos){
+         $res=$this->db->query("SELECT  esq_contrato.fnc_deshacer_proceso_contrato(?,?);",$datos);
+         //echo $this->db->last_query();
+         return $res->row_array();
     }
 
     function SavePdf($data){

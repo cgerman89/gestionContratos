@@ -77,7 +77,6 @@ $(document).ready(function () {
 
    TablaSolicitudes_th();
    TablaContratos();
-   TablaContratoFirma(-1);
    TablaContratosApb();
    TablasContratosRe();
    TablaContratosTrd();
@@ -693,12 +692,13 @@ function TablaProcesoSolicitud(id_solicitud){
            {"data":"usuario"},
            {"data":"fecha"},
            {"data":"hora"},
+           {"data":"codigo"},
            {"data":"observacion"},
            {"data":"estado"}
        ],
        "columnDefs": [
            {
-               "targets": [5],
+               "targets": [6],
                "data": "p_estdo",
                "render": function(data, type, full) {
                    if(data === 'P'){
@@ -1067,12 +1067,13 @@ function TablaProcesoContrato(id_contrato) {
             {"data":"usuario"},
             {"data":"fecha"},
             {"data":"hora"},
+            {"data":"codigo"},
             {"data":"observacion"},
             {"data":"estado"}
         ],
         "columnDefs": [
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "p_estdo",
                 "render": function(data, type, full) {
                     if (data === 'P') {

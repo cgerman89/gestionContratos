@@ -31,7 +31,7 @@ class Contrato extends CI_Controller {
     function Deshacer(){
         if ($this->input->is_ajax_request()){
             if(!empty($this->input->post('id_contrato')) == true)
-                echo json_encode($this->Contrato_Modelo->DeshacerProceso($this->input->post('id_contrato'),11));
+                echo json_encode($this->Contrato_Modelo->DeshacerProceso([$this->input->post('id_contrato'),11]));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
@@ -78,7 +78,9 @@ class Contrato extends CI_Controller {
             $campos= array(
                 'id_contrato'=>$this->input->post('id_contrato'),
                 'id_personal'=>$this->session->userdata('id_personal'),
-                'proceso'=>11
+                'proceso'=>11,
+                'p_id_aprobacion'=>11,
+                'p_id_facultad'=>$this->session->userdata('id_facultad')
             );
             echo json_encode($this->Contrato_Modelo->AprobarProceso($campos));
         }else{
@@ -92,7 +94,9 @@ class Contrato extends CI_Controller {
                 'id_contrato'=>$this->input->post('id_contrato'),
                 'id_personal'=>$this->session->userdata('id_personal'),
                 'proceso'=>11,
-                'observacion'=>$this->input->post('observacion')
+                'observacion'=>$this->input->post('observacion'),
+                'p_id_aprobacion'=>11,
+                'p_id_facultad'=>$this->session->userdata('id_facultad')
             );
             echo json_encode($this->Contrato_Modelo->RechazarProceso($campos));
         }else{

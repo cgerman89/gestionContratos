@@ -279,8 +279,9 @@ function DeshacerProceso(id_solicitud,aspirante) {
             }).then(function () {
                 $.post("cTalento_humano_as/Deshacer",{'id_solicitud':id_solicitud},function(data){
                     if(data == 1){
+                        $('#cbodepartamentoaproth').val('-2').trigger('change.select2');
+                        $('#tblLisAspPorAproTH').DataTable().ajax.reload();
                         $('#tblLisAspFluProc').DataTable().ajax.reload();
-                        $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
                         toastr.info('Se Realizo Correctamente !!!');
                     }else if( data == 0){
                         toastr.error('No Se Realizo Correctamente !!!');
@@ -309,12 +310,10 @@ function Aprobrar_th(idsolicitud,aspirante) {
         confirmButtonText: 'Si'
     }).then(function () {
         $.post("cTalento_humano_as/AprobarSolicitud_th",{'Id_sol_contratoTH':idsolicitud},function(data){
-               if(data.fnc_aprobar_recursos_humano ==='OK'){
-                   toastr.info('Solicitud de: '+aspirante+' '+data.fnc_aprobar_recursos_humano);
+               if(data.fnc_aprobar_proceso_solicitud ==='OK'){
+                   toastr.info('Aprobada Correctamente !!!');
                    $('#tblLisAspPorAproTH').DataTable().ajax.reload();
                    $('#tblLisAspFluProc').DataTable().ajax.reload();
-                   //CargarListaSolicitud_th();
-                   //CargarAprobadas_th();
                }
         },'json');
     },function (dismiss){});
@@ -351,14 +350,13 @@ function rechazar_talento_humano(IdSolContrato, aspirante){
     }).then(function (observacion) {
         $.post("cTalento_humano_as/RechazarSolicitudTalentoHumano",{Id_sol_contrato:IdSolContrato,observa:observacion},function(data,estado){
             if (estado === 'success'){
-                if (data.fnc_rechazar_solicitud_talento_humano === 'OK') {
-                    toastr.info('Solicitud de: '+aspirante+' rechazada correctamente.');
+                if (data.fnc_rechazar_proceso_solicitud === 'OK') {
+                    toastr.info('Realizado Correctamente.!!!');
                     $('#tblLisAspPorAproTH').DataTable().ajax.reload();
                     $('#tblLisAspFluProc').DataTable().ajax.reload();
                     $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
                 }
             }
-
         },'json');
     });
 }
@@ -394,12 +392,13 @@ function ProcesosSolicitudContrato(IdSolicitudContrato){
             {"data":"usuario"},
             {"data":"fecha"},
             {"data":"hora"},
+            {"data":"codigo"},
             {"data":"observacion"},
             {"data":"estado"}
         ],
         "columnDefs": [
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "p_estdo",
                 "render": function(data, type, full) {
                     if(data === 'P'){
@@ -413,7 +412,58 @@ function ProcesosSolicitudContrato(IdSolicitudContrato){
             }
         ]
     });
-
+    $('#tabla_procesos_contrato').DataTable({
+        "destroy":true,
+        "paging": false,
+        "searching": false,
+        "ordering":  false,
+        "info":false,
+        "autoWidth":true,
+        "orderClasses": true,
+        "responsive":true,
+        "language":{
+            "url": 'public/locales/Spanish.json'
+        },
+        "ajax":{
+            "method":"POST",
+            "url":"cRectorado/ProcesoContrato",
+            "dataType":'json',
+            "data":{'id_solicitud':IdSolicitudContrato},
+            beforeSend:function () {
+                swal({title: 'Espere...', allowOutsideClick: false, allowEnterKey: false});
+                swal.showLoading();
+            },
+            complete:function () {
+                swal.closeModal();
+            }
+        },
+        "columns":[
+            {"data":"proceso"},
+            {"data":"usuario"},
+            {"data":"fecha"},
+            {"data":"hora"},
+            {"data":"codigo"},
+            {"data":"observacion"},
+            {"data":"estado"}
+        ],
+        "columnDefs": [
+            {
+                "targets": [6],
+                "data": "estado",
+                "render": function(data, type, full) {
+                    if(data === 'P'){
+                        return '<span class="label label-warning">PENDIENTE</span>';
+                    }else if(data === 'R') {
+                        return '<span class="label label-danger">RECHAZADO</span>';
+                    }else if (data === 'T'){
+                        return '<span class="label label-success">TERMINADO</span>';
+                    }else if (data === 'A'){
+                        return '<span class="label label-info">ACEPTADA</span>';
+                    }
+                }
+            }
+        ]
+    });
 }
 
 

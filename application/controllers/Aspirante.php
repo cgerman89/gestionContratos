@@ -105,6 +105,7 @@ class Aspirante extends CI_Controller {
                 $campos=array(
                     'id_cordinador'=>$this->session->userdata('id_personal'),
                     'id_dpto'=>$this->session->userdata('id_dpto'),
+                    'p_id_facultad'=> $this->session->userdata('id_facultad'),
                     'id_solicitud'=>$this->input->post('tipo_solicitud'),
                     'id_puesto'=>$this->input->post('tipo_puesto'),
                     'tipo_dedicacion'=>$this->input->post('tipo_dedicacion'),
@@ -205,6 +206,14 @@ class Aspirante extends CI_Controller {
     function Grafico(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->Solicitud_Contrato_Modelo->DatosGrafico($this->session->userdata('id_dpto')));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function VerificaProceso(){
+        if ($this->input->is_ajax_request()) {
+              echo json_encode( $this->Aspirante_Modelo->VerificaEstado([$this->input->post('id_solicitud'),8]));
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }

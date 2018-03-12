@@ -28,7 +28,7 @@ class Solicitud_Contrato_Modelo extends CI_Model {
     }
 
     function SaveSolicitud($datos){
-        $res=$this->db->query("SELECT  p_opcion, p_mensaje from esq_contrato.fnc_crear_solicitud_contrato(?,?,?,?,?,?,?,?,?);",$datos);
+        $res=$this->db->query("SELECT  p_opcion, p_mensaje from esq_contrato.fnc_crear_solicitud_contrato(?,?,?,?,?,?,?,?,?,?);",$datos);
         //echo $this->db->last_query();
         return $res->row_array();
     }
@@ -225,7 +225,7 @@ class Solicitud_Contrato_Modelo extends CI_Model {
     }
 
     function EstadoProcesosSolicitud($id_solicitud){
-        $this->db->select(" v_ps.idproceso_solicitud, v_ps.proceso, v_ps.usuario, v_ps.fecha, v_ps.hora, v_ps.observacion, v_ps.estado")
+        $this->db->select(" v_ps.idproceso_solicitud, v_ps.proceso, v_ps.usuario, v_ps.fecha, v_ps.hora,v_ps.codigo , v_ps.observacion, v_ps.estado")
                  ->from("esq_contrato.v_proceso_solicitud v_ps")
                  ->where(" v_ps.id_solicitud ",$id_solicitud)->order_by(" v_ps.idproceso_solicitud");
         $res= $this->db->get();
@@ -272,7 +272,7 @@ class Solicitud_Contrato_Modelo extends CI_Model {
 
     function DeshacerProceso($id_solicitud,$id_rpoceso){
         $this->db->where(" id_solicitud ",$id_solicitud)->where(" id_tipo_aprobacion",$id_rpoceso);
-        $this->db->update(" esq_contrato.proceso_solicitud",['id_personal'=> -1 ,'fecha'=> null, 'hora' => null, 'observacion' => null , 'estado' => 'P' ]);
+        $this->db->update(" esq_contrato.proceso_solicitud",['id_personal'=> -1 ,'fecha'=> null, 'hora' => null, 'observacion' => null ,'codigo'=>'', 'estado' => 'P' ]);
         //echo $this->db->last_query();
         return $this->db->affected_rows();
     }
@@ -281,5 +281,17 @@ class Solicitud_Contrato_Modelo extends CI_Model {
         $this->db->select(" count(id_solicitud) ")->from(" esq_contrato.contrato ")->where(" contrato.id_solicitud ", $id_solicitud);
         $res= $this->db->get();
         return $res->row_array();
+    }
+
+    function AprobarSolicitud($data){
+        $res=$this->db->query('SELECT esq_contrato.fnc_aprobar_proceso_solicitud(?,?,?,?);',$data);
+        //echo $this->db->last_query();
+        return $res->row();
+    }
+
+    function RechazarSolicitud($data){
+        $res=$this->db->query('SELECT esq_contrato.fnc_rechazar_proceso_solicitud(?,?,?,?,?);',$data);
+        //echo $this->db->last_query();
+        return $res->row();
     }
 }

@@ -95,7 +95,7 @@
                                </div>
                                <div class="col-sm-4">
                                    <select name="cbodepartamentoflu" id="cbodepartamentoflu" class="form-control" style="width:100%">
-                                       <option value="-1">SELECCIONE DEPARTAMENTO</option>
+                                       <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                        <option value="-3">TODOS LOS DEPARTAMENTOS</option>
                                    </select>
                                </div>
@@ -178,6 +178,7 @@
                                                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                                                             Hora Revision
                                                         </th>
+                                                        <th>Codigo</th>
                                                         <th>
                                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                                             Observacion
@@ -214,6 +215,7 @@
                                                             <i class="fa fa-clock-o" aria-hidden="true"></i>
                                                             Hora Revision
                                                         </th>
+                                                        <th>Codigo</th>
                                                         <th>
                                                             <i class="fa fa-commenting" aria-hidden="true"></i>
                                                             Observacion
@@ -242,7 +244,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <select name="cbodetoSolicitudesRechazadas" id="cbodetoSolicitudesRechazadas" class="form-control" style="width:100%">
-                                        <option value="-1">SELECCIONE DEPARTAMENTO</option>
+                                        <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                         <option value="-3">TODOS LOS DEPARTAMENTOS</option>
                                     </select>
                                 </div>

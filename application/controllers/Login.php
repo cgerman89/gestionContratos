@@ -18,7 +18,7 @@ class Login extends CI_Controller{
         if($this->session->userdata('login')=== TRUE){
                  redirect('/Home');
         }else{
-            $this->load->view('Login_bulma');
+            $this->load->view('Login');
         }
 
     }
@@ -48,7 +48,7 @@ class Login extends CI_Controller{
                  $datos = array('p_usuario' => $usuario,'p_clave' => $clave);
                  $login_user = $this->Login_model->Login_User($datos);
                  if ($login_user['p_opcion'] == '1'){
-                     if(($login_user['p_t_usuario'] ==='19')||($login_user['p_t_usuario'] ==='12') || ($login_user['p_t_usuario'] ==='50')){
+                     if(($login_user['p_t_usuario'] ==='19')||($login_user['p_t_usuario'] ==='12') || ($login_user['p_t_usuario'] ==='50') || ($login_user['p_t_usuario'] ==='49')){
                          $dp=$this->Login_model->Departamento($login_user['p_cedula']);
                          $info_rol['id_dpto']=$dp['iddepartamento'];
                          $info_rol['id_facultad']=$dp['idfacultad'];

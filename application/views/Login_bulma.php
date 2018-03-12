@@ -12,20 +12,18 @@
     <link rel="stylesheet" href="<?php base_url()?>public/css/toastr.css">
 </head>
 <body>
-<section class="hero  is-fullheight">
+<section class="hero is-light is-fullheight">
+    <figure class="avatar">
+        <img src="<?php base_url();?>public/img/lista2_2.png" alt="sistema de contratos">
+    </figure>
     <div class="hero-body" id="app_login">
         <div class="container has-text-centered">
             <div class="column is-4 is-offset-4">
-                <div class="box">
-                    <figure class="avatar">
-                        <img src="<?php base_url();?>public/img/lista2_2.png" alt="sistema de contratos">
-                    </figure>
-                    <h3 class="title has-text-grey"><b>S</b>istema <b>T</b>alento <b>H</b>umano</h3>
-                    <p class="subtitle has-text-grey">Ingrese su usuario.</p>
+                <div class="">
                     <form>
                         <div class="field">
                             <p class="control has-icons-left has-icons-right">
-                                <input id="txt_usuario" name="txt_usuario"  v-model="usuario" class="input is-primary is-medium" type="text" placeholder="Usuario">
+                                <input id="txt_usuario" name="txt_usuario" autofocus  v-model="usuario" class="input is-primary is-medium" type="text" placeholder="Usuario">
                                 <span class="icon is-small is-left">
                                     <i class="fa fa-user"></i>
                                 </span>

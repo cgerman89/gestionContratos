@@ -280,28 +280,34 @@ $(document).ready(function () {
     tabla_solicitud.on("click","a.EditarSolicitud",function () {
         let datos = tabla_solicitud.DataTable().row($(this).parents("tr")).data();
         //console.log(datos);
-        if ((datos.estado !== 'R') && (datos.estado !== 'E') && (datos.estado !== 'A')) {
-            id_solicitud_ctr.val(datos.id_solicitud_contrato);
-            txt_id_personal.val(datos.id_personal);
-            n_documento_sl_ctr.val(datos.cedula_aspirante);
-            nombres_sl_ctr.val(datos.aspirante);
-            fecha_sl_ctr.datepicker('update', datos.fecha_solicitud);
-            departamento_sl_ctr.val(datos.departamento);
-            DatosSolicitud(datos.id_solicitud_contrato, function (resp) {
-                console.log(resp);
-                tipo_observacion_sl.val(resp.id_observacion).prop('selected', 'selected');
-                tipo_contrato_sl_ctr.val(resp.id_tipo_solicitud).prop('selected', 'selected');
-                if (datos.t_contrato === 'ADMINISTRATIVO') {
-                    puesto_admin.val(resp.id_puesto).prop('selected', 'selected');
-                } else if (datos.t_contrato === 'DOCENTE') {
-                    tipo_dedicacion_docente.val(resp.id_dedicacion).prop('selected', 'selected');
-                }
-                Mostrar_Form(resp.id_tipo_solicitud);
-            });
-            modal_solicitud_contrato_asp.modal('show');
-        }else{
-          toastr.error('Error No Se Puede Modificar Registro');
-        }
+        VerificaEditarSolicitud(datos.id_solicitud_contrato,function (res) {
+                if(res.num === '1')
+                        if ((datos.estado !== 'R') && (datos.estado !== 'E') && (datos.estado !== 'A')) {
+                            id_solicitud_ctr.val(datos.id_solicitud_contrato);
+                            txt_id_personal.val(datos.id_personal);
+                            n_documento_sl_ctr.val(datos.cedula_aspirante);
+                            nombres_sl_ctr.val(datos.aspirante);
+                            fecha_sl_ctr.datepicker('update', datos.fecha_solicitud);
+                            departamento_sl_ctr.val(datos.departamento);
+                            DatosSolicitud(datos.id_solicitud_contrato, function (resp) {
+                                console.log(resp);
+                                tipo_observacion_sl.val(resp.id_observacion).prop('selected', 'selected');
+                                tipo_contrato_sl_ctr.val(resp.id_tipo_solicitud).prop('selected', 'selected');
+                                if (datos.t_contrato === 'ADMINISTRATIVO') {
+                                    puesto_admin.val(resp.id_puesto).prop('selected', 'selected');
+                                } else if (datos.t_contrato === 'DOCENTE') {
+                                    tipo_dedicacion_docente.val(resp.id_dedicacion).prop('selected', 'selected');
+                                }
+                                Mostrar_Form(resp.id_tipo_solicitud);
+                            });
+                            modal_solicitud_contrato_asp.modal('show');
+                        }else{
+                            toastr.error('Error No Se Puede Modificar Registro');
+                        }
+                 else
+                    toastr.error('Opcion no disponible');
+        });
+
     });
 });
 //funciones
@@ -310,6 +316,12 @@ function Mayus(campo) {
     $(campo).keyup(function () {
         $(this).val($(campo).val().toUpperCase())
     });
+}
+
+function VerificaEditarSolicitud(id_solicitud,callback){
+    $.post('Aspirante/VerificaProceso',{'id_solicitud':id_solicitud},function (data) {
+          callback(data);
+    },'json');
 }
 
 function SaveRegistroAspirante(form,callback) {
@@ -697,12 +709,13 @@ function Tabla_ProcesoSolicitud(id_solicitud) {
             {"data":"usuario"},
             {"data":"fecha"},
             {"data":"hora"},
+            {"data":"codigo"},
             {"data":"observacion"},
             {"data":"estado"}
         ],
         "columnDefs": [
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "estado",
                 "render": function(data, type, full) {
                     if(data === 'P'){
@@ -748,12 +761,13 @@ function Tabla_ProcesoContrato(id_solicitud){
            {"data":"usuario"},
            {"data":"fecha"},
            {"data":"hora"},
+           {"data":"codigo"},
            {"data":"observacion"},
            {"data":"estado"}
        ],
        "columnDefs": [
            {
-               "targets": [5],
+               "targets": [6],
                "data": "p_estdo",
                "render": function(data, type, full) {
                    if(data === 'P'){

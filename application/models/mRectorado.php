@@ -112,17 +112,7 @@ class mRectorado extends CI_Model {
         return $r->result();
     }
 
-    public function AprobarSolicitud($data){
-        $res=$this->db->query('SELECT esq_contrato.fnc_aprobar_rector(?,?);',$data);
-        //echo $this->db->last_query();
-        return $res->row();
-    }
 
-    public function RechazarSolicitud($data){
-        $res=$this->db->query('SELECT esq_contrato.fnc_rechazar_solicitud_rector(?,?,?);',$data);
-        //echo $this->db->last_query();
-        return $res->row();
-    }
 
     public function RegistrosProcesosSolicitud($id_solicitud){
         $res=$this->db->query('SELECT p_id_proceso_solicitud,p_proceso,p_usuario,p_fecha,p_hora,p_observacion,p_estado FROM  esq_contrato.fnc_listar_procesos_solicitud(?);',$id_solicitud);

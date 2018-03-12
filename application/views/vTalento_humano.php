@@ -770,6 +770,7 @@
                                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                                     Hora Revision
                                 </th>
+                                <th>Codigo</th>
                                 <th>
                                     <i class="fa fa-commenting" aria-hidden="true"></i>
                                     Observacion
@@ -817,6 +818,7 @@
                                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                                     Hora Revision
                                 </th>
+                                <th>Codigo</th>
                                 <th>
                                     <i class="fa fa-commenting" aria-hidden="true"></i>
                                     Observacion

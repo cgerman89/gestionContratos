@@ -60,7 +60,7 @@ $(document).ready(function(){
                                 let idAspAp = $('.idAspApro:eq('+indiceFila+')').prop('id');
                                 console.log("idaspap "+idAspAp);
                                 Aprueba_rector_masivamente(idAspAp,function (datos) {
-                                    if(datos.fnc_aprobar_rector === "OK"){
+                                    if(datos.fnc_aprobar_proceso_solicitud === "OK"){
                                         cont++;
                                     }
                                 });
@@ -147,6 +147,7 @@ function DeshacerProceso(id_solicitud,aspirante,estado_apro_rh){
         }).then(function () {
             $.post("cRectorado/Deshacer",{'id_solicitud':id_solicitud},function(data){
                 if(data == 1){
+                    $('#tblLisAspPorApro').DataTable().ajax.reload();
                     $('#tblLisAspFluProc').DataTable().ajax.reload();
                     $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
                     toastr.info('Se Realizo Correctamente !!!');
@@ -406,17 +407,18 @@ ProcesosSolicitudContrato = function(IdSolicitudContrato){
             }
         },
         "columns":[
-            {"data":"p_proceso"},
-            {"data":"p_usuario"},
-            {"data":"p_fecha"},
-            {"data":"p_hora"},
-            {"data":"p_observacion"},
-            {"data":"p_estado"}
+            {"data":"proceso"},
+            {"data":"usuario"},
+            {"data":"fecha"},
+            {"data":"hora"},
+            {"data":"codigo"},
+            {"data":"observacion"},
+            {"data":"estado"}
         ],
         "columnDefs": [
             {
-                "targets": [5],
-                "data": "p_estdo",
+                "targets": [6],
+                "data": "estdo",
                 "render": function(data, type, full) {
                     if(data === 'P'){
                         return '<span class="label label-warning">PENDIENTE</span>';
@@ -460,12 +462,13 @@ ProcesosSolicitudContrato = function(IdSolicitudContrato){
             {"data":"usuario"},
             {"data":"fecha"},
             {"data":"hora"},
+            {"data":"codigo"},
             {"data":"observacion"},
             {"data":"estado"}
         ],
         "columnDefs": [
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "estado",
                 "render": function(data, type, full) {
                     if(data === 'P'){
@@ -498,7 +501,7 @@ Aprueba_rector = function(IdSolContrato,aspirante){
     }).then(function () {
         $.post("cRectorado/AprobarSolicitud",{Id_sol_contrato:IdSolContrato},function(data){
                 var res=JSON.parse(data);
-                if (res.fnc_aprobar_rector === 'OK') {
+                if (res.fnc_aprobar_proceso_solicitud === 'OK') {
                     toastr.info('Aprobada correctamente !!!');
                     $('#tblLisAspPorApro').DataTable().ajax.reload();
                     $('#tblLisAspFluProc').DataTable().ajax.reload();
@@ -547,8 +550,8 @@ rechazar_rector = function(IdSolContrato, aspirante){
     }).then(function (observacion) {
         $.post("cRectorado/RechazarSolicitud",{Id_sol_contrato:IdSolContrato,observa:observacion},function(data){
              let res=JSON.parse(data);
-             if (res.fnc_rechazar_solicitud_rector === 'OK') {
-                toastr.info('Solicitud de: '+aspirante+' rechazada correctamente.');
+             if (res.fnc_rechazar_proceso_solicitud === 'OK') {
+                toastr.info('Se Realizo Correctamente !!!');
                 $('#tblLisAspPorApro').DataTable().ajax.reload();
                 $('#tblSolicitudesRechazadas').DataTable().ajax.reload();
              }

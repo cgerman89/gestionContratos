@@ -107,4 +107,10 @@ class Aspirante_Modelo extends CI_Model {
         }
         return $res;
     }
+
+    function VerificaEstado($datos){
+        $res=$this->db->query("SELECT count(*) as num  FROM esq_contrato.proceso_solicitud WHERE id_solicitud=? AND id_tipo_aprobacion=? AND estado='P' ;",$datos);
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
 }

@@ -19,7 +19,7 @@ class cRectorado extends CI_Controller{
         $this->idusuario=$this->session->userdata('id_personal');
     }
 
-    public function index(){
+    function index(){
         if($this->session->userdata('login')=== TRUE){
             if($this->session->userdata('id_tipo_usuario') === '12') {
                 $this->load->view('template/head');
@@ -34,7 +34,7 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function ListaAprobarRectorDepto(){
+    function ListaAprobarRectorDepto(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') ==='-3'){
                 echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRectorAll('P'));
@@ -46,7 +46,7 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function ListarFlujosProcesosDpto(){
+    function ListarFlujosProcesosDpto(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') ==='-3'){
                 echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRectorAll('A'));
@@ -58,7 +58,7 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function GetListadoDepartamentos(){
+    function GetListadoDepartamentos(){
         if ($this->input->is_ajax_request()) {
             echo json_encode($this->mRectorado->getListadoDepartamentos());
         }else{
@@ -66,36 +66,40 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function AprobarSolicitud(){
-        if ($this->input->is_ajax_request()) {
-            $campos = array(
-                'idSolcontrato' => $this->input->post('Id_sol_contrato'),
-                'idpersonal' => $this->idusuario
-            );
-            $res = $this->mRectorado->AprobarSolicitud($campos);
-            echo json_encode($res);
-        }else{
-            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
-        }
-    }
-
-    public function RechazarSolicitud(){
+    function AprobarSolicitud(){
         if ($this->input->is_ajax_request()) {
             $campos = array(
                 'idSolcontrato' => $this->input->post('Id_sol_contrato'),
                 'idpersonal' => $this->idusuario,
-                'observacion' => $this->input->post('observa')
+                'p_id_aprobacion'=> 8,
+                'p_id_facultad'=>$this->session->userdata('id_facultad')
             );
-            $res = $this->mRectorado->RechazarSolicitud($campos);
+            $res = $this->Solicitud_Contrato_Modelo->AprobarSolicitud($campos);
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
-    public function ListarProcesosSolicitud(){
+    function RechazarSolicitud(){
+        if ($this->input->is_ajax_request()) {
+            $campos = array(
+                'idSolcontrato' => $this->input->post('Id_sol_contrato'),
+                'idpersonal' => $this->idusuario,
+                'observacion' => $this->input->post('observa'),
+                'p_id_aprobacion' => 8,
+                'p_id_facultad' => $this->session->userdata('id_facultad')
+            );
+            $res = $this->Solicitud_Contrato_Modelo->RechazarSolicitud($campos);
+            echo json_encode($res);
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function ListarProcesosSolicitud(){
         if ($this->input->is_ajax_request()){
-            $res=$this->mRectorado->RegistrosProcesosSolicitud($this->input->post('id_solicitud'));
+            $res=$this->Solicitud_Contrato_Modelo->EstadoProcesosSolicitud($this->input->post('id_solicitud'));
             echo json_encode($res);
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
@@ -115,7 +119,7 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function SolicitudesRechazadas(){
+    function SolicitudesRechazadas(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') ==='-3'){
                echo json_encode($this->Solicitud_Contrato_Modelo->SolicitudRechazadasAll('v_sc.estado_apro_rec'));
@@ -136,12 +140,12 @@ class cRectorado extends CI_Controller{
         }
     }
 
-    public function Hoja_Vida(){
+    function Hoja_Vida(){
         $id=$_GET['id'];
         Carga_pdf::Hoja_Vida($id);
     }
 
-    public function foto(){
+    function foto(){
         $id = $_GET['id'];
         $res = $this->mRectorado->Hoja_vida($id);
         foreach ($res as $row) {

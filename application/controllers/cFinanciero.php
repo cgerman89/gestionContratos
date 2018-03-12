@@ -57,7 +57,9 @@ class cFinanciero extends CI_Controller{
         $campos= array(
             'id_contrato'=>$this->input->post('id_contrato'),
             'id_personal'=>$this->session->userdata('id_personal'),
-            'proceso'=>12
+            'proceso'=>12,
+            'p_id_aprobacion'=>12,
+            'p_id_facultad'=>$this->session->userdata('id_facultad')
         );
         if( $this->Contrato_Modelo->AgregarItem($this->input->post('id_contrato'),$this->input->post('item')) == 1){
             echo json_encode($this->Contrato_Modelo->AprobarProceso($campos));
