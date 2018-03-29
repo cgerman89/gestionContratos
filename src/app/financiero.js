@@ -59,7 +59,8 @@ $(document).ready(function(){
                         if ($('.checkboxstabla:eq('+indiceFila+')').prop('checked')) {
                                 let id_ctr_apb = $('.id_ctr_apb:eq('+indiceFila+')').prop('id');
                                 console.log("id_ctr_apb "+id_ctr_apb);
-                                AprobarContratoAll(id_ctr_apb,item,function (resp) {
+                                let data = tabla_contratos_fn.DataTable().row( $(this).parents("tr") ).data();
+                                AprobarContratoAll(id_ctr_apb,item,data.p_510510,data.p_510203,data.p_510204,data.p_510601,data.p_510602,data.total_masa_salarial,function (resp) {
                                     if (resp.opcion === '1') {
                                         exito++;
                                     }else if (resp.opcion === '2'){
@@ -130,6 +131,11 @@ $(document).ready(function(){
       
     });
 
+    tabla_contratos_fn.on("click","a.aprobar",function () {
+        let data = tabla_contratos_fn.DataTable().row( $(this).parents("tr") ).data();
+            AprobarContrato(data.id_contrato,data.aspirante,data.p_510510,data.p_510203,data.p_510204,data.p_510601,data.p_510602,data.total_masa_salarial);
+    });
+
 });
 //funciones
 function Mayus(campo) {
@@ -155,7 +161,7 @@ function Meses(fecha_final,fecha_inicial) {
     }
 }
 
-function AprobarContrato(id_contrato,aspirante){
+function AprobarContrato(id_contrato,aspirante,p_510510,p_510203,p_510204,p_510601,p_510602,total_masa_salarial){
     swal({
         html: 'Ingrese Item Presupuestario para: <br> <b>'+aspirante+'</b> ',
         input: 'text',
@@ -183,7 +189,17 @@ function AprobarContrato(id_contrato,aspirante){
             })
         }
     }).then(function (item) {
-        $.post("cFinanciero/AprobarContrato",{'id_contrato':id_contrato,'item':item},function(data){
+        $.post("cFinanciero/AprobarFn",
+            {'id_contrato':id_contrato,
+             'item':item,
+             'p_510510':p_510510,
+             'p_510203':p_510203,
+             'p_510204':p_510204,
+             'p_510601':p_510601,
+             'p_510602':p_510602,
+             't_m_salarial':total_masa_salarial
+            }
+            ,function(data){
             if (data.opcion === '1') {
                 toastr.info(data.mensaje);
                 $('#tabla_contratos_fn').DataTable().ajax.reload();
@@ -195,9 +211,8 @@ function AprobarContrato(id_contrato,aspirante){
     },function (dismiss){});
 }
 
-function DeshacerProceso(id_contrato,aspirante,estado_firma) {
-     if(estado_firma === 'P'){
-         swal({
+function DeshacerProceso(id_contrato,aspirante) {
+        swal({
              title: 'Deshacer Proceso!',
              html: "El PROCESO <span> DE: <b>"+aspirante+" </b></span> VOLVERA A PENDIENTE",
              type: 'warning',
@@ -209,26 +224,30 @@ function DeshacerProceso(id_contrato,aspirante,estado_firma) {
              confirmButtonText: 'Si'
          }).then(function () {
              $.post("cFinanciero/Deshacer",{'id_contrato':id_contrato},function(data){
-                 if(data == 1){
-                     $('#tabla_contratos_apb').DataTable().ajax.reload();
-                     $('#tabla_contratos_fn_re').DataTable().ajax.reload();
-                     toastr.info('Se Realizo Correctamente !!!');
-                 }else if( data == 0){
-                     toastr.info('Se Realizo Correctamente !!!');
-                 }
-
+                 $('#tabla_contratos_fn').DataTable().ajax.reload();
+                 $('#tabla_contratos_apb').DataTable().ajax.reload();
+                 $('#tabla_contratos_fn_re').DataTable().ajax.reload();
+                 toastr.info(data.fnc_deshacer_proceso_contrato);
              },'json');
          },function (dismiss){});
-     }else {
-         toastr.error('OPCION NO DISPONIBLE');
-     }
+
+
 }
 
-function AprobarContratoAll(id_contrato,item,callback){
-    $.post("cFinanciero/AprobarContrato",{'id_contrato':id_contrato,'item':item},function(estado,data){
+function AprobarContratoAll(id_contrato,item,p_510510,p_510203,p_510204,p_510601,p_510602,total_masa_salarial,callback){
+    $.post("cFinanciero/AprobarFn",
+        {'id_contrato':id_contrato,
+         'item':item,
+         'p_510510':p_510510,
+         'p_510203':p_510203,
+         'p_510204':p_510204,
+         'p_510601':p_510601,
+         'p_510602':p_510602,
+         't_m_salarial':total_masa_salarial
+        },function(estado,data){
          if (estado === 'success') {
             callback(data);
-        }
+         }
     },'json');
 }
 
@@ -326,7 +345,7 @@ function TablaContratos(id_dpto){
             {"data":"codigo","width":"9%"},
             {"data":"modalidad_laboral","width":"10%"},
             {"data":"pais"},
-            {"data":null,"width":"30%"},
+            {"data":null,"width":"20%"},
             {"data":"tipo","width":"9%"},
             {"data":"deominacion","width":"20%"},
             {"data":"remuneracion","width":"11%"},
@@ -359,7 +378,7 @@ function TablaContratos(id_dpto){
             },        
             {   "targets": [17],
                 "render": function(data,row) {
-                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li> <a href="#" onclick="AprobarContrato('+data.id_contrato+',\''+data.aspirante+'\')"><span  class="text-bold"> <i class="fas fa-check"></i> &nbsp; Aprobar </span></a> </li> <li> <a href="#" onclick="RechazarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fas fa-times"></i> &nbsp; Rechazar </span> </a> </li>  </ul></div></span>';
+                    return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">   <li> <a href="#" class="aprobar" ><span  class="text-bold"> <i class="fas fa-check"></i> &nbsp; Aprobar </span></a> </li> <li> <a href="#" onclick="RechazarContrato('+data.id_contrato+',\''+data.aspirante+'\')"> <span class="text-bold"> <i class="fas fa-times"></i> &nbsp; Rechazar </span> </a> </li>  </ul></div></span>';
                 }
             }
         ],      
@@ -412,13 +431,14 @@ function TablaContratosApb(id_dpto){
         "scrollCollapse":false,
         "scrollX": true,
         "responsive":true,
+        "paging": false,
         "lengthMenu":[[5, 10, 20, 25, 50, -1], [5, 10, 20, 25, 50, "Todos"]],
         "language":{
             "url": 'public/locales/Spanish.json'
         },
         "ajax":{
             "method":"POST",
-            "url":"cFinanciero/ListaContratos",
+            "url":"cFinanciero/ContratosApb",
             "data":{'id_dpto':id_dpto,'estado':'A'},
             beforeSend:function () {
                 swal({title: 'espere...', allowOutsideClick: false, allowEnterKey: false});
@@ -429,15 +449,15 @@ function TablaContratosApb(id_dpto){
             }
         },
         "columns":[
-            {"data":"codigo","width":"9%"},
-            {"data":"modalidad_laboral","width":"10%"},
+            {"data":"codigo","width":"7%"},
+            {"data":"modalidad_laboral","width":"15%"},
             {"data":"pais"},
             {"data":null,"width":"20%"},
             {"data":"tipo","width":"9%"},
             {"data":"deominacion","width":"20%"},
-            {"data":"remuneracion","width":"11%"},
-            {"data":"fecha_inicio","width":"11%"},
-            {"data":"fecha_finaliza","width":"11%"},
+            {"data":"remuneracion","width":"9%"},
+            {"data":"fecha_inicio","width":"10%"},
+            {"data":"fecha_finaliza","width":"10%"},
             {"data":"meses"},
             {"data":"p_510510"},
             {"data":"p_510203"},
@@ -457,7 +477,7 @@ function TablaContratosApb(id_dpto){
         },  
         {   "targets": [17],
             "render": function(data,row) {
-                return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li> <li> <a href="#"  onclick="DeshacerProceso('+data.id_contrato+',\''+data.aspirante+'\',\''+data.estado_firma+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
+                return '<span class="pull-left"><div class="dropdown"><button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-list"></i><span class="caret"></span></button><ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1"> <li><a href="#" onclick="TablaProcesoContrato('+data.id_contrato+')" data-toggle="modal" data-target="#md_contrato_proceso"> <span class="text-bold"><i class="fas fa-eye"></i>&nbsp; Ver Proceso </span> </a></li> <li> <a href="#"  onclick="DeshacerProceso('+data.id_contrato+',\''+data.aspirante+'\')"> <span  class="text-bold"> <i class="fas fa-sync-alt"></i> &nbsp; Deshacer Proceso  </span> </a> </li>  </ul></div></span>';
             }
         }
     ]    
@@ -489,15 +509,15 @@ function TablaContratosRe(id_dpto){
             }
         },
         "columns":[
-            {"data":"codigo","width":"9%"},
-            {"data":"modalidad_laboral","width":"10%"},
+            {"data":"codigo","width":"7%"},
+            {"data":"modalidad_laboral","width":"15%"},
             {"data":"pais"},
             {"data":null,"width":"20%"},
             {"data":"tipo","width":"9%"},
             {"data":"deominacion","width":"20%"},
-            {"data":"remuneracion","width":"11%"},
-            {"data":"fecha_inicio","width":"11%"},
-            {"data":"fecha_finaliza","width":"11%"},
+            {"data":"remuneracion","width":"9%"},
+            {"data":"fecha_inicio","width":"10%"},
+            {"data":"fecha_finaliza","width":"10%"},
             {"data":"meses"},
             {"data":"p_510510"},
             {"data":"p_510203"},
@@ -553,12 +573,13 @@ function TablaProcesoContrato(id_contrato) {
             {"data":"usuario"},
             {"data":"fecha"},
             {"data":"hora"},
+            {"data":"codigo"},
             {"data":"observacion"},
             {"data":"estado"}
         ],
         "columnDefs": [
             {
-                "targets": [5],
+                "targets": [6],
                 "data": "p_estdo",
                 "render": function(data, type, full) {
                     if(data === 'P'){

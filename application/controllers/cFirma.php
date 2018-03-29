@@ -12,8 +12,6 @@ class cFirma extends CI_Controller {
         parent::__construct();
         $this->load->model('Contrato_Modelo');
         $this->load->model('Perfil_model');
-
-
     }
 
     function index(){
@@ -34,23 +32,32 @@ class cFirma extends CI_Controller {
     function ListarContratos(){
         if ($this->input->is_ajax_request()){
             if($this->input->post('id_dpto') === '-3' ){
-                echo json_encode($this->Contrato_Modelo->ListarContrtosAll('v_contrato.estado_firma',$this->input->post('estado')));
+                echo json_encode($this->Contrato_Modelo->ListarContratos_firma_All($this->input->post('estado')));
             }else{
-                echo json_encode($this->Contrato_Modelo->ListarContrtos($this->input->post('id_dpto'),'v_contrato.estado_firma',$this->input->post('estado')));
+                echo json_encode($this->Contrato_Modelo->ListarContratos_firma($this->input->post('id_dpto'),$this->input->post('estado')));
             }
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }
     }
 
-    function Aprobar_Proceso_Firma(){
+    function ListarContratos_rzd(){
         if ($this->input->is_ajax_request()){
-            $campos= array(
-                'id_contrato'=>$this->input->post('id_contrato'),
-                'id_personal'=>$this->session->userdata('id_personal'),
-                'proceso'=>71
-            );
-            echo json_encode($this->Contrato_Modelo->AprobarProceso($campos));
+            if($this->input->post('id_dpto') === '-3' ){
+                echo json_encode($this->Contrato_Modelo->ListarContratos_redz_All('v_contrato.estado_firma',$this->input->post('estado')));
+            }else{
+                echo json_encode($this->Contrato_Modelo->ListarContratos_redz($this->input->post('id_dpto'),'v_contrato.estado_firma',$this->input->post('estado')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function Aprobar_Proceso_Firma($id_contrato){
+        if ($this->input->is_ajax_request()){
+            if(!empty($id_contrato)== true)
+                $campos= [ 'id_contrato'=>$id_contrato, 'id_personal'=>$this->session->userdata('id_personal'), 'proceso'=>71,'p_id_aprobacion'=>71, 'p_id_facultad'=> -71];
+                return $this->Contrato_Modelo->AprobarProceso($campos);
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
@@ -62,7 +69,9 @@ class cFirma extends CI_Controller {
                 'id_contrato'=>$this->input->post('id_contrato'),
                 'id_personal'=>$this->session->userdata('id_personal'),
                 'proceso'=>71,
-                'observacion'=>$this->input->post('observacion')
+                'observacion'=>$this->input->post('observacion'),
+                'p_id_aprobacion'=>71,
+                'p_id_facultad'=> -71
             );
             echo json_encode($this->Contrato_Modelo->RechazarProceso($campos));
         }else{
@@ -78,10 +87,15 @@ class cFirma extends CI_Controller {
             $this->load->library('upload', $config);
             if($this->upload->do_upload('archivo')){
                 $archivo_bin=$this->BinarioArchivo($this->upload->data('file_name'),$this->input->post('ced_asp'),$this->input->post('id_ctr'));
-                echo json_encode($this->Contrato_Modelo->SavePdf($archivo_bin));
+                $res=$this->Contrato_Modelo->SavePdf($archivo_bin);
+                if($res['p_opcion'] == 1){
+                     echo json_encode($this->Aprobar_Proceso_Firma($this->input->post('id_ctr')));
+                }else if($res['p_opcion'] == 2){
+                     echo json_encode(['opcion'=>'2','mensaje'=>$res['p_mensaje']]);
+                }
             }else{
-                $res= array('mensaje'=>$this->upload->display_errors(),'opcion'=>2);
-                echo json_encode($res);
+                $res= ['mensaje'=>$this->upload->display_errors(),'opcion'=>'2'];
+                return $res;
             }
 
         }else{
@@ -104,7 +118,7 @@ class cFirma extends CI_Controller {
             $campos= array(
                 'nombre'=>$idpersona.'_'.$nombre_archivo,
                 'descripcion'=>$idpersona.'_'.$nombre_archivo,
-                'archivo_bin'=>mb_convert_encoding($v_fichero_buffer,"LATIN1"),
+                'archivo_bin'=>pg_escape_bytea($v_fichero_buffer),
                 'archivo_mime'=>$archivo_mime,
                 'archivo_tamanio'=>$archivo_size,
                 'fecha' => $dt->toDateString(),
@@ -115,33 +129,28 @@ class cFirma extends CI_Controller {
 
     }
 
-    function EliminarPdf(){
-        if ($this->input->is_ajax_request()) {
-            if(!empty($this->input->post('id_ctr'))==true)
-                 echo json_encode($this->Contrato_Modelo->DeletePdf($this->input->post('id_ctr')));
-        }else{
-            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
-        }
-    }
-
     function Deshacer(){
         if ($this->input->is_ajax_request()){
             if(!empty($this->input->post('id_contrato')) == true)
-                echo json_encode($this->Contrato_Modelo->DeshacerProceso($this->input->post('id_contrato'), 71));
+                echo json_encode($this->Contrato_Modelo->DeshacerProceso([$this->input->post('id_contrato'), 71]));
         }else{
             echo show_error('No Tiene Acceso a Esta Url','403', $heading = 'Error de Acceso');
         }
     }
 
     function LeerPdf(){
-        if(empty($_GET['id_ctr'])!==true)
-             $res = $this->Contrato_Modelo-> GetPdf($_GET['id_ctr']);
-             $pdf = pg_unescape_bytea($res['archivo_bin']);
-             header('Content-type: application/pdf');
-             header('Content-Disposition: inline; filename="'.$res['nombre'].'"');
-             header('Content-Transfer-Encoding: binary');
-             header("Content-length:".$res['archivo_tamanio']);
-             header('Accept-Ranges: bytes');
-             readfile($pdf);
+        if(empty($_GET['id_ctr'])!==true) {
+             $res = $this->Contrato_Modelo->GetPdf($_GET['id_ctr']);
+             $file = pg_unescape_bytea($res['archivo_bytea']);
+             header("Cache-control: private");
+             header("Content-type:".$res['archivo_mime']);
+             header("Content-Disposition: inline; filename=".$res['nombre']);
+             header("Content-length:". $res['archivo_tamanio']);
+             header("Expires: ".gmdate("D, d M Y H:i:s", mktime(date("H")+2, date("i"), date("s"), date("m"), date("d"), date("Y")))." GMT");
+             header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
+             header("Cache-Control: no-cache, must-revalidate");
+             header("Pragma: no-cache");
+             print $file;
+        }
     }
 }

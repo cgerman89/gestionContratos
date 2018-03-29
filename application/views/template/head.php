@@ -105,5 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php if($this->uri->segment(1)=='cFirma') {?>
         <script src="<?php echo base_url();?>src/app/firmar_ctr.js"></script>
     <?php }?>
+    <?php if($this->uri->segment(1)=='cImprimir_ctr') {?>
+        <script src="<?php echo base_url();?>src/app/Imprime_ctr.js"></script>
+    <?php }?>
+
 </head>
 

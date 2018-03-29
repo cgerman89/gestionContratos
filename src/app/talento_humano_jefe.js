@@ -7,7 +7,6 @@ $(document).ready(function () {
    const departamento_ctr_t=$('#departamento_ctr_t');
    const departamento_ctr_anu = $('#departamento_ctr_anu');
 
-
    departamento_ctr_th.select2({theme:"bootstrap"});
    departamento_ctr_apb.select2({theme:"bootstrap"});
    departamento_ctr_re.select2({theme:"bootstrap"});
@@ -42,11 +41,12 @@ $(document).ready(function () {
     departamento_ctr_re.change(function () {
         TablasContratosRe($(this).val());
     });
+
     function TablaContratos(id_dpto){
         $('#tabla_contratos_th_jefe').DataTable({
             "destroy":true,
             "autoWidth":true,
-            "scrollY": 200,
+            "scrollY": 300,
             "scrollCollapse":false,
             "scrollX": true,
             "responsive":true,
@@ -66,7 +66,7 @@ $(document).ready(function () {
                 }
             },
             "columns":[
-                {"data":"codigo"},
+                {"data":"codigo","width":"9%"},
                 {"data":null,"width":"20%"},
                 {"data":"modalidad_laboral","width":"10%"},
                 {"data":"tipo","width":"9%"},
@@ -105,7 +105,7 @@ $(document).ready(function () {
         $('#tabla_lista_contratos_apb').DataTable({
             "destroy":true,
             "autoWidth":true,
-            "scrollY": 200,
+            "scrollY": 300,
             "scrollCollapse":false,
             "scrollX": true,
             "responsive":true,
@@ -126,7 +126,7 @@ $(document).ready(function () {
                 }
             },
             "columns":[
-                {"data":"codigo","width": "7%"},
+                {"data":"codigo","width": "9%"},
                 {"data":null,"width":"20%"},
                 {"data":"modalidad_laboral","width":"10%"},
                 {"data":"tipo","width":"9%"},
@@ -166,7 +166,7 @@ $(document).ready(function () {
         $('#tabla_lista_contratos_r').DataTable({
             "destroy":true,
             "autoWidth":true,
-            "scrollY": 200,
+            "scrollY": 300,
             "scrollCollapse":false,
             "scrollX": true,
             "responsive":true,
@@ -187,7 +187,7 @@ $(document).ready(function () {
                 }
             },
             "columns":[
-                {"data":"codigo","width": "7%"},
+                {"data":"codigo","width": "9%"},
                 {"data":null,"width":"20%"},
                 {"data":"modalidad_laboral","width":"10%"},
                 {"data":"tipo","width":"9%"},

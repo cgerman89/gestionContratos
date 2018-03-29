@@ -56,34 +56,44 @@ $(document).ready(function () {
     btn_reporte.click(function (e) {
         e.preventDefault();
         DatosGrafico(function (data) {
-            var barras = document.getElementById("barras").getContext('2d');
-            var mybar = new Chart(barras, {
+            let barras = document.getElementById("barras").getContext('2d');
+            let mybar = new Chart(barras, {
                 type: 'bar',
                 data: {
-                    labels: ["TOTAL","DOCENTES", "ADMINISTRATIVOS", "APROBADAS", "RECHAZADAS", "ANULADAS"],
+                    labels: ["PROCESO", "APROBADA","RECHAZADA","ANULADA","TOTAL"],
                     datasets: [{
-                        label: 'SOLICITUDES DE CONTRATOS',
-                        data: [data.total,data.docentes,data.administrativos,data.aprobadas,data.rechazadas,data.anuladas],
-                        backgroundColor: [
-                            'rgba(99, 149, 236, 0.5)',
-                            'rgba(111, 227, 82, 0.5)',
-                            'rgba(243, 246, 71, 0.5)',
-                            'rgba(14, 208, 238 , 0.5)',
-                            'rgba(237, 26, 16 , 0.5)',
-                            'rgba(255, 159, 64, 0.5)'
-                        ],
-                        borderColor: [
-                            'rgba(99, 149, 236,1)',
-                            'rgba(111, 227, 82,1)',
-                            'rgba(243, 246, 71,1)',
-                            'rgba(14, 208, 238 ,1)',
-                            'rgba(237, 26, 16 ,1)',
-                            'rgba(255, 159, 64,1)'
-                        ],
+                        label: 'DOCENTES',
+                        data:  [data.proceso_docente,data.apb_docente,data.rdz_docente,data.anu_docente,data.docente],
+                        backgroundColor: 'rgba(8, 214, 80  , 0.5)',
+                        borderColor: 'rgba(8, 214, 80 ,1)',
                         borderWidth: 1
-                    }]
+                    },
+                    {
+                       label: 'ADMINISTRATIVOS',
+                       data: [data.proceso_administrativo,data.apb_administrativo,data.rdz_administrativo,data.anu_administrativo,data.administrativo],
+                       backgroundColor:'rgba(5, 116, 193, 0.5)',
+                       borderColor:'rgba(5, 116, 193,1)',
+                       borderWidth: 1
+                    }
+                    ]
                 },
                 options: {
+                    responsive:true,
+                    title: {
+                        display: true,
+                        position: "top",
+                        text: "SOLICITUDES",
+                        fontSize: 16,
+                        fontColor: "#111"
+                    },
+                    legend: {
+                        display: true,
+                        position: "bottom",
+                        labels: {
+                            fontColor: "#333",
+                            fontSize: 14
+                        }
+                    },
                    scales: {
                         yAxes: [{
                             ticks: {

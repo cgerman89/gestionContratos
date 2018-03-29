@@ -249,12 +249,18 @@ class Solicitud_Contrato_Modelo extends CI_Model {
     }
 
     function DatosGrafico($id_dpto){
-       $this->db->select("(SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND t_contrato='DOCENTE') AS docentes,
-                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND t_contrato='ADMINISTRATIVO') AS administrativos,
-                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND estado='A') AS aprobadas,
-                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND estado='R') AS rechazadas,
-                          (SELECT count(v_solicitud_contrato.id_solicitud_contrato) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=sc.id_departamento AND estado='E') AS anuladas,
-                          count(sc.id_solicitud_contrato) AS total ")->from(" esq_contrato.v_solicitud_contrato as sc ")->where("  sc.id_departamento ",$id_dpto)->group_by(" id_departamento ");
+       $this->db->select("(SELECT count(*) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=vsc.id_departamento AND  v_solicitud_contrato.t_contrato='DOCENTE') AS docente,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='P' AND v_solicitud_contrato.t_contrato='DOCENTE')as proceso_docente,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='A' AND v_solicitud_contrato.t_contrato='DOCENTE')as apb_docente,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='R' AND v_solicitud_contrato.t_contrato='DOCENTE')as rdz_docente,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='E' AND v_solicitud_contrato.t_contrato='DOCENTE')as anu_docente,
+                          (SELECT count(*) FROM esq_contrato.v_solicitud_contrato WHERE id_departamento=vsc.id_departamento AND  v_solicitud_contrato.t_contrato='ADMINISTRATIVO') AS administrativo,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='P' AND v_solicitud_contrato.t_contrato='ADMINISTRATIVO')as proceso_administrativo,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='A' AND v_solicitud_contrato.t_contrato='ADMINISTRATIVO')as apb_administrativo,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='R' AND v_solicitud_contrato.t_contrato='ADMINISTRATIVO')as rdz_administrativo,
+                          (SELECT count(*) FROM  esq_contrato.v_solicitud_contrato WHERE v_solicitud_contrato.id_departamento=vsc.id_departamento AND v_solicitud_contrato.estado='E' AND v_solicitud_contrato.t_contrato='ADMINISTRATIVO')as anu_administrativo,
+                          count(vsc.id_solicitud_contrato) AS total")
+           ->from(" esq_contrato.v_solicitud_contrato as vsc ")->where("  vsc.id_departamento ",$id_dpto)->group_by(" id_departamento ");
         $res= $this->db->get();
         //echo $this->db->last_query();
         return $res->row_array();

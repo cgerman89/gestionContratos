@@ -26,10 +26,10 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <h4 class="text-muted">CONTRATOS POR FIRMAR</h4>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <select id="departamento_ctr_firma_th"  class="form-control" style="width: 100%">
                                         <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                         <option value="-3">TODOS LOS DEPARTAMENTOS</option>
@@ -41,57 +41,19 @@
                             <table id="tabla_lista_contratos_firma" class="table small table-hover table-bordered">
                                 <thead class="bg-light-blue">
                                 <tr>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
-                                        CODIGO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
-                                        ASPIRANTE
-                                    </th>
-                                    <th>
-                                        MODALIDAD LABORAL
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
-                                        TIPO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
-                                        DENOMINACION
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
-                                        RMU
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-                                        Fecha Inicio
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-                                        Fecha Final
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-hashtag" aria-hidden="true"></i>
-                                        MESES
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;
-                                        TITULO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-building-o" aria-hidden="true"></i>
-                                        DPTO.SOLICITANTE
-                                    </th>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>
-                                        COD.SOLICITUD
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                        Accion
-                                    </th>
+                                    <th>CODIGO</th>
+                                    <th>ASPIRANTE</th>
+                                    <th>MODALIDAD LABORAL</th>
+                                    <th>TIPO</th>
+                                    <th>DENOMINACION</th>
+                                    <th>RMU</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>MESES</th>
+                                    <th>TITULO</th>
+                                    <th>DPTO.SOLICITANTE</th>
+                                    <th>COD.SOLICITUD</th>
+                                    <th>Accion</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -102,10 +64,10 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <h4 class="text-muted">CONTRATOS APROBADOS</h4>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <select id="departamento_ctr_firma_apb"  class="form-control" style="width: 100%">
                                         <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                         <option value="-3">TODOS LOS DEPARTAMENTOS</option>
@@ -117,57 +79,19 @@
                             <table id="tabla_lista_contratos_apb" class="table small table-hover table-bordered">
                                 <thead class="bg-light-blue">
                                 <tr>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
-                                        CODIGO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
-                                        ASPIRANTE
-                                    </th>
-                                    <th>
-                                        MODALIDAD LABORAL
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
-                                        TIPO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
-                                        DENOMINACION
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
-                                        RMU
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-                                        Fecha Inicio
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-                                        Fecha Final
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-hashtag" aria-hidden="true"></i>
-                                        MESES
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;
-                                        TITULO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-building-o" aria-hidden="true"></i>
-                                        DPTO.SOLICITANTE
-                                    </th>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>
-                                        COD.SOLICITUD
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                        Accion
-                                    </th>
+                                    <th>CODIGO</th>
+                                    <th>ASPIRANTE</th>
+                                    <th>MODALIDAD LABORAL</th>
+                                    <th>TIPO</th>
+                                    <th>DENOMINACION</th>
+                                    <th>RMU</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>MESES</th>
+                                    <th>TITULO</th>
+                                    <th>DPTO.SOLICITANTE</th>
+                                    <th>COD.SOLICITUD</th>
+                                    <th>Accion</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -178,10 +102,10 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <h4 class="text-muted">CONTRATOS RECHAZADOS</h4>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <select id="departamento_ctr_firma_rdz"  class="form-control" style="width: 100%">
                                         <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                         <option value="-3">TODOS LOS DEPARTAMENTOS</option>
@@ -193,57 +117,19 @@
                             <table id="tabla_lista_contratos_rdz" class="table small table-hover table-bordered">
                                 <thead class="bg-light-blue">
                                 <tr>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
-                                        CODIGO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
-                                        ASPIRANTE
-                                    </th>
-                                    <th>
-                                        MODALIDAD LABORAL
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
-                                        TIPO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
-                                        DENOMINACION
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
-                                        RMU
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-                                        Fecha Inicio
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;
-                                        Fecha Final
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-hashtag" aria-hidden="true"></i>
-                                        MESES
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-graduation-cap" aria-hidden="true"></i>&nbsp;
-                                        TITULO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-building-o" aria-hidden="true"></i>
-                                        DPTO.SOLICITANTE
-                                    </th>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>
-                                        COD.SOLICITUD
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                        Accion
-                                    </th>
+                                    <th>CODIGO</th>
+                                    <th>ASPIRANTE</th>
+                                    <th>MODALIDAD LABORAL</th>
+                                    <th>TIPO</th>
+                                    <th>DENOMINACION</th>
+                                    <th>RMU</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>MESES</th>
+                                    <th>TITULO</th>
+                                    <th>DPTO.SOLICITANTE</th>
+                                    <th>COD.SOLICITUD</th>
+                                    <th>Accion</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -296,6 +182,7 @@
                                 <i class="fa fa-clock-o" aria-hidden="true"></i>
                                 Hora Revision
                             </th>
+                            <th>Codigo</th>
                             <th>
                                 <i class="fa fa-commenting" aria-hidden="true"></i>
                                 Observacion
@@ -320,23 +207,18 @@
         <div class="modal-content">
             <div class="modal-header" style="background-color: #3c8dbc ; color: white;">
                 <button type="button"  id="btn_cerrar_md_firma" name="btn_cerrar_md_firma" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">SUBIR CONTRATO</h4>
+                <h4 class="modal-title"><i class="fas fa-cloud-upload-alt"></i> &nbsp; SUBIR CONTRATO</h4>
             </div>
             <div class="modal-body">
                 <form id="form_file">
                     <input type="text" id="cedula_asp" hidden>
                     <input type="text" id="id_ctr" hidden>
                     <input type="file" id="contrato_file" name="contrato_file" class="form-control" placeholder="archivo pdf">
-                    <br>
-                    <div class="pull-right">
-                        <button type="button" class="btn btn-success" id="btn_save_pdf" title="subir documento"><i class="fas fa-upload"></i></button>
-                        <button type="button" class="btn btn-danger" id="btn_delete_pdf" title="eliminar documento"><i class="fas fa-trash-alt"></i></button>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <div class="pull-left">
-                    <button type="button" id="btn_save_firma" class="btn btn-primary"><i class="fas fa-paper-plane"></i> &nbsp; &nbsp;Enviar</button>
+                    <button type="button" id="btn_save_firma" class="btn btn-primary"><i class="fas fa-upload"></i> &nbsp; <b> Subir</b></button>
                 </div>
             </div>
         </div>

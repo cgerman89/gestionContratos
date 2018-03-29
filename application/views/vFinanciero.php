@@ -11,13 +11,13 @@
                 <li role="presentation"   title="contratos aprobados">
                     <a href="#contratosaprobados" data-toggle="tab">
                         <i class="far fa-folder fa-2x"></i>
-                        <i class="fa fa-check text-info" aria-hidden="true"></i>
+                        <i class="fas fa-check"></i>
                     </a>
                 </li>
                 <li role="presentation"   title="contratos rechazados">
                     <a href="#contratos_rechazados" data-toggle="tab">
                         <i class="far fa-folder fa-2x"></i>
-                        <i class="fa fa-times text-info" aria-hidden="true"></i>
+                        <i class="fas fa-times"></i>
                     </a>
                 </li>
             </ul>
@@ -47,72 +47,26 @@
                         </div>
                         <div class="panel-body">                                         
                             <table id="tabla_contratos_fn" class="table small table-hover table-bordered">                        
-                                <thead class="bg-light-blue">
+                                <thead class="bg-light-blue-active">
                                 <tr>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
-                                        CODIGO
-                                    </th>
-                                    <th>
-                                        MODALIDAD LABORAL
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;
-                                        PAIS
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
-                                        ASPIRANTE
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
-                                        TIPO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
-                                        DENOMINACION
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
-                                        RMU
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                                        Fecha Inicio
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                                        Fecha Final
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;
-                                        MESES
-                                    </th>
-                                    <th>
-                                        510510
-                                    </th>
-                                    <th>
-                                        510203
-                                    </th>
-                                    <th>
-                                        510204
-                                    </th>
-                                    <th>
-                                        510601
-                                    </th>
-                                    <th>
-                                        510602
-                                    </th>
-                                    <th>
-                                        TOTAL MASA SALARIAL 
-                                    </th>
-                                    <th class="text-center">
-                                        <i class="fa fa-check-square-o"></i>
-                                    </th>                                    
-                                    <th>
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                        Accion
-                                    </th>
+                                    <th>CODIGO</th>
+                                    <th>MODALIDAD LABORAL</th>
+                                    <th>PAIS</th>
+                                    <th>ASPIRANTE</th>
+                                    <th>TIPO</th>
+                                    <th>DENOMINACION</th>
+                                    <th>RMU</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>MESES</th>
+                                    <th>510510</th>
+                                    <th>510203</th>
+                                    <th>510204</th>
+                                    <th>510601</th>
+                                    <th>510602</th>
+                                    <th>T.M.SALARIAL</th>
+                                    <th> <i class="far fa-check-square fa-1x"></i></th>
+                                    <th class="text-bold">Accion</th>
                                 </tr>
                                 </thead>
                                 <tfoot> 
@@ -125,13 +79,13 @@
                                    <th></th>
                                    <th></th>
                                    <th></th>
-                                   <th class="text-center label-primary"></th>
-                                   <th class="text-center" id="p_10"></th>
-                                   <th class="text-center" id="p_11"></th>
-                                   <th class="text-center" id="p_12"></th>
-                                   <th class="text-center" id="p_13"></th>
-                                   <th class="text-center" id="p_14"></th>
-                                   <th class="text-center" id="p_15"></th>
+                                   <th class="text-center label-success"></th>
+                                   <th class="text-center bg-gray-light" id="p_10"></th>
+                                   <th class="text-center bg-gray-light" id="p_11"></th>
+                                   <th class="text-center bg-gray-light" id="p_12"></th>
+                                   <th class="text-center bg-gray-light" id="p_13"></th>
+                                   <th class="text-center bg-gray-light" id="p_14"></th>
+                                   <th class="text-center bg-gray-light" id="p_15"></th>
                                    <th></th>
                                    <th></th>                                 
                                 </tfoot>                               
@@ -157,72 +111,26 @@
                         </div>
                         <div class="panel-body">
                             <table id="tabla_contratos_apb" class="table small table-hover table-bordered">
-                                <thead class="bg-light-blue">
+                                <thead class="bg-light-blue-active">
                                 <tr>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
-                                        CODIGO
-                                    </th>
-                                    <th>
-                                        MODALIDAD LABORAL
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;
-                                        PAIS
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
-                                        ASPIRANTE
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
-                                        TIPO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
-                                        DENOMINACION
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
-                                        RMU
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                                        Fecha Inicio
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                                        Fecha Final
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;
-                                        MESES
-                                    </th>
-                                    <th>
-                                        510510
-                                    </th>
-                                    <th>
-                                        510203
-                                    </th>
-                                    <th>
-                                        510204
-                                    </th>
-                                    <th>
-                                        510601
-                                    </th>
-                                    <th>
-                                        510602
-                                    </th>
-                                    <th>
-                                        TOTAL MASA SALARIAL 
-                                    </th>                                    
-                                    <th>
-                                        PARTIDA
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                        Accion
-                                    </th>
+                                    <th>CODIGO</th>
+                                    <th>MODALIDAD LABORAL</th>
+                                    <th>PAIS</th>
+                                    <th>ASPIRANTE</th>
+                                    <th>TIPO</th>
+                                    <th>DENOMINACION</th>
+                                    <th>RMU</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>MESES</th>
+                                    <th>510510</th>
+                                    <th>510203</th>
+                                    <th>510204</th>
+                                    <th>510601</th>
+                                    <th>510602</th>
+                                    <th>T.M.SALARIAL</th>
+                                    <th>PARTIDA</th>
+                                    <th>ACCION</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -246,69 +154,25 @@
                         </div>
                         <div class="panel-body">
                             <table id="tabla_contratos_fn_re" class="table small table-hover table-bordered">
-                                <thead class="bg-light-blue">                           
+                                <thead class="bg-light-blue-active">
                                 <tr>
-                                    <th>
-                                        <i class="glyphicon glyphicon glyphicon-barcode"></i>&nbsp;
-                                        CODIGO
-                                    </th>
-                                    <th>
-                                        MODALIDAD LABORAL
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;
-                                        PAIS
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-user-o" aria-hidden="true"></i>&nbsp;
-                                        ASPIRANTE
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-file-text" aria-hidden="true"></i>&nbsp;
-                                        TIPO
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-briefcase" aria-hidden="true"></i>&nbsp;
-                                        DENOMINACION
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-money" aria-hidden="true"></i>&nbsp;
-                                        RMU
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                                        Fecha Inicio
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;
-                                        Fecha Final
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-calendar-o" aria-hidden="true"></i>&nbsp;
-                                        MESES
-                                    </th>
-                                    <th>
-                                        510510
-                                    </th>
-                                    <th>
-                                        510203
-                                    </th>
-                                    <th>
-                                        510204
-                                    </th>
-                                    <th>
-                                        510601
-                                    </th>
-                                    <th>
-                                        510602
-                                    </th>
-                                    <th>
-                                        TOTAL MASA SALARIAL 
-                                    </th>
-                                    <th>
-                                        <i class="fa fa-cog" aria-hidden="true"></i>
-                                        Accion
-                                    </th>
+                                    <th>CODIGO</th>
+                                    <th>MODALIDAD LABORAL</th>
+                                    <th>PAIS</th>
+                                    <th>ASPIRANTE</th>
+                                    <th>TIPO</th>
+                                    <th>DENOMINACION</th>
+                                    <th>RMU</th>
+                                    <th>Fecha Inicio</th>
+                                    <th>Fecha Final</th>
+                                    <th>MESES</th>
+                                    <th>510510</th>
+                                    <th>510203</th>
+                                    <th>510204</th>
+                                    <th>510601</th>
+                                    <th>510602</th>
+                                    <th>T.M. Salarial</th>
+                                    <th>Accion</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -347,14 +211,9 @@
                                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                                     Hora Revision
                                 </th>
-                                <th>
-                                    <i class="fa fa-commenting" aria-hidden="true"></i>
-                                    Observacion
-                                </th>
-                                <th>
-                                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                    Estado
-                                </th>
+                                <th>Codigo</th>
+                                <th>Observacion</th>
+                                <th>Estado</th>
                             </tr>
                             </thead>
                         </table>

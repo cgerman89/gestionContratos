@@ -13,7 +13,7 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function AnularContrato($datos){
-       $res=$this->db->query("SELECT  opcion, mensaje  FROM esq_contrato.fnc_anular_contrato(?,?,?);",$datos);
+        $res=$this->db->query("SELECT  opcion, mensaje  FROM esq_contrato.fnc_anular_contrato(?,?,?);",$datos);
         //echo $this->db->last_query();
         return $res->row_array();
     }
@@ -30,10 +30,55 @@ class Contrato_Modelo extends CI_Model {
       return $res->row_array();
     }
 
+    function UpdateBeneficios($datos,$id_ctr){
+        $this->db->where("contrato.id_contrato ", $id_ctr);
+        $this->db->update(" esq_contrato.contrato ",$datos);
+        //echo $this->db->last_query();
+        return $this->db->affected_rows();
+    }
+
+    function InfoAnulada($id_ctr){
+        $this->db->select("contrato_anulado.idanulado,
+                           ( SELECT concat(personal.apellido1, ' ', personal.apellido2, ' ', personal.nombres) AS concat   FROM esq_datos_personales.personal      WHERE (personal.idpersonal = contrato_anulado.id_personal)) AS persona, 
+                           contrato_anulado.fecha,
+                           contrato_anulado.hora,
+                           contrato_anulado.observacion")
+                    ->from(" esq_contrato.contrato_anulado ")
+                    ->where(" contrato_anulado.idcontrato ",$id_ctr);
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
+
     function ListarContrtos($id_dpto,$campo,$estado){
-        $this->db->select(" v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo, v_contrato.tipo,  v_contrato.modalidad_laboral,  v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud, v_contrato.codigo_solicitud, v_contrato.estado_financiero ,v_contrato.estado")
+        $this->db->select("  v_contrato.id_contrato,
+                             v_contrato.id_personal,
+                             v_contrato.codigo,
+                             v_contrato.tipo,
+                             v_contrato.modalidad_laboral,
+                             v_contrato.pais,
+                             v_contrato.aspirante,
+                             v_contrato.cedula_aspirante,
+                             v_contrato.regimen_laboral,
+                             v_contrato.deominacion,
+                             v_contrato.titulo,
+                             v_contrato.departamento,
+                             v_contrato.codigo_solicitud,
+                             v_contrato.remuneracion,
+                             v_contrato.fecha_inicio,
+                             v_contrato.fecha_finaliza,
+                             v_contrato.meses,
+                             contrato.partida,
+                             contrato.p_510510,
+                             contrato.p_510203,
+                             contrato.p_510204,
+                             contrato.p_510601,
+                             contrato.p_510602,
+                             contrato.total_masa_salarial,
+                             v_contrato.estado")
                  ->from(" esq_contrato.v_contrato ")
-                 ->where(" v_contrato.id_departamento ",$id_dpto)->where($campo,$estado);
+                 ->join(" esq_contrato.contrato ", " contrato.id_contrato=v_contrato.id_contrato ")
+                 ->where(" v_contrato.id_departamento ",$id_dpto)->where($campo,$estado)->where(" v_contrato.estado <> 'R' ");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -47,9 +92,34 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContrtosAll($campo,$estado){
-        $this->db->select(" v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo, v_contrato.tipo,  v_contrato.modalidad_laboral,  v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud, v_contrato.codigo_solicitud, v_contrato.estado_financiero ,v_contrato.estado")
+        $this->db->select("v_contrato.id_contrato,
+                             v_contrato.id_personal,
+                             v_contrato.codigo,
+                             v_contrato.tipo,
+                             v_contrato.modalidad_laboral,
+                             v_contrato.pais,
+                             v_contrato.aspirante,
+                             v_contrato.cedula_aspirante,
+                             v_contrato.regimen_laboral,
+                             v_contrato.deominacion,
+                             v_contrato.titulo,
+                             v_contrato.departamento,
+                             v_contrato.codigo_solicitud,
+                             v_contrato.remuneracion,
+                             v_contrato.fecha_inicio,
+                             v_contrato.fecha_finaliza,
+                             v_contrato.meses,
+                             contrato.partida,
+                             contrato.p_510510,
+                             contrato.p_510203,
+                             contrato.p_510204,
+                             contrato.p_510601,
+                             contrato.p_510602,
+                             contrato.total_masa_salarial,
+                             v_contrato.estado")
                  ->from(" esq_contrato.v_contrato ")
-                 ->where($campo,$estado);
+                 ->join(" esq_contrato.contrato ", " contrato.id_contrato=v_contrato.id_contrato ")
+                 ->where($campo,$estado)->where(" v_contrato.estado <> 'R' ");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -63,7 +133,23 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContratos_Jefe_th($id_dpto,$estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+        $this->db->select("v_contrato.id_contrato, 
+                           v_contrato.id_personal, 
+                           v_contrato.codigo,
+                           v_contrato.tipo, 
+                           v_contrato.modalidad_laboral, 
+                           v_contrato.pais, 
+                           v_contrato.aspirante, 
+                           v_contrato.cedula_aspirante, 
+                           v_contrato.regimen_laboral, 
+                           v_contrato.deominacion, 
+                           v_contrato.remuneracion, 
+                           v_contrato.fecha_inicio, 
+                           v_contrato.fecha_finaliza, 
+                           v_contrato.partida, 
+                           v_contrato.titulo, 
+                           v_contrato.departamento, 
+                           v_contrato.codigo_solicitud")
                  ->from(" esq_contrato.v_contrato ")
                  ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_jefe_th",$estado)->where("v_contrato.estado <> 'R'");
         $res= $this->db->get();
@@ -79,7 +165,23 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContratos_Jefe_th_All($estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+        $this->db->select("v_contrato.id_contrato, 
+                           v_contrato.id_personal, 
+                           v_contrato.codigo,
+                           v_contrato.tipo, 
+                           v_contrato.modalidad_laboral, 
+                           v_contrato.pais, 
+                           v_contrato.aspirante, 
+                           v_contrato.cedula_aspirante, 
+                           v_contrato.regimen_laboral, 
+                           v_contrato.deominacion, 
+                           v_contrato.remuneracion, 
+                           v_contrato.fecha_inicio, 
+                           v_contrato.fecha_finaliza, 
+                           v_contrato.partida, 
+                           v_contrato.titulo, 
+                           v_contrato.departamento, 
+                           v_contrato.codigo_solicitud")
             ->from(" esq_contrato.v_contrato ")
             ->where("v_contrato.estado_jefe_th",$estado)->where("v_contrato.estado <> 'R'");
         $res= $this->db->get();
@@ -95,8 +197,31 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContratos_fn($id_dpto,$estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.meses , v_contrato.partida, v_contrato.departamento, v_contrato.codigo_solicitud, v_contrato.p_510510, v_contrato.p_510203, v_contrato.p_510204, v_contrato.p_510601,  v_contrato.p_510602, v_contrato.total_masa_salarial,v_contrato.estado_firma")
+        $this->db->select("v_contrato.id_contrato,
+                          v_contrato.id_personal,
+                          v_contrato.codigo,
+                          v_contrato.tipo,
+                          v_contrato.modalidad_laboral,
+                          v_contrato.pais,
+                          v_contrato.aspirante,
+                          v_contrato.cedula_aspirante,
+                          v_contrato.regimen_laboral,
+                          v_contrato.deominacion,
+                          v_contrato.departamento,
+                          v_contrato.codigo_solicitud,
+                          v_contrato.remuneracion,
+                          v_contrato.fecha_inicio,
+                          v_contrato.fecha_finaliza,
+                          v_contrato.meses,
+                          v_contrato.partida,
+                          v_contrato_beneficios.p_510510,
+                          v_contrato_beneficios.p_510203,
+                          v_contrato_beneficios.p_510204,
+                          v_contrato_beneficios.p_510601,
+                          v_contrato_beneficios.p_510602,
+                          v_contrato_beneficios.total_masa_salarial")
             ->from(" esq_contrato.v_contrato ")
+            ->join(" esq_contrato.v_contrato_beneficios ", " v_contrato_beneficios.id_contrato=v_contrato.id_contrato ")
             ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_jefe_th='A'")->where("v_contrato.estado_financiero",$estado);
         $res= $this->db->get();
         //echo $this->db->last_query();
@@ -111,8 +236,31 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContratos_fn_All($estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza,  v_contrato.meses , v_contrato.partida, v_contrato.departamento, v_contrato.codigo_solicitud, v_contrato.p_510510, v_contrato.p_510203, v_contrato.p_510204, v_contrato.p_510601,  v_contrato.p_510602, v_contrato.total_masa_salarial,v_contrato.estado_firma")
+        $this->db->select("v_contrato.id_contrato,
+                          v_contrato.id_personal,
+                          v_contrato.codigo,
+                          v_contrato.tipo,
+                          v_contrato.modalidad_laboral,
+                          v_contrato.pais,
+                          v_contrato.aspirante,
+                          v_contrato.cedula_aspirante,
+                          v_contrato.regimen_laboral,
+                          v_contrato.deominacion,
+                          v_contrato.departamento,
+                          v_contrato.codigo_solicitud,
+                          v_contrato.remuneracion,
+                          v_contrato.fecha_inicio,
+                          v_contrato.fecha_finaliza,
+                          v_contrato.meses,
+                          v_contrato.partida,
+                          v_contrato_beneficios.p_510510,
+                          v_contrato_beneficios.p_510203,
+                          v_contrato_beneficios.p_510204,
+                          v_contrato_beneficios.p_510601,
+                          v_contrato_beneficios.p_510602,
+                          v_contrato_beneficios.total_masa_salarial")
             ->from(" esq_contrato.v_contrato ")
+            ->join(" esq_contrato.v_contrato_beneficios ", " v_contrato_beneficios.id_contrato=v_contrato.id_contrato ")
             ->where("v_contrato.estado_jefe_th='A'")->where("v_contrato.estado_financiero",$estado);
         $res= $this->db->get();
         //echo $this->db->last_query();
@@ -126,10 +274,27 @@ class Contrato_Modelo extends CI_Model {
         }
     }
 
-    function ListarContratos_rct($id_dpto,$estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+    function ListarContratos_imprimir($id_dpto,$estado){
+        $this->db->select("  v_contrato.id_contrato,
+                             v_contrato.id_personal,
+                             v_contrato.codigo,
+                             v_contrato.tipo,
+                             v_contrato.modalidad_laboral,
+                             v_contrato.pais,
+                             v_contrato.aspirante,
+                             v_contrato.cedula_aspirante,
+                             v_contrato.regimen_laboral,
+                             v_contrato.deominacion,
+                             v_contrato.titulo,
+                             v_contrato.departamento,
+                             v_contrato.codigo_solicitud,
+                             v_contrato.remuneracion,
+                             v_contrato.fecha_inicio,
+                             v_contrato.fecha_finaliza,
+                             v_contrato.meses,
+                             v_contrato.estado")
             ->from(" esq_contrato.v_contrato ")
-            ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_financiero = 'A'")->where("v_contrato.estado_rector",$estado)->where("v_contrato.estado <> 'R'");
+            ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_financiero = 'A'")->where("v_contrato.estado_impreso",$estado)->where("v_contrato.estado <> 'R'");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -142,12 +307,93 @@ class Contrato_Modelo extends CI_Model {
         }
     }
 
-    function ListarContratos_rct_All($estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud ")
+    function ListarContratos_imprimir_All($estado){
+        $this->db->select("  v_contrato.id_contrato,
+                             v_contrato.id_personal,
+                             v_contrato.codigo,
+                             v_contrato.tipo,
+                             v_contrato.modalidad_laboral,
+                             v_contrato.pais,
+                             v_contrato.aspirante,
+                             v_contrato.cedula_aspirante,
+                             v_contrato.regimen_laboral,
+                             v_contrato.deominacion,
+                             v_contrato.titulo,
+                             v_contrato.departamento,
+                             v_contrato.codigo_solicitud,
+                             v_contrato.remuneracion,
+                             v_contrato.fecha_inicio,
+                             v_contrato.fecha_finaliza,
+                             v_contrato.meses,
+                             v_contrato.estado")
                  ->from(" esq_contrato.v_contrato ")
-                 ->where("v_contrato.estado_financiero = 'A'")
-                 ->where("v_contrato.estado_rector",$estado)
-                 ->where("v_contrato.estado <> 'R'");
+                 ->where("v_contrato.estado_financiero = 'A'")->where("v_contrato.estado_impreso",$estado)->where("v_contrato.estado <> 'R'");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListarContratos_firma($id_dpto,$estado){
+        $this->db->select("  v_contrato.id_contrato,
+                             v_contrato.id_personal,
+                             v_contrato.codigo,
+                             v_contrato.tipo,
+                             v_contrato.modalidad_laboral,
+                             v_contrato.pais,
+                             v_contrato.aspirante,
+                             v_contrato.cedula_aspirante,
+                             v_contrato.regimen_laboral,
+                             v_contrato.deominacion,
+                             v_contrato.titulo,
+                             v_contrato.departamento,
+                             v_contrato.codigo_solicitud,
+                             v_contrato.remuneracion,
+                             v_contrato.fecha_inicio,
+                             v_contrato.fecha_finaliza,
+                             v_contrato.meses,
+                             v_contrato.estado")
+            ->from(" esq_contrato.v_contrato ")
+            ->where("v_contrato.id_departamento",$id_dpto)->where("v_contrato.estado_impreso = 'A'")->where("v_contrato.estado_firma",$estado)->where("v_contrato.estado <> 'R'");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListarContratos_firma_All($estado){
+        $this->db->select("  v_contrato.id_contrato,
+                             v_contrato.id_personal,
+                             v_contrato.codigo,
+                             v_contrato.tipo,
+                             v_contrato.modalidad_laboral,
+                             v_contrato.pais,
+                             v_contrato.aspirante,
+                             v_contrato.cedula_aspirante,
+                             v_contrato.regimen_laboral,
+                             v_contrato.deominacion,
+                             v_contrato.titulo,
+                             v_contrato.departamento,
+                             v_contrato.codigo_solicitud,
+                             v_contrato.remuneracion,
+                             v_contrato.fecha_inicio,
+                             v_contrato.fecha_finaliza,
+                             v_contrato.meses,
+                             v_contrato.estado")
+            ->from(" esq_contrato.v_contrato ")
+            ->where("v_contrato.estado_impreso = 'A'")->where("v_contrato.estado_firma",$estado)->where("v_contrato.estado <> 'R'");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -161,8 +407,31 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContratos_redz($id_dpto,$p_estado,$estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza,v_contrato.meses, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud, v_contrato.p_510510, v_contrato.p_510203, v_contrato.p_510204, v_contrato.p_510601,  v_contrato.p_510602, v_contrato.total_masa_salarial ")
+        $this->db->select("v_contrato.id_contrato, 
+                           v_contrato.id_personal, 
+                           v_contrato.codigo,
+                           v_contrato.tipo, 
+                           v_contrato.modalidad_laboral, 
+                           v_contrato.pais, 
+                           v_contrato.aspirante, 
+                           v_contrato.cedula_aspirante, 
+                           v_contrato.regimen_laboral, 
+                           v_contrato.deominacion, 
+                           v_contrato.remuneracion, 
+                           v_contrato.fecha_inicio, 
+                           v_contrato.fecha_finaliza,
+                           v_contrato.meses,                             
+                           v_contrato.titulo, 
+                           v_contrato.departamento, 
+                           v_contrato.codigo_solicitud,
+                           v_contrato_beneficios.p_510510,
+                           v_contrato_beneficios.p_510203,
+                           v_contrato_beneficios.p_510204,
+                           v_contrato_beneficios.p_510601,
+                           v_contrato_beneficios.p_510602,
+                           v_contrato_beneficios.total_masa_salarial")
                  ->from(" esq_contrato.v_contrato ")
+                 ->join(" esq_contrato.v_contrato_beneficios ", " v_contrato_beneficios.id_contrato=v_contrato.id_contrato ")
                  ->where("v_contrato.id_departamento",$id_dpto)
                  ->where($p_estado,$estado);
         $res= $this->db->get();
@@ -178,9 +447,99 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function ListarContratos_redz_All($p_estado,$estado){
-        $this->db->select("v_contrato.id_contrato, v_contrato.id_personal, v_contrato.codigo,v_contrato.tipo, v_contrato.modalidad_laboral, v_contrato.pais, v_contrato.aspirante, v_contrato.cedula_aspirante, v_contrato.regimen_laboral, v_contrato.deominacion, v_contrato.remuneracion, v_contrato.fecha_inicio, v_contrato.fecha_finaliza,v_contrato.meses, v_contrato.partida, v_contrato.titulo, v_contrato.departamento, v_contrato.codigo_solicitud, v_contrato.p_510510, v_contrato.p_510203, v_contrato.p_510204, v_contrato.p_510601,  v_contrato.p_510602, v_contrato.total_masa_salarial ")
+        $this->db->select("v_contrato.id_contrato, 
+                           v_contrato.id_personal, 
+                           v_contrato.codigo,
+                           v_contrato.tipo, 
+                           v_contrato.modalidad_laboral, 
+                           v_contrato.pais, 
+                           v_contrato.aspirante, 
+                           v_contrato.cedula_aspirante, 
+                           v_contrato.regimen_laboral, 
+                           v_contrato.deominacion, 
+                           v_contrato.remuneracion, 
+                           v_contrato.fecha_inicio, 
+                           v_contrato.fecha_finaliza,
+                           v_contrato.meses,                           
+                           v_contrato.titulo, 
+                           v_contrato.departamento, 
+                           v_contrato.codigo_solicitud,
+                           v_contrato_beneficios.p_510510,
+                           v_contrato_beneficios.p_510203,
+                           v_contrato_beneficios.p_510204,
+                           v_contrato_beneficios.p_510601,
+                           v_contrato_beneficios.p_510602,
+                           v_contrato_beneficios.total_masa_salarial")
             ->from(" esq_contrato.v_contrato ")
+            ->join(" esq_contrato.v_contrato_beneficios ", " v_contrato_beneficios.id_contrato=v_contrato.id_contrato ")
             ->where($p_estado,$estado);
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListaContratosAnulados($id_ctr){
+        $this->db->select("   v_contrato.id_contrato,
+                              v_contrato.id_personal,
+                              v_contrato.codigo,
+                              v_contrato.tipo,
+                              v_contrato.modalidad_laboral,
+                              v_contrato.pais,
+                              v_contrato.aspirante,
+                              v_contrato.cedula_aspirante,
+                              v_contrato.regimen_laboral,
+                              v_contrato.deominacion,
+                              v_contrato.titulo,
+                              v_contrato.departamento,
+                              v_contrato.codigo_solicitud,
+                              v_contrato.remuneracion,
+                              v_contrato.fecha_inicio,
+                              v_contrato.fecha_finaliza,
+                              v_contrato.meses,
+                              v_contrato.estado")
+                  ->from(" esq_contrato.v_contrato ")
+                  ->join(" esq_contrato.contrato_anulado "," idcontrato=id_contrato ")
+                  ->where(" v_contrato.id_departamento ",$id_ctr);
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        if($res->num_rows() > 0){
+            for ($i=0; $i < $res->num_rows(); $i++) {
+                $data['data'][]=array_map('utf8_encode',$res->result_array()[$i]);
+            }
+            return $data;
+        }else{
+            return array('data'=>'');
+        }
+    }
+
+    function ListaContratosAnuladosAll(){
+        $this->db->select("   v_contrato.id_contrato,
+                              v_contrato.id_personal,
+                              v_contrato.codigo,
+                              v_contrato.tipo,
+                              v_contrato.modalidad_laboral,
+                              v_contrato.pais,
+                              v_contrato.aspirante,
+                              v_contrato.cedula_aspirante,
+                              v_contrato.regimen_laboral,
+                              v_contrato.deominacion,
+                              v_contrato.titulo,
+                              v_contrato.departamento,
+                              v_contrato.codigo_solicitud,
+                              v_contrato.remuneracion,
+                              v_contrato.fecha_inicio,
+                              v_contrato.fecha_finaliza,
+                              v_contrato.meses,
+                              v_contrato.estado")
+            ->from(" esq_contrato.v_contrato ")
+            ->join(" esq_contrato.contrato_anulado "," idcontrato=id_contrato ");
         $res= $this->db->get();
         //echo $this->db->last_query();
         if($res->num_rows() > 0){
@@ -275,18 +634,6 @@ class Contrato_Modelo extends CI_Model {
         return $res->row_array();
     }
 
-    function AgregarItem($id_contrato,$partida){
-        $this->db->set('partida',$partida, FALSE);
-        $this->db->where('contrato.id_contrato',$id_contrato);
-        $this->db->update('esq_contrato.contrato');
-        //echo $this->db->last_query();
-        if($this->db->affected_rows()>0){
-            return 1;
-        }else{
-            return 2;
-        }
-    }
-
     function DatosTextoContrato($id_contrato){
         $this->db->db_set_charset('UTF-8');
         $this->db->select(" contrato.codigo, 
@@ -307,7 +654,7 @@ class Contrato_Modelo extends CI_Model {
                             (SELECT p_horas FROM esq_contrato.fnc_obtiene_denominacion_2((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion)),
                             (SELECT p_abrevia FROM esq_contrato.fnc_obtiene_denominacion_2((SELECT tipo.nombre FROM  esq_contrato.tipo WHERE tipo.idtipo=contrato.id_tipo),contrato.id_tipo_denominacion))")
                     ->from(" esq_contrato.contrato ")
-                    ->where(" contrato.id_contrato ",$id_contrato)->where(" contrato.estado='A' ");
+                    ->where(" contrato.id_contrato ",$id_contrato)->where(" contrato.estado <> 'R' ");
         $res = $this->db->get();
         //echo $this->db->last_query();
         return $res->result_array();
@@ -332,9 +679,10 @@ class Contrato_Modelo extends CI_Model {
     }
 
     function GetPdf($id_ctr){
-        $this->db->select(" fichero_contrato.nombre, fichero_contrato.archivo_bin, fichero_contrato.archivo_mime, fichero_contrato.archivo_tamanio ")
-                 ->from(" esq_contrato.fichero_contrato ")
-                 ->where("id_contrato",$id_ctr);
+        $this->db->select(" fichero_contrato.nombre, 
+                            COALESCE(fichero_contrato.archivo_bin, '-1') as archivo_bytea, 
+                            fichero_contrato.archivo_mime, 
+                            fichero_contrato.archivo_tamanio")->from(" esq_contrato.fichero_contrato ")->where("id_contrato",$id_ctr);
         $res = $this->db->get();
         //echo $this->db->last_query();
         return $res->row_array();

@@ -4,14 +4,19 @@ $(document).ready(function () {
     const  btn_reporte_soli=$('#btn_reporte_soli');
     const  departamento_ctr=$('#departamento_ctr');
     const  btn_reporte_ctr=$('#btn_reporte_ctr');
-    var barras = document.getElementById("barras_soli").getContext('2d');
-    var mybar  = null;
+    let barras = document.getElementById("barras_soli").getContext('2d');
+    let mybar  = null;
+    let barras_ctr = document.getElementById("barras_contratos").getContext('2d');
+    let mybar_ctr  = null;
+    const t_contrato=$('#t_contrato');
 
 
     departamento_soli.select2({theme:"bootstrap"});
     departamento_ctr.select2({theme:"bootstrap"});
     CargaComboDepartamentos_gr(departamento_soli);
+    CargarTipo(t_contrato);
     CargaComboDepartamentos_gr(departamento_ctr);
+
 
 
     btn_reporte_soli.click(function (e) {
@@ -22,31 +27,40 @@ $(document).ready(function () {
                         if (mybar !=null){
                             mybar.destroy();
                         }
-                        var datos = {
-                            labels: ["TOTAL","DOCENTES", "ADMINISTRATIVOS", "APROBADAS", "RECHAZADAS", "ANULADAS"],
+                        let datos = {
+                            labels: ["PROCESO", "APROBADA","RECHAZADA","ANULADA","TOTAL"],
                             datasets: [{
-                                label: 'SOLICITUDES DE CONTRATOS',
-                                data: [data.total,data.docentes,data.administrativos,data.aprobadas,data.rechazadas,data.anuladas],
-                                backgroundColor: [
-                                    'rgba(99, 149, 236, 0.5)',
-                                    'rgba(111, 227, 82, 0.5)',
-                                    'rgba(243, 246, 71, 0.5)',
-                                    'rgba(14, 208, 238 , 0.5)',
-                                    'rgba(237, 26, 16 , 0.5)',
-                                    'rgba(255, 159, 64, 0.5)'
-                                ],
-                                borderColor: [
-                                    'rgba(99, 149, 236,1)',
-                                    'rgba(111, 227, 82,1)',
-                                    'rgba(243, 246, 71,1)',
-                                    'rgba(14, 208, 238 ,1)',
-                                    'rgba(237, 26, 16 ,1)',
-                                    'rgba(255, 159, 64,1)'
-                                ],
+                                label: 'DOCENTES',
+                                data: [data.proceso_docente,data.apb_docente,data.rdz_docente,data.anu_docente,data.docente],
+                                backgroundColor:'rgba(8, 214, 80  , 0.5)',
+                                borderColor:'rgba(8, 214, 80 ,1)',
                                 borderWidth: 1
-                            }]
+                            },
+                            {   label: 'ADMINISTRATIVOS',
+                                data: [data.proceso_administrativo,data.apb_administrativo,data.rdz_administrativo,data.anu_administrativo,data.administrativo],
+                                backgroundColor:'rgba(5, 116, 193, 0.5)',
+                                borderColor:'rgba(5, 116, 193,1)',
+                                borderWidth: 1
+                            }
+                            ]
                         };
-                        var options = {
+                        let options = {
+                            responsive: true,
+                            title: {
+                                display: true,
+                                position: "top",
+                                text: "SOLICITUD CONTRATO",
+                                fontSize: 18,
+                                fontColor: "#111"
+                            },
+                            legend: {
+                                display: true,
+                                position: "bottom",
+                                labels: {
+                                    fontColor: "#333",
+                                    fontSize: 16
+                                }
+                            },
                             scales: {
                                 yAxes: [{
                                     ticks: {
@@ -73,26 +87,42 @@ $(document).ready(function () {
                         if (mybar !=null){
                             mybar.destroy();
                         }
-                        var datas = {
+                        let datas = {
                             labels: data.titulos,
                             datasets: [
                                 {
                                     label: 'DOCENTES',
                                     data: data.docentes,
-                                    backgroundColor:'rgba(111, 227, 82, 0.5)',
-                                    borderColor:'rgba(111, 227, 82,1)',
+                                    backgroundColor:'rgba(8, 214, 80, 0.5)',
+                                    borderColor:'rgba(8, 214, 80  , 1)',
                                     borderWidth: 1
                                 },
                                 {
                                     label: 'ADMINISTRATIVOS',
                                     data: data.administrativos,
-                                    backgroundColor:'rgba(243, 246, 71, 0.5)',
-                                    borderColor:'rgba(243, 246, 71,1)',
+                                    backgroundColor:'rgba(5, 116, 193, 0.5)',
+                                    borderColor:'rgba(5, 116, 193, 1)',
                                     borderWidth: 1
                                 }
                             ]
                         };
-                        var opction = {
+                        let opction = {
+                            responsive: true,
+                            title: {
+                                display: true,
+                                position: "top",
+                                text: "SOLICITUD CONTRATO",
+                                fontSize: 18,
+                                fontColor: "#111"
+                            },
+                            legend: {
+                                display: true,
+                                position: "bottom",
+                                labels: {
+                                    fontColor: "#333",
+                                    fontSize: 16
+                                }
+                            },
                             scales: {
                                 yAxes: [{
                                     ticks: {
@@ -117,6 +147,7 @@ $(document).ready(function () {
 
     btn_reporte_ctr.click(function (e) {
         e.preventDefault();
+
     });
 
 });
@@ -126,6 +157,16 @@ function CargaComboDepartamentos_gr(combo) {
         if (estado === 'success') $.each(datos, function (index, value) {
             $(combo).append('<option value='+value.iddepartamento+'>'+value.nombre+'</option>');
         });
+    },'json');
+}
+
+function CargarTipo(combo){
+   $.post('Campos/Tipo2',{'id':1},function (datos,estado) {
+      if (estado === 'success'){
+          if (estado === 'success') $.each(datos, function (index, value) {
+              $(combo).append('<option value='+value.idtipo+'>'+value.nombre+'</option>');
+          });
+      }
     },'json');
 }
 

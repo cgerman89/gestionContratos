@@ -183,6 +183,30 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
+    function ListarContratos_rzd(){
+        if ($this->input->is_ajax_request()){
+            if($this->input->post('id_dpto') === '-3' ){
+                echo json_encode($this->Contrato_Modelo->ListarContratos_redz_All('v_contrato.estado',$this->input->post('estado')));
+            }else{
+                echo json_encode($this->Contrato_Modelo->ListarContratos_redz($this->input->post('id_dpto'),'v_contrato.estado',$this->input->post('estado')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function ListarContratos_Anulados(){
+        if ($this->input->is_ajax_request()){
+            if($this->input->post('id_dpto') === '-3' ){
+                echo json_encode($this->Contrato_Modelo->ListaContratosAnuladosAll());
+            }else{
+               echo  json_encode($this->Contrato_Modelo->ListaContratosAnulados($this->input->post('id_dpto')));
+            }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
     function ProcesosContrato(){
         if ($this->input->is_ajax_request()){
             if((!empty($this->input->post('id_contrato'))==true)){
@@ -208,6 +232,15 @@ class cTalento_humano extends CI_Controller{
             if((!empty($this->input->post('id_denominacion'))==true)){
                 echo json_encode($this->Contrato_Modelo->DenominacionAdmin($this->input->post('id_denominacion')));
             }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
+    function InformacionAnulada(){
+        if ($this->input->is_ajax_request()){
+            if(empty($this->input->post('ctr')) !== true)
+                echo json_encode($this->Contrato_Modelo->InfoAnulada($this->input->post('ctr')));
         }else{
             echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
         }

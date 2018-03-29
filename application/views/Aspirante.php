@@ -496,7 +496,6 @@
             </div>
         </div>  
         <div id="pdf_contenedor_hv" class="modal fullscreen-modal fade"  role="modal" data-backdrop="static" data-keyboard=”false”>
-
         </div>
     </div>    
 </div>
