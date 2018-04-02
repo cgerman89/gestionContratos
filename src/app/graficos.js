@@ -8,13 +8,12 @@ $(document).ready(function () {
     let mybar  = null;
     let barras_ctr = document.getElementById("barras_contratos").getContext('2d');
     let mybar_ctr  = null;
-    const t_contrato=$('#t_contrato');
+
 
 
     departamento_soli.select2({theme:"bootstrap"});
     departamento_ctr.select2({theme:"bootstrap"});
     CargaComboDepartamentos_gr(departamento_soli);
-    CargarTipo(t_contrato);
     CargaComboDepartamentos_gr(departamento_ctr);
 
 
@@ -147,7 +146,129 @@ $(document).ready(function () {
 
     btn_reporte_ctr.click(function (e) {
         e.preventDefault();
-
+        if(departamento_ctr.val() !=='-3') {
+            Contratos(departamento_ctr.val(), function (data) {
+                if (data !== null) {
+                    if (mybar_ctr != null) {
+                        mybar_ctr.destroy();
+                    }
+                    let datos = {
+                        labels: ["PROCESO", "APROBADOS", "RECHAZADOS", "ANULADOS", "TERMINADOS", "TOTAL"],
+                        datasets: [{
+                            label: 'DOCENTES',
+                            data: [data.p_docente, data.apb_docente, data.rdz_docente, data.anu_docente, data.t_docente, data.docente],
+                            backgroundColor: 'rgba(8, 214, 80  , 0.5)',
+                            borderColor: 'rgba(8, 214, 80 ,1)',
+                            borderWidth: 1
+                        },
+                            {
+                                label: 'ADMINISTRATIVOS',
+                                data: [data.p_admin, data.apb_admin, data.rzd_admin, data.anu_admin, data.t_admin, data.admin],
+                                backgroundColor: 'rgba(5, 116, 193, 0.5)',
+                                borderColor: 'rgba(5, 116, 193,1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    };
+                    let options = {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            position: "top",
+                            text: "CONTRATOS",
+                            fontSize: 18,
+                            fontColor: "#111"
+                        },
+                        legend: {
+                            display: true,
+                            position: "bottom",
+                            labels: {
+                                fontColor: "#333",
+                                fontSize: 16
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    };
+                    mybar_ctr = Chart.Bar(barras_ctr, {
+                        type: 'bar',
+                        data: datos,
+                        options: options
+                    });
+                } else {
+                    if (mybar_ctr != null) {
+                        mybar_ctr.destroy();
+                    }
+                    toastr.error('No Tiene registros..');
+                }
+            });
+        }else{
+            Contratos(departamento_ctr.val(),function (data) {
+                if (data !== null) {
+                    if (mybar_ctr !=null){
+                        mybar_ctr.destroy();
+                    }
+                    let datas = {
+                        labels: data.titulos,
+                        datasets: [
+                            {
+                                label: 'DOCENTES',
+                                data: data.docentes,
+                                backgroundColor:'rgba(8, 214, 80, 0.5)',
+                                borderColor:'rgba(8, 214, 80 ,1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'ADMINISTRATIVOS',
+                                data: data.administrativos,
+                                backgroundColor:'rgba(5, 116, 193, 0.5)',
+                                borderColor:'rgba(5, 116, 193, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    };
+                    let opction = {
+                        responsive: true,
+                        title: {
+                            display: true,
+                            position: "top",
+                            text: "CONTRATOS",
+                            fontSize: 18,
+                            fontColor: "#111"
+                        },
+                        legend: {
+                            display: true,
+                            position: "bottom",
+                            labels: {
+                                fontColor: "#333",
+                                fontSize: 16
+                            }
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    };
+                    mybar_ctr = Chart.Bar(barras_ctr, {
+                        data: datas,
+                        options:opction
+                    });
+                } else {
+                    if (mybar_ctr !=null){
+                        mybar_ctr.destroy();
+                    }
+                    toastr.error('No Tiene Registros');
+                }
+            });
+        }
     });
 
 });
@@ -173,5 +294,11 @@ function CargarTipo(combo){
 function Solicitudes(id_dpto,callback) {
     $.post('Grafico/Solicitudes',{'id_dpto':id_dpto},function (data) {
         callback(data);
+    },'json');
+}
+
+function Contratos(id_dpto,callback){
+    $.post('Grafico/Contratos',{'id_dpto':id_dpto},function (datos,estado) {
+       callback(datos);
     },'json');
 }

@@ -22,10 +22,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <h4 class="text-muted">SOLICITUDES</h4>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <select id="departamento_soli"  class="form-control" style="width: 100%">
                                         <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                         <option value="-3">TODOS LOS DEPARTAMENTOS</option>
@@ -51,17 +51,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <h4 class="text-muted">CONTRATOS</h4>
                                 </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <select name="t_contrato" id="t_contrato" class="form-control">
-                                            <option value="-1">SELECCIONE TIPO</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <select id="departamento_ctr"  class="form-control" style="width: 100%">
                                         <option value="-2">SELECCIONE DEPARTAMENTO</option>
                                         <option value="-3">TODOS LOS DEPARTAMENTOS</option>
@@ -76,7 +69,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="panel-body">
                             <div class="row">
-
                                 <div class="col-xs-10 col-xs-offset-1">
                                     <canvas id="barras_contratos" width="500" height="200"></canvas>
                                 </div>

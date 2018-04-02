@@ -689,4 +689,38 @@ class Contrato_Modelo extends CI_Model {
 
     }
 
+    function Graficos($id_dpto){
+        $this->db->select("(SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=1) as docente,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=1 AND contrato.estado='A') as apb_docente,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=1 AND contrato.estado='P') as p_docente,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=1 AND contrato.estado='R') as rdz_docente,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=1 AND contrato.estado='E') as anu_docente,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=1 AND contrato.estado='T') as t_docente,
+                            
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=2) as admin,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=2 AND contrato.estado='A') as apb_admin,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=2 AND contrato.estado='P') as p_admin,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=2 AND contrato.estado='R') as rzd_admin,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=2 AND contrato.estado='E') as anu_admin,
+                           (SELECT  count(*)  FROM esq_contrato.contrato WHERE id_departamento=ctr.id_departamento AND id_tipo=2 AND contrato.estado='T') as t_admin,
+                           count(id_contrato) AS total")
+                 ->from(" esq_contrato.contrato as ctr ")
+                 ->where(" ctr.id_departamento ",$id_dpto)->group_by("id_departamento");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
+
+    function GraficosAll(){
+     $this->db->select(" v_ctr.departamento,
+                         (SELECT count(*) FROM esq_contrato.v_contrato  WHERE v_contrato.id_departamento=v_ctr.id_departamento AND v_contrato.tipo='DOCENTE' AND (v_contrato.estado='A' OR v_contrato.estado='T') ) as docente,
+                         (SELECT count(*) FROM esq_contrato.v_contrato  WHERE v_contrato.id_departamento=v_ctr.id_departamento AND v_contrato.tipo='ADMINISTRATIVO' AND (v_contrato.estado='A' OR v_contrato.estado='T' )) as administrativo ")
+              ->from(" esq_contrato.v_contrato as v_ctr ")
+              ->where(" (v_ctr.estado='A' OR v_ctr.estado='T') ")
+              ->group_by(" id_departamento,departamento ");
+     $res= $this->db->get();
+     //echo $this->db->last_query();
+     return $res->result_array();
+    }
+
 }

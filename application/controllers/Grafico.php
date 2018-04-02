@@ -44,4 +44,26 @@ class Grafico extends CI_Controller{
         }
     }
 
+    function Contratos(){
+        if ($this->input->is_ajax_request()) {
+           if(empty($this->input->post('id_dpto'))!==true){
+               if($this->input->post('id_dpto') == '-3'){
+                   $resp=$this->Contrato_Modelo->GraficosAll();
+                   foreach ($resp as $item):
+                       $titutlos[]=$item['departamento'];
+                       $docentes[]=$item['docente'];
+                       $administrativos[]=$item['administrativo'];
+                   endforeach;
+                   $datos=['titulos'=>$titutlos,'docentes'=>$docentes,'administrativos'=>$administrativos];
+                   echo json_encode($datos);
+               }else{
+                   echo json_encode($this->Contrato_Modelo->Graficos($this->input->post('id_dpto')));
+               }
+
+           }
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
 }
