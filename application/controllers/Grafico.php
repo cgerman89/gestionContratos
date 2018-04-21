@@ -40,7 +40,7 @@ class Grafico extends CI_Controller{
                 echo json_encode($this->Solicitud_Contrato_Modelo->DatosGrafico($this->input->post('id_dpto')));
             }
         }else{
-            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+            echo show_error('Está Intentando Ingresar A Una Sección A La Cual No Tiene Permiso.','403', 'ACCESO DENEGADO');
         }
     }
 
@@ -62,7 +62,25 @@ class Grafico extends CI_Controller{
 
            }
         }else{
-            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+            echo show_error('Está Intentando Ingresar A Una Sección A La Cual No Tiene Permiso.','403', 'ACCESO DENEGADO');
+        }
+    }
+
+    function GetDenominacion(){
+        if ($this->input->is_ajax_request()){
+             echo json_encode($this->Contrato_Modelo->ListaDenominacion($this->input->post('id_dpto'),$this->input->post('id_tipo')));
+        }else{
+            echo show_error('Está Intentando Ingresar A Una Sección A La Cual No Tiene Permiso.','403', 'ACCESO DENEGADO');
+        }
+    }
+
+    function ListarTipo(){
+        if ($this->input->is_ajax_request()){
+             if(empty($this->input->post('id_dpto'))!== true){
+                 echo json_encode($this->Contrato_Modelo->ListaTipo($this->input->post('id_dpto')));
+             }
+        }else{
+            echo show_error('Está Intentando Ingresar A Una Sección A La Cual No Tiene Permiso.','403', 'ACCESO DENEGADO');
         }
     }
 

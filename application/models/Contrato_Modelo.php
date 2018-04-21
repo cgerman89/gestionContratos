@@ -723,4 +723,25 @@ class Contrato_Modelo extends CI_Model {
      return $res->result_array();
     }
 
+    function ListaDenominacion($id_dpto,$id_tipo){
+        $this->db->select(" v_contrato.id_contrato,  v_contrato.deominacion")
+                 ->from(" esq_contrato.v_contrato ")
+                 ->where("v_contrato.id_departamento",$id_dpto)
+                 ->where(" v_contrato.id_tipo ",$id_tipo)
+                 ->where(" (v_contrato.estado='A' OR v_contrato.estado='T') ");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->result_array();
+    }
+
+    function ListaTipo($id_dpto){
+        $this->db->select("  v_contrato.id_tipo, v_contrato.tipo ")
+                 ->from(" esq_contrato.v_contrato ")
+                 ->where(" v_contrato.id_departamento ",$id_dpto)
+                 ->where(" (v_contrato.estado='A' OR v_contrato.estado='T') ");
+        $res= $this->db->get();
+        //echo $this->db->last_query();
+        return $res->result_array();
+    }
+
 }
