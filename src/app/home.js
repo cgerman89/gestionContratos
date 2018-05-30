@@ -1,5 +1,5 @@
 $(document).ready(function (){
-    console.log('main cargado');
+    //console.log('main cargado');
     toastr.options = {
         closeButton:true,
         positionClass: "toast-top-right",

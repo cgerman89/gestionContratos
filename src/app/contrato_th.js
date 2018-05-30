@@ -320,7 +320,7 @@ $(document).ready(function () {
    }
 
    form_cabecera_ctr.on('change', '.fecha', function() {
-      console.log('form cabecera ..');
+      //console.log('form cabecera ..');
       if((fecha_inicio_ctr.val()!=='')&& (fecha_fin_ctr.val()!==''))
           meses_ctr.val(Meses(fecha_fin_ctr.val(),fecha_inicio_ctr.val()));          
    });

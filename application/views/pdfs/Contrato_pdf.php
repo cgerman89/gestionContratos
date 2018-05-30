@@ -13,7 +13,6 @@ use  Carbon\Carbon;
     <link rel="stylesheet" href="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>./project/public/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?php echo $_SERVER['DOCUMENT_ROOT']; ?>./project/public/css/contrato.css">
     <title>CONTRATO || PDF </title>
-
 </head>
 <body>
     <div class="footer">
