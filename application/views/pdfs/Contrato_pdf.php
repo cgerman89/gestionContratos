@@ -16,14 +16,10 @@ use  Carbon\Carbon;
 </head>
 <body>
     <div class="footer">
-        <div class="row">
-        <div class="col-sm-9">
-            <hr style=" border: 1px solid #088f06;">
-        </div>
-    </div>
     <div class="row">
         <div class="col-sm-8">
             <div class="pull-left">
+
                 <p style="font-size: 9px" class="text-muted">Dir.: Av. Urbina y Che Guevara  E-mail: rrhh@utm.edu.ec   Teléfono: (052)637774 ext. (175)-(119) &nbsp; <b>Generado  por S.G.C  el :</b>  <?= Carbon::now(new DateTimeZone('America/Guayaquil')) ?> </p>
 
             </div>
@@ -63,7 +59,7 @@ use  Carbon\Carbon;
                         foreach ($contrato as $dato) {
                            if (!empty($textos) == true) {
                                 foreach ($textos as $texto) {
-                                    echo str_ireplace(['{aspirante}', '{titulo}','{solicitud_codigo}','{fecha_solicitud}'], [ $dato['aspirante'], $dato['titulo'], $dato['codigo_solicitud'], $dato['fecha_solicitud'] ], $texto['texto']);
+                                    echo str_ireplace(['{aspirante}','{cedula_aspirante}', '{titulo}','{solicitud_codigo}','{fecha_solicitud}'], [ $dato['aspirante'], $dato['titulo'], $dato['codigo_solicitud'], $dato['fecha_solicitud'] ], $texto['texto'],$texto['cedula_aspirante']);
                                 }
                            }
                         }

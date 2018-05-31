@@ -744,4 +744,10 @@ class Contrato_Modelo extends CI_Model {
         return $res->result_array();
     }
 
+    function buscar_jefe_apb($datos){
+        $res=$this->db->query("SELECT count(*) as num  FROM esq_contrato.proceso_contrato WHERE idcontrato=? AND idtipo_proceso=? AND estado='P';",$datos);
+        //echo $this->db->last_query();
+        return $res->row_array();
+    }
+
 }

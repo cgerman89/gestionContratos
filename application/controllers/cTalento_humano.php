@@ -246,6 +246,16 @@ class cTalento_humano extends CI_Controller{
         }
     }
 
+    function VerificaEstado(){
+        if ($this->input->is_ajax_request()){
+            if(empty($this->input->post('ctr')) !== true)
+                 $datos = ['id'=>$this->input->post('ctr'),'proceso'=>'11'];
+                echo json_encode($this->Contrato_Modelo-> buscar_jefe_apb($datos));
+        }else{
+            echo show_error('No Tiene Acceso a Esta URL','403', $heading = 'Error de Acceso');
+        }
+    }
+
     function Hoja_Vida(){
         $id=$_GET['id'];
         Carga_pdf::Hoja_Vida($id);

@@ -161,13 +161,13 @@ use  Carbon\Carbon;
                             <label class="text-bold">ESTADO</label>
                             <?php if ($contrato['estado'] === 'P '){?>
                                 <p>PROCESO</p>
-                            <?php } else if($contrato['estado'] === 'A'){?>
+                            <?php } else if($contrato['estado'] === 'A '){?>
                                 <p>ACEPTADA</p>
-                            <?php } else if($contrato['estado'] === 'R'){?>
+                            <?php } else if($contrato['estado'] === 'R '){?>
                                 <p>RECHAZADA</p>
-                            <?php } else if($contrato['estado'] === 'E'){?>
+                            <?php } else if($contrato['estado'] === 'E '){?>
                                 <p>ANULADA</p>
-                            <?php } else if($contrato['estado'] === 'T'){?>
+                            <?php } else if($contrato['estado'] === 'T '){?>
                                 <p>TERMINADO</p>
                             <?php }?>
                         </div>

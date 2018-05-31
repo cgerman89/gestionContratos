@@ -1,7 +1,7 @@
 let inicio=null;
 let finaliza=null;
 $(document).ready(function () {
-   console.log('cargado modulo contrato th');
+   //console.log('cargado modulo contrato th');
     let fecha_ini=null;
     let fecha_fin=null;
    const personal_txt=$('#personal_txt');
@@ -238,59 +238,69 @@ $(document).ready(function () {
 
    tabla_lista_contratos.on("click","a.EditarContrato",function () {
        let datos=tabla_lista_contratos.DataTable().row( $(this).parents("tr") ).data();
-           ListarTitulos(datos.id_personal,titulo_academico_ctr);
-           DatosContrato(datos.id_contrato,function (resp) {
-               if(resp!==null) {
-                   id_contrato_txt.val(datos.id_contrato);
-                   personal_txt.val(resp.id_personal);
-                   id_solicitud_txt.val(resp.id_solicitud_contrato);
-                   id_departamento_txt.val(resp.id_departamento);
-                   tipo_solicitud_th_ctr.val(resp.t_contrato);
-                   departamento_th_ctr.val(resp.departamento);
-                   observacion_th_ctr.val(resp.observacion);
-                   n_documento_th_ctr.val(resp.cedula_aspirante);
-                   aspirante_th_ctr.val(resp.aspirante);
-                   if(resp.t_contrato==='DOCENTE') {
-                       puesto_dedicacion_th_ctr.val(resp.dedicacion);
-                       DenominacionDocente(resp.id_tipo_denominacion,function (data) {
-                          tipo_categoria_docente_ctr.val(data.id_categoria_docente).prop('selected','selected');
-                          ComboNiveles_contrato(nivel_docente_ctr,data.id_categoria_docente);
-                           setTimeout(function () {
-                                nivel_docente_ctr.val(data.id_nivel_docente).prop('selected','selected');
-                           },500);
-                          ComboDedicacion_contrato(dedicacion_docente_ctr,data.id_nivel_docente);
-                           setTimeout(function () {
-                                dedicacion_docente_ctr.val(data.id_dedicacion_docente).prop('selected','selected');
-                           },500);
-                           RmuDocente(data.id_categoria_docente,data.id_nivel_docente,data.id_dedicacion_docente);
-                       });
-                   }else if(resp.t_contrato==='ADMINISTRATIVO'){
-                       puesto_dedicacion_th_ctr.val(resp.puesto);
-                       DenominacionAdmin(resp.id_tipo_denominacion,function (data) {
-                         gp_ocupacional_admin_ctr.val(data.id_grupo_ocupacional).prop('selected','selected');
-                         ListaOcupaciones(puesto_administrativo_ctr,data.id_grupo_ocupacional);
-                           setTimeout(function () {
-                               puesto_administrativo_ctr.val(data.id_puesto).prop('selected','selected');
-                           },500);
-                         RmuAdmin(data.id_grupo_ocupacional,data.id_puesto);
-                       });
-                   }
-                   if(resp.t_contrato==='DOCENTE'){
-                       panel_docente_ctr.prop('hidden',false);
-                   }else if(resp.t_contrato==='ADMINISTRATIVO'){
-                       panel_administrativo_ctr.prop('hidden',false);
-                   }
-                   setTimeout(function () {
-                       titulo_academico_ctr.val(resp.id_titulo_profesional).prop('selected','selected');
-                   },500);
-                   tipo_regimen_ctr.val(resp.id_regimen_laboral).prop('selected','selected');
-                   fecha_inicio_ctr.datepicker('update',resp.fecha_inicio);
-                   fecha_fin_ctr.datepicker('update', resp.fecha_finaliza);
-                   meses_ctr.val(Meses(fecha_fin_ctr.val(),fecha_inicio_ctr.val()));                  
 
+           ListarTitulos(datos.id_personal,titulo_academico_ctr);
+           VerificaEstado(datos.id_contrato,function (res) {
+               //console.log(res);
+               if(res.num === '1') {
+                   DatosContrato(datos.id_contrato, function (resp) {
+                       if (resp !== null) {
+                           id_contrato_txt.val(datos.id_contrato);
+                           personal_txt.val(resp.id_personal);
+                           id_solicitud_txt.val(resp.id_solicitud_contrato);
+                           id_departamento_txt.val(resp.id_departamento);
+                           tipo_solicitud_th_ctr.val(resp.t_contrato);
+                           departamento_th_ctr.val(resp.departamento);
+                           observacion_th_ctr.val(resp.observacion);
+                           n_documento_th_ctr.val(resp.cedula_aspirante);
+                           aspirante_th_ctr.val(resp.aspirante);
+                           if (resp.t_contrato === 'DOCENTE') {
+                               puesto_dedicacion_th_ctr.val(resp.dedicacion);
+                               DenominacionDocente(resp.id_tipo_denominacion, function (data) {
+                                   tipo_categoria_docente_ctr.val(data.id_categoria_docente).prop('selected', 'selected');
+                                   ComboNiveles_contrato(nivel_docente_ctr, data.id_categoria_docente);
+                                   setTimeout(function () {
+                                       nivel_docente_ctr.val(data.id_nivel_docente).prop('selected', 'selected');
+                                   }, 500);
+                                   ComboDedicacion_contrato(dedicacion_docente_ctr, data.id_nivel_docente);
+                                   setTimeout(function () {
+                                       dedicacion_docente_ctr.val(data.id_dedicacion_docente).prop('selected', 'selected');
+                                   }, 500);
+                                   RmuDocente(data.id_categoria_docente, data.id_nivel_docente, data.id_dedicacion_docente);
+                               });
+                           } else if (resp.t_contrato === 'ADMINISTRATIVO') {
+                               puesto_dedicacion_th_ctr.val(resp.puesto);
+                               DenominacionAdmin(resp.id_tipo_denominacion, function (data) {
+                                   gp_ocupacional_admin_ctr.val(data.id_grupo_ocupacional).prop('selected', 'selected');
+                                   ListaOcupaciones(puesto_administrativo_ctr, data.id_grupo_ocupacional);
+                                   setTimeout(function () {
+                                       puesto_administrativo_ctr.val(data.id_puesto).prop('selected', 'selected');
+                                   }, 500);
+                                   RmuAdmin(data.id_grupo_ocupacional, data.id_puesto);
+                               });
+                           }
+                           if (resp.t_contrato === 'DOCENTE') {
+                               panel_docente_ctr.prop('hidden', false);
+                           } else if (resp.t_contrato === 'ADMINISTRATIVO') {
+                               panel_administrativo_ctr.prop('hidden', false);
+                           }
+                           setTimeout(function () {
+                               titulo_academico_ctr.val(resp.id_titulo_profesional).prop('selected', 'selected');
+                           }, 500);
+                           tipo_regimen_ctr.val(resp.id_regimen_laboral).prop('selected', 'selected');
+                           fecha_inicio_ctr.datepicker('update', resp.fecha_inicio);
+                           fecha_fin_ctr.datepicker('update', resp.fecha_finaliza);
+                           meses_ctr.val(Meses(fecha_fin_ctr.val(), fecha_inicio_ctr.val()));
+
+                       }
+                       modal_crear_contrato_th.modal('show');
+                   });
+               }else{
+                   toastr.error("Opcion No Disponible");
                }
-               modal_crear_contrato_th.modal('show');
+
            });
+
 
 
    });
@@ -331,7 +341,7 @@ $(document).ready(function () {
    });
 
    form_ctr_admin.on("change","select",function () {
-       console.log('se hizo cliccc admin');
+      // console.log('se hizo cliccc admin');
        RmuAdmin(gp_ocupacional_admin_ctr.val(),puesto_administrativo_ctr.val());
    });
 
@@ -470,6 +480,12 @@ function InfoAnulada(id_contrato){
             allowOutsideClick: false,
             allowEnterKey: false
         });
+    },'json');
+}
+
+function VerificaEstado(id_ctr,callback) {
+    $.post("cTalento_humano/VerificaEstado",{'ctr':id_ctr},function (data) {
+        callback(data);
     },'json');
 }
 

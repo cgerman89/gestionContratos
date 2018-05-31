@@ -17,12 +17,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="fas fa-chart-line"></i>
                     </a>
                 </li>
-                <li role="presentation">
-                    <a href="#g_gastos" data-toggle="tab" title="datos economicos">
-                        <i class="fas fa-dollar-sign fa-2x info"></i>
-                        <i class="fas fa-chart-line"></i>
-                    </a>
-                </li>
             </ul>
             <div class="tab-content">
               <div id="g_solicitudes" class="tab-pane fade in active">

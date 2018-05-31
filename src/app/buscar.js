@@ -197,13 +197,13 @@ function Tabla_contratos() {
                 "render":function(data) {
                     if(data === 'P '){
                         return '<span class="label label-warning">PROCESO</span>';
-                    }else if(data === 'R') {
+                    }else if(data === 'R ') {
                         return '<span class="label label-danger">RECHAZADA</span>';
-                    }else if (data === 'A'){
+                    }else if (data === 'A '){
                         return '<span class="label label-primary">ACEPTADA</span>';
-                    }else if (data === 'E'){
+                    }else if (data === 'E '){
                         return '<span class="label label-danger">ANULADA</span>';
-                    }else if (data === 'T'){
+                    }else if (data === 'T '){
                         return '<span class="label label-success">TERMINADA</span>';
                     }
                 }
