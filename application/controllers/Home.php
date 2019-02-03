@@ -14,14 +14,14 @@ class Home extends CI_Controller{
     }
 
     public function index(){
-        if($this->session->userdata('login')=== TRUE){
+       if($this->session->userdata('login')=== TRUE){
             $this->load->view('template/head');
             $this->load->view('template/nav');
             $this->load->view('home');
             $this->load->view('template/footer');
-        }else{
-            redirect('/');
-        }
+       }else{
+         redirect('/');
+       }
     }
 
     public function FotoUser(){
